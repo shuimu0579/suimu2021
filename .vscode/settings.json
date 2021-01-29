@@ -1,0 +1,7 @@
+{
+  "editor.formatOnType": true,
+  "editor.formatOnSave": true,
+  "python.linting.enabled": true,
+  "python.formatting.provider": "yapf",
+  "python.linting.flake8Enabled": true,
+}

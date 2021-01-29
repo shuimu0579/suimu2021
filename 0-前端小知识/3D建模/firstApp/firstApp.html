@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 0.引入three.js源代码 -->
+    <script src="./js/three.js"></script>
+    <!-- <script>
+        // 1. 设置scene / camera / renderer
+        // 其中camera.PerspectiveCamera里面， 有四个参数, 分别是 field of view（视野宽 单位为°）, aspect ratio（长宽比率）, the near clipping plane（近裁剪平面）,  the far clipping plane（远裁剪平面）,
+        // renderer 渲染函数， renderer.setSize来确定渲染实例的尺寸， 最终将renderer.domElement DOM元素挂载到document.body元素上
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        //2生成cube立方体实例， 然后增加到scene上
+        //BoxGeometry几何形状、 MeshBasicMaterial材料特性
+        //设置position.z =5, we simply move the camera out a bit.
+        var geometry = new THREE.BoxGeometry();
+        var material = new THREE.MeshBasicMaterial({
+            color: 0x00ff00
+        });
+        var cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        //3 loop引起了 the renderer to draw the scene 
+        var animate = function animate() {
+            requestAnimationFrame(animate);
+
+            //4 give the cube a nice rotation animation
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script> -->
+
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // 创建一个模型，用于沿着三维曲线运动
+        // var box = new THREE.BoxGeometry();
+        // var material = new THREE.MeshLambertMaterial({
+        //     color: 0x0000aa
+        // }); //材质对象
+        // var mesh = new THREE.Mesh(box, material);
+        // scene.add(mesh);
+
+        // camera.position.z = 5;
+        // mesh.position.set(-10, -50, -50)
+
+
+        var arrowSrc = 'https://p1.music.126.net/NBwpm3-g3isuPkL98Eqqug==/109951164532405066.png';
+        var arrowTexture = new THREE.TextureLoader().load(arrowSrc);
+        var arrowAni = new TextureAnimator(arrowTexture, 13, 1, 13, 75);
+        var material = new THREE.SpriteMaterial({
+            map: arrowTexture,
+            color: 0xffffff
+        });
+        var mesh = new THREE.Sprite(material);
+        mesh.scale.set(33, 15, 1);
+        scene.add(mesh);
+
+        camera.position.z = 5;
+        mesh.position.set(-10, -50, -50)
+
+
+
+
+        // 通过类CatmullRomCurve3创建一个3D样条曲线
+        var curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-18, 5, -6),
+            new THREE.Vector3(18, 5, 3),
+            new THREE.Vector3(-4, 5, 3),
+
+            // new THREE.Vector3(-10, -50, -50),
+            // new THREE.Vector3(10, 0, 0),
+            // new THREE.Vector3(8, 50, 50),
+            // new THREE.Vector3(-5, 0, 100)
+        ]);
+        // 样条曲线均匀分割100分，返回51个顶点坐标
+        var points = curve.getPoints(100);
+        console.log('points', points); //控制台查看返回的顶点坐标
+        var geometry = new THREE.Geometry();
+        // 把从曲线轨迹上获得的顶点坐标赋值给几何体
+        geometry.vertices = points
+
+        var material = new THREE.LineBasicMaterial({
+            color: 0x4488ff
+        });
+        var line = new THREE.Line(geometry, material);
+        scene.add(line)
+
+
+        // 通过Threejs的帧动画相关API播放网格模型沿着曲线做动画运动
+
+        // 声明一个数组用于存储时间序列
+        let arr = []
+        for (let i = 0; i < 101; i++) {
+            arr.push(i)
+        }
+        // 生成一个时间序列
+        var times = new Float32Array(arr);
+
+        var posArr = []
+        points.forEach(elem => {
+            posArr.push(elem.x, elem.y, elem.z)
+        });
+        // 创建一个和时间序列相对应的位置坐标系列
+        var values = new Float32Array(posArr);
+        // 创建一个帧动画的关键帧数据，曲线上的位置序列对应一个时间序列
+        var posTrack = new THREE.KeyframeTrack('.position', times, values);
+        let duration = 101;
+        let clip = new THREE.AnimationClip("default", duration, [posTrack]);
+        var mixer = new THREE.AnimationMixer(mesh);
+        let AnimationAction = mixer.clipAction(clip);
+        AnimationAction.timeScale = 20;
+        AnimationAction.play();
+
+
+        var clock = new THREE.Clock(); //声明一个时钟对象
+        function render() {
+            renderer.render(scene, camera);
+            requestAnimationFrame(render);
+            // 更新帧动画的时间
+            mixer.update(clock.getDelta());
+        }
+
+        function TextureAnimator(texture, tilesHoriz, tilesVert, numTiles, tileDispDuration) {
+            this.tilesHorizontal = tilesHoriz;
+            this.tilesVertical = tilesVert;
+            this.numberOfTiles = numTiles;
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(1 / this.tilesHorizontal, 1 / this.tilesVertical);
+
+            this.tileDisplayDuration = tileDispDuration;
+
+            this.currentDisplayTime = 0;
+
+            this.currentTile = 0;
+
+            this.update = (milliSec) => {
+                this.currentDisplayTime += milliSec;
+                while (this.currentDisplayTime > this.tileDisplayDuration) {
+                    this.currentDisplayTime -= this.tileDisplayDuration;
+                    this.currentTile++;
+                    if (this.currentTile === this.numberOfTiles) {
+                        this.currentTile = 0;
+                    }
+                    const currentColumn = this.currentTile % this.tilesHorizontal;
+                    texture.offset.x = currentColumn / this.tilesHorizontal;
+                    const currentRow = Math.floor(this.currentTile / this.tilesHorizontal);
+                    texture.offset.y = currentRow / this.tilesVertical;
+                }
+            };
+        }
+        render();
+    </script>
+</body>
+
+</html>

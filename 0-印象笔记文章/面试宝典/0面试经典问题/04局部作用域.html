@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <ul>
+        <li class="test">1</li>
+        <li class="test">2</li>
+        <li class="test">3</li>
+        <li class="test">4</li>
+        <li class="test">5</li>
+      </ul>
+      <ul>
+        <li class="test1">1</li>
+        <li class="test1">2</li>
+        <li class="test1">3</li>
+        <li class="test1">4</li>
+        <li class="test1">5</li>
+      </ul>
+      <ul>
+        <li class="test2">1</li>
+        <li class="test2">2</li>
+        <li class="test2">3</li>
+        <li class="test2">4</li>
+        <li class="test2">5</li>
+      </ul>
+
+      <ul>
+        <li class="test3" index="0">1</li>
+        <li class="test3" index="1">2</li>
+        <li class="test3" index="2">3</li>
+        <li class="test3" index="3">4</li>
+        <li class="test3" index="4">5</li>
+      </ul>
+    </div>
+    <script>
+      const list_li = document.getElementsByClassName('test')
+
+      //痛点 输出的都是 最后一个数
+      for (var i = 0; i < list_li.length; i++) {
+        list_li[i].onclick = function() {
+          console.log(i)
+        }
+      }
+
+      //运用闭包解决
+      const list_li1 = document.getElementsByClassName('test1')
+      for (var i = 0; i < list_li1.length; i++) {
+        ;(function(i) {
+          list_li1[i].onclick = function() {
+            console.log(i)
+          }
+        })(i)
+      }
+
+      //加上局部作用域
+      const list_li2 = document.getElementsByClassName('test2')
+      for (let i = 0; i < list_li2.length; i++) {
+        list_li2[i].onclick = function() {
+          console.log(i)
+        }
+      }
+
+      //3.this谁调用就指谁
+      const list_li3 = document.getElementsByClassName('test3')
+      for (var i = 0; i < list_li3.length; i++) {
+        list_li3[i].onclick = function() {
+          console.log(this.getAttribute('index'))
+        }
+      }
+    </script>
+  </body>
+</html>

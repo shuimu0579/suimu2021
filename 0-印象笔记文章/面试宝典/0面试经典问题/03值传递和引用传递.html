@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script>
+      function test(n) {
+        n.v = 20
+      }
+      var n = { age: 30 }
+      test(n)
+      alert(n.v) //20
+      alert(n.age) //30
+
+      function test1(m) {
+        var m = { v: 20 }
+      } //
+      var m = { age: 30 }
+      test1(m)
+      alert(m.v) //undefined
+      alert(m.age) //30
+    </script>
+  </head>
+  <body></body>
+</html>

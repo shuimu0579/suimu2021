@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //sort 排序  原生sort方法
+      var array = [1, 4, -8, -3, 6, 12, 9, 8]
+      function compare(val1, val2) {
+        return val1 - val2
+      }
+      array.sort(compare)
+      document.write(array)
+      console.log(array)
+
+      //冒泡排序  两两相邻比较，最大的那个数 在第一次比较中 抛到了顶层 ，类似于冒泡的效果
+      var array1 = [1, 4, -8, -3, 6, 12, 9, 8]
+      function sort(arr) {
+        for (var i = 0; i < arr.length - 1; i++) {
+          //两两比较，如果前一个比后一个大，则交换位置。
+          for (var j = 0; j < arr.length - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+              var temp = arr[j]
+              arr[j] = arr[j + 1]
+              arr[j + 1] = temp
+            }
+          }
+        }
+      }
+      sort(array1)
+      document.write(array1)
+      console.log(array1)
+
+      //顺序排序
+      //第i个定住，其他的都与他比较，如果其他的比他小，就交换位置，知道所有的与第i个比较完成
+      var array2 = [1, 4, -8, -3, 6, 12, 9, 8]
+      function selectSort(arr) {
+        for (var i = 0; i < arr.length; i++) {
+          for (var j = i + 1; j < arr.length; j++) {
+            if (arr[i] > arr[j]) {
+              var temp = arr[i]
+              arr[i] = arr[j]
+              arr[j] = temp
+            }
+          } //将最小值插入,并将原来位置的最小值删除
+        }
+      }
+      selectSort(array2)
+      document.write(array2)
+      console.log(array2)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script>
+      this.a = 20
+      var test = {
+        a: 40,
+        init: function() {
+          //普通函数
+          //普通函数里面， console.log 和 go 函数里面的 this 指向不同，他们属于不同的局部作用域
+          console.log(this.a)
+          function go() {
+            this.a = 60
+            console.log(this.a)
+          }
+          go.prototype.a = 50
+          return go
+        },
+      }
+      var p = test.init() //40
+      p() //60
+      new (test.init())() //40 60
+
+      this.a = 20
+      var test = {
+        a: 40,
+        init: () => {
+          //箭头函数
+          //箭头函数里面 console.log  和 function 里面的this 指向相同
+          console.log(this.a)
+          function go() {
+            this.a = 60
+            console.log(this.a)
+          }
+          go.prototype.a = 50
+          return go
+        },
+      }
+      var p = test.init() //20
+      p() //60
+      new (test.init())() //60 60
+
+      this.a = 20
+      var test = {
+        a: 40,
+        init: function() {
+          console.log(this.a)
+          function go() {
+            console.log(this.a)
+          }
+          go.prototype.a = 50
+          return go
+        },
+      }
+      new (test.init())() //40 50
+
+      this.a = 20
+      var test = {
+        a: 40,
+        init: () => {
+          console.log(this.a)
+          function go() {
+            console.log(this.a)
+          }
+          go.prototype.a = 50
+          return go
+        },
+      }
+      new (test.init())() //20 50
+
+      this.a = 20
+      var test = {
+        a: 40,
+        init: () => {
+          console.log(this.a)
+        },
+      }
+      test.init() //20
+
+      this.a1 = 20
+      var test1 = {
+        a1: 40,
+        init1: function() {
+          console.log(this.a1)
+        },
+      }
+      test1.init1() //40
+
+      var test2 = test1.init1
+      test2() // 20
+
+      this.a3 = 20
+      var test3 = {
+        a3: 40,
+        init3: function() {
+          function s() {
+            console.log(this.a3)
+          }
+          return s()
+        },
+      }
+      test3.init3() //20
+
+      this.a4 = 20
+      var test4 = {
+        a4: 40,
+        init4: function() {
+          function s() {
+            console.log(this.a4)
+          }
+          s()
+        },
+      }
+      test4.init4() //20
+    </script>
+  </head>
+  <body></body>
+</html>
+
+
+
