@@ -1,0 +1,161 @@
+
+<script src="/Report/resource/report/custom/js/circle-progress.min.js"></script>
+<style>
+    @font-face {
+        font-family: DINCondBold;
+        /*这里是说明调用来的字体名字*/
+        src: url('/Report/resource/report/custom/ttf/DINCond-Bold.otf');
+        /*这里是字体文件路径*/
+    }
+    .app-enterprise-content {
+        box-sizing: border-box;
+        padding-left: 10%;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    
+    .app-enterprise-content #circle,
+    .app-enterprise-content #circle-reverse {
+        position: relative;
+        text-align: center;
+        font-size: 13px;
+    }
+    
+    .app-enterprise-content #circle span,
+    .app-enterprise-content #circle-reverse span {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 13px;
+    }
+    
+    .app-enterprise-content #circle-reverse span {
+        top: 75px;
+    }
+    
+    .app-enterprise-content .right-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 15px
+    }
+    
+    .padding-top {
+        padding-top: 28px;
+    }
+    
+    .app-enterprise-content .right-content .name {
+        width: 110px;
+        font-size: 12px;
+        font-family: PingFangSC, PingFangSC-Medium;
+        font-weight: 500;
+        text-align: center;
+        color: #afbdd1;
+        text-align: left;
+    }
+    
+    .app-enterprise-content .right-content .percent {
+        font-size: 16px;
+        font-family: DINCondBold;
+        font-weight: 700;
+        text-align: left;
+        color: #c1dcff;
+        padding-left: 10px
+    }
+    
+    .app-enterprise-content .right-content .number {
+        font-size: 20px;
+        font-family: DINCondBold;
+        font-weight: 700;
+        text-align: right;
+        color: #59b0f2;
+    }
+</style>
+
+<div style="width: 100%;background-color:transparent; display: flex;justify-content: center; flex-direction: column; align-items: center; ">
+<div class="app-enterprise-content">
+    <div id="circle">
+        <span></span>
+    </div>
+    <div class="right-content">
+        <div style="display:flex"><span class="name" id="kingdeeEnterprise">金蝶云应用企业数</span><span class="percent" id='kingdeePercent'></span></div>
+        <div class='number' id="kingdeeNumber"></div>
+    </div>
+</div>
+<div class="app-enterprise-content padding-top">
+    <div id="circle-reverse">
+        <span></span>
+    </div>
+    <div class="right-content">
+        <div style="display:flex"><span class="name">云镝应用企业</span><span class="percent" id='yundeePercent'></span></div>
+        <div class='number' id="yundeeEnterprise"></div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+// init data
+var kingdeeEnterprise = {
+    name: 0.888,
+    number: 5678
+}
+var yundeeEnterprise = {
+    name: 0.6666,
+    number: 8765
+}
+
+
+var currentBlock = null;
+for(var i = 0; i < $Report.viewBlocks.count; i++){
+  if($Report.viewBlocks.item(i).blockName == "块18"){
+    currentBlock = $Report.viewBlocks.item(i);
+  }
+}
+
+
+var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
+
+var kingdeeEnterprise = {};
+kingdeeEnterprise.name = currentBlock.blockDataToDraw[0][viewTableRow.viewTableCells.item(0).cellObject[0]+'___'+viewTableRow.viewTableCells.item(0).cellObject[1]] || 0;
+kingdeeEnterprise.number = currentBlock.blockDataToDraw[0][viewTableRow.viewTableCells.item(1).cellObject[0]+'___'+viewTableRow.viewTableCells.item(1).cellObject[1]] || 0;
+
+var yundeeEnterprise = {};
+yundeeEnterprise.name = currentBlock.blockDataToDraw[1][viewTableRow.viewTableCells.item(0).cellObject[0]+'___'+viewTableRow.viewTableCells.item(0).cellObject[1]] || 0;
+yundeeEnterprise.number = currentBlock.blockDataToDraw[1][viewTableRow.viewTableCells.item(1).cellObject[0]+'___'+viewTableRow.viewTableCells.item(1).cellObject[1]] || 0;
+
+var count = Number(kingdeeEnterprise.number) + Number(yundeeEnterprise.number)
+
+$("#circle").circleProgress({
+    value: (Number(kingdeeEnterprise.number)/count).toFixed(2),
+    size: 40,
+    startAngle: -Math.PI / 2,
+    thickness: '10',
+    fill: {
+        gradient: ["#4DABFF", "#417DE3"]
+    },
+    emptyFill: '#0D2559',
+    reverse: false
+}).on('circle-animation-progress', function(event, progress, stepValue) {
+    $('#kingdeePercent').html((Number(kingdeeEnterprise.number)*100/count).toFixed(2) + '%' )
+    $('#kingdeeNumber').html(kingdeeEnterprise.number);
+});
+$("#circle-reverse").circleProgress({
+    value: (Number(yundeeEnterprise.number)/count).toFixed(2),
+    size: 40,
+    startAngle: -Math.PI / 2,
+    thickness: '10',
+    fill: {
+        gradient: ["#FFD600", "#EE820A"]
+    },
+    emptyFill: '#0D2559',
+    reverse: true
+}).on('circle-animation-progress', function(event, progress, stepValue) {
+    $('#yundeePercent').html((Number(yundeeEnterprise.number)*100/count).toFixed(2) + '%');
+    $('#yundeeEnterprise').html(yundeeEnterprise.number);
+});
+</script>

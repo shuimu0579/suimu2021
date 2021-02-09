@@ -1,0 +1,438 @@
+<style>
+    .echarts-word-map {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<div class="echarts-word-map" id="echarts-word-map"></div>
+<script src="/Report/resource/report/custom/js/provice_full.js"></script>
+<script src="/Report/resource/report/public/js/TweenMax.min.js"></script>
+<script src="/Report/resource/report/public/js/easeljs.min.js"></script>
+<script>
+    var myChart = echarts.init($(".echarts-word-map")[0]);
+    var mapTimer;
+    var myData = [];
+    var sumData = 0;
+    var currentBlock = null;
+    for (var i = 0; i < $Report.viewBlocks.count; i++) {
+        if ($Report.viewBlocks.item(i).blockName == "块62") {
+            currentBlock = $Report.viewBlocks.item(i);
+        }
+    }
+    for (var i = 0; i < currentBlock.blockDataToDraw.length; i++) {
+        var obj = {};
+        var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
+        obj.name = currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(0).cellObject[0] + '___' +
+            viewTableRow.viewTableCells.item(0).cellObject[1]
+        ];
+        obj.value = [
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(4).cellObject[0] + '___' + viewTableRow
+                .viewTableCells.item(4).cellObject[1]
+            ],
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(5).cellObject[0] + '___' + viewTableRow
+                .viewTableCells.item(5).cellObject[1]
+            ],
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(1).cellObject[0] + '___' + viewTableRow
+                .viewTableCells.item(1).cellObject[1]
+            ] || 0,
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(2).cellObject[0] + '___' + viewTableRow
+                .viewTableCells.item(2).cellObject[1]
+            ] || 0,
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(3).cellObject[0] + '___' + viewTableRow
+                .viewTableCells.item(3).cellObject[1]
+            ] || 0
+        ];
+        sumData += currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(2).cellObject[0] + '___' +
+            viewTableRow.viewTableCells.item(2).cellObject[1]
+        ];
+        myData.push(obj);
+    }
+
+    var left = false,
+        vTop = false,
+        priority = 'top';
+    var mapLeft = 160 * $BDA.defaultRatio,
+        mapTop = 50 * $BDA.defaultRatio;
+    // 自定义tooltip配置属性
+    var config = {
+        ecBoxId: 'echarts-word-map',
+        lineColor: 'rgba(52,147,168,1)',
+        L1: {
+            time: 0.3,
+            long: 40
+        },
+        L2: {
+            time: 0.3,
+            long: 40
+        },
+        text: {
+            time: 0.5,
+            text: '',
+            font: 18 * $BDA.defaultRatio + 'px 微软雅黑',
+            color: 'rgba(0, 222, 252,1)',
+            padding: [10 * $BDA.defaultRatio, 10 * $BDA.defaultRatio],
+            width: 260 * $BDA.defaultRatio,
+            height: 165 * $BDA.defaultRatio,
+            lineHeight: 23 * $BDA.defaultRatio,
+            backgroundColor: 'rgba(0, 222, 252, 0.1)'
+        }
+    }
+
+    var option = {
+        backgroundColor: 'transparent',
+        xAxis: {
+            type: 'value',
+            show: false,
+            min: 0,
+            max: 100,
+            position: 'top'
+        },
+        yAxis: {
+            type: 'value',
+            show: false,
+            min: 0,
+            max: 100,
+            inverse: true
+        },
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'click',
+            backgroundColor: 'transparent',
+            alwaysShowContent: true,
+            position: function(pos) {
+                var position = getPosOrSize('pos', pos)
+                return position
+            },
+            formatter: function(params, p, a) {
+                canvasAnimation(params)
+                var size = getPosOrSize('size')
+                var tooltipDom = '<canvas id="tCanvas" width="' + size.width + '" height="' + size.height +
+                    '"></canvas>';
+                return tooltipDom
+            }
+        },
+        geo: {
+            map: 'provice_full',
+            label: {
+                normal: {
+                    show: false,
+                    color: '#A5E6FF',
+                    fontSize: 22 * $BDA.defaultRatio,
+                    textShadowColor: '#000000',
+                    textShadowBlur: 3,
+                    textShadowOffsetX: 3,
+                    textShadowOffsetY: 3
+                },
+                emphasis: {
+                    show: false,
+                    color: '#A5E6FF',
+                    textShadowColor: 'rgba(0,0,0,.8)'
+                }
+            },
+            zoom: 1.1,
+            zlevel: 4,
+            roam: false,
+            itemStyle: {
+                normal: {
+                    areaColor: 'rgba(31,60,141, 0.0)',
+                    borderColor: 'rgba(31,60,141, 0.0)',
+                    borderWidth: 1
+                },
+                emphasis: {
+                    areaColor: 'rgba(31,60,141, 0.0)'
+                }
+            },
+            top: mapTop,
+            left: mapLeft,
+            layoutSize: 200,
+            // aspectScale: 1.1,
+        },
+        series: [{
+                type: 'effectScatter',
+                coordinateSystem: 'geo',
+                zlevel: 5,
+                symbolSize: function(val) {
+                    return 10 * $BDA.defaultRatio
+                },
+                showEffectOn: 'render',
+                hoverAnimation: true,
+                rippleEffect: {
+                    brushType: 'fill',
+                    scale: 5,
+                    period: 8
+                },
+                itemStyle: {
+                    normal: {
+                        show: true,
+                        color: '#FBCD14'
+                    }
+                },
+                data: myData
+            }, {
+                type: 'map',
+                map: 'provice_full',
+                zoom: 1.1,
+                zlevel: 3,
+                top: mapTop + 10,
+                left: mapLeft + 5,
+                // aspectScale: 1.1,
+                label: {
+                    emphasis: {
+                        show: false
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        areaColor: 'rgba(31,60,141, 0.0)',
+                        borderColor: 'rgba(31,60,141, 0.0)',
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        areaColor: 'rgba(31,60,141, 0.0)'
+                    }
+                },
+            }
+
+        ]
+    };
+    myChart.setOption(option);
+
+    var canvasAnimation = function(params) {
+        setTimeout(function() {
+            var value1Str = params.value[2] + '';
+            var value2Str = params.value[3] + '';
+            var value3Str = params.value[4] + '';
+
+            var str2 = "注册企业" + getEmpt(value2Str.length - 3) + value2Str;
+            var str3 = "注册用户" + getEmpt(value3Str.length - 3) + value3Str;
+            config.text.text = value1Str + '\n' + str2 + '\n' + str3;
+            new myTooltip('tCanvas', config)
+        }, 0);
+    }
+
+    function getEmpt(strLength) {
+        var empt = "";
+        for (var i = 0; i < (25 - strLength); i++) {
+            empt += " ";
+        }
+        return empt;
+    }
+
+    // 计算tooltip位置
+    var getPosOrSize = function(type, point) {
+        var x1 = config.L1.long * Math.sin(Math.PI / 4)
+        var width = x1 + config.L2.long + config.text.width,
+            height = x1 + config.text.height / 2
+        if (type === 'size') {
+            config.width = width
+            config.height = height
+            return {
+                'width': width,
+                'height': height
+            }
+        } else {
+            var box = document.getElementById(config.ecBoxId),
+                bw = box.offsetWidth,
+                bh = box.offsetHeight,
+                x = point[0],
+                y = point[1];
+            left = false
+            if (x + width >= bw / 1.2) {
+                x = x - width - 5
+                left = true
+            }
+            if (priority === 'top') {
+                // L1向上
+                vTop = true
+                y = y - height - 5
+                if (y <= 0) {
+                    y = point[1]
+                    vTop = false
+                }
+                return [x, y]
+            } else {
+                vTop = false
+                if (y + height >= bh) {
+                    y = y - height - 5
+                    vTop = true
+                }
+                return [x, y]
+            }
+        }
+    }
+
+    function myTooltip(id, config) {
+        this.config = config
+        this.totalTime = 0
+        this.stage = new createjs.Stage(id)
+        this.timeline = new TimelineMax({
+            repeat: 0
+        })
+        this.g = new createjs.Graphics()
+        this.lineShape = new createjs.Shape(this.g)
+        this.textShape = new createjs.Shape()
+        this.stage.addChild(this.lineShape, this.textShape)
+        this.init()
+        this.begin()
+        this.update()
+    }
+    myTooltip.prototype.init = function() {
+        this.start = [0, 0]
+        if (left) {
+            this.start[0] = this.config.width
+        }
+        if (vTop) {
+            this.start[1] = this.config.height
+        }
+    }
+    myTooltip.prototype.begin = function() {
+        this.L1()
+        this.L2()
+        this.addText()
+    }
+    myTooltip.prototype.L1 = function() {
+        var me = this
+        var c = me.config
+        var tl = new TimelineMax()
+        var scale = {
+                s: 0
+            },
+            x = c.L1.long * Math.sin(Math.PI / 4)
+        if (left) {
+            if (vTop) {
+                this.L1End = [me.start[0] - x, me.start[1] - x]
+            } else {
+                this.L1End = [me.start[0] - x, me.start[1] + x]
+            }
+        } else {
+            if (vTop) {
+                this.L1End = [x, me.start[1] - x]
+            } else {
+                this.L1End = [x, x]
+            }
+        }
+
+        tl.to(scale, c.L1.time, {
+            s: 1,
+            onUpdate: function() {
+                var s = scale.s
+                if (left) {
+                    if (vTop) {
+                        me.g.c().s(c.lineColor).mt(me.start[0], me.start[1]).lt(me.start[0] - x * s, me
+                            .start[1] - x * s)
+                    } else {
+                        me.g.c().s(c.lineColor).mt(me.start[0], me.start[1]).lt(me.start[0] - x * s, me
+                            .start[1] + x * s)
+                    }
+                } else {
+                    if (vTop) {
+                        me.g.c().s(c.lineColor).mt(me.start[0], me.start[1]).lt(x * s, me.start[1] - x *
+                            s)
+                    } else {
+                        me.g.c().s(c.lineColor).mt(me.start[0], me.start[1]).lt(x * s, x * s)
+                    }
+                }
+                me.update()
+            }
+        })
+        this.timeline.add(tl, this.totalTime)
+        this.totalTime += c.L1.time
+    }
+    myTooltip.prototype.L2 = function() {
+        // 只跟左右有关，只判断left
+        var me = this
+        var c = me.config
+        var tl = new TimelineMax()
+        var scale = {
+            s: 0
+        }
+        tl.to(scale, c.L2.time, {
+            s: 1,
+            onUpdate: function() {
+                var s = scale.s
+                if (left) {
+                    me.g.c().s(c.lineColor).mt(me.start[0], me.start[1]).lt(me.L1End[0], me.L1End[1])
+                        .lt(me.L1End[0] - c.L2.long * s, me.L1End[1])
+                } else {
+                    me.g.c().s(c.lineColor).mt(me.start[0], me.start[1]).lt(me.L1End[0], me.L1End[1])
+                        .lt(me.L1End[0] + c.L2.long * s, me.L1End[1])
+                }
+                me.update()
+            }
+        })
+        this.timeline.add(tl, this.totalTime)
+        this.totalTime += c.L2.time
+    }
+    myTooltip.prototype.addText = function() {
+        // text框只与L2end有关，只需判断left即可，top不影响
+        var me = this
+        var c = me.config
+        var tl = new TimelineMax()
+        var scale = {
+                s: 0
+            },
+            L2End = [me.L1End[0] + c.L2.long, me.L1End[1]]
+        if (left) {
+            L2End = [me.L1End[0] - c.L2.long, me.L1End[1]]
+        }
+        tl.to(scale, c.text.time, {
+            s: 1,
+            onStart: function() {
+                var x = 0,
+                    y = 0
+                if (left) {
+                    x = L2End[0] - c.text.width
+                } else {
+                    x = L2End[0]
+                }
+                me.g.c().s(c.lineColor).mt(me.start[0], me.start[1]).lt(me.L1End[0], me.L1End[1]).lt(
+                    L2End[0], L2End[1])
+                me.text = new createjs.Text(c.text.text, c.text.font, c.text.color)
+                me.text.alpha = 0
+                me.text.lineHeight = c.text.lineHeight
+                me.text.x = x + c.text.padding[0]
+                me.text.y = L2End[1] - c.text.height / 2 + c.text.padding[1]
+                me.stage.addChild(me.text)
+                me.textShape.graphics.c().f(c.text.backgroundColor).rr(x, L2End[1] - c.text.height / 2,
+                    c.text.width, c.text.height, 5)
+                me.textShape.alpha = 0
+                me.update()
+            },
+            onUpdate: function() {
+                me.text.alpha = scale.s
+                me.textShape.alpha = scale.s
+                me.update()
+            }
+        })
+        this.timeline.add(tl, this.totalTime)
+    }
+    myTooltip.prototype.update = function() {
+        this.stage.update()
+    }
+
+
+
+    var EC = echarts.getInstanceByDom(document.getElementById("echarts-word-map"));
+
+    var index = 0;
+    clearInterval(mapTimer);
+    mapTimer = null;
+    mapTimer = setInterval(function() {
+        EC.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: index
+        })
+        index++
+        if (index >= myData.length) {
+            index = 0
+        }
+        // setIndex(index);
+    }, 3000);
+    window.addEventListener('resize', function() {
+        var tCanvas = document.getElementById('tCanvas')
+        if (tCanvas) {
+            tCanvas.style.display = 'none'
+        }
+    })
+</script>
