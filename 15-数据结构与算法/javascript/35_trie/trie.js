@@ -13,16 +13,21 @@ class TrieTree {
     }
 
     insert(text) {
-        let node = this.root;
+
+        let node = this.root; // 在这里建立了引用类型，由于有相同的referance,node的改变会同步到 this.root的改变
         for (let char of text) {
             let index = char.charCodeAt() - 'a'.charCodeAt();
             if (!node.children[index]) {
                 node.children[index] = new TrieNode(char);
             }
             node = node.children[index];
+            console.log(node)
+            console.log(this.root)
+            debugger
         }
 
         node.isEndingChar = true;
+
     }
 
     find(text) {
@@ -45,6 +50,7 @@ var tree = new TrieTree();
 var strs = ["how", "hi", "her", "hello", "so", "see"];
 for (let str of strs) {
     tree.insert(str);
+    console.log('tree...', tree)
 }
 
 for (let str of strs) {
