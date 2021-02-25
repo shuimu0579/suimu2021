@@ -59,9 +59,10 @@ GitHub( https://www.githubs.cn/post/what-is-github )是一个面向开源及私�
 - git下载地址( https://git-scm.com/download ),根据自己电脑系统的不同，点击不同的git下载链接。接下来的下载安装均以Windows为例。
   ![创建账户](../image/github10.PNG)
 - git安装包下载之后，接下来就是安装环节了。然后一路next，**直到！**下面截图这一步，选择Visual Studio Code作为git的默认编辑器
-   ![创建账户](../image/git01.PNG)
+  ![创建账户](../image/git01.PNG)
 - 上图设置好之后，又是一通next,最后点击`install`按钮。
-- 怎么判断git是否安装成功了呢？
+- 怎么判断git是否安装成功了呢？重新打开Visual Studio Code,有下面截图的内容，就代表git安装成功了。
+  ![创建账户](../image/git02.PNG)
 
 
 <blockquote class="blockquote">怎么在github里面创建自己的项目？</blockquote>
