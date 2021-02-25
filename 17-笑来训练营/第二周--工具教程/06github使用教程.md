@@ -29,20 +29,6 @@ GitHub( https://www.githubs.cn/post/what-is-github )是一个面向开源及私�
   - 如果你觉得自己写的东西不够好，没关系，先写下来；以后有新思路了再慢慢迭代--就像写代码一样，可以不断的优化你的项目，更难得的是，你的每一次修改或者优化提交，都有相应的提交记录，这样一点一滴的充实和优化你的项目，是一个很有成就感的过程。其实这样一点点的迭代项目，也是符合心理学中"小步子原理"--讲一个大目标分解成小的目标，小到不可能失败的目标，然后这一个个的小目标都有清晰的路径可以实现，这样大目标也能顺利的实现--GitHub 里面的 git 版本管理系统刚好提供了这样的一种方式，让 GitHub 里面的项目不断迭代不断优化。
   - GitHub 里能够很好的支持 markdowm 语法，这样有了 md 格式的话，就能够让我们将注意力完全放在项目内容上，而不是耗时费力的文字格式排版。
 
-<blockquote class="blockquote">怎么注册GitHub账号</blockquote>
-
-- 打开链接( https://github.com/ ), 点击页面右上侧的 `Sign in`按钮
-- 进入注册页面，账号、密码、验证账号等等都填上，然后创建账户，截图如下：
-  ![创建账户](../image/github01.PNG)
-- 进入设置页面，截图如下：
-  ![创建账户](../image/github02.PNG)
-- 进如邮箱验证引导页
-  ![创建账户](../image/github03.PNG)
-- 在邮箱里面验证成功，会跳转到验证确认页，截图如下：
-  ![创建账户](../image/github04.PNG)
-- 至此，账号创建成功，点击`Skip this for now`按钮，就进入 github 创建项目（仓库）引导页，截图如下：
-  ![创建账户](../image/github05.PNG)
-
 <blockquote class="blockquote">怎么下载文字编辑工具 Visual Studio Code</blockquote>
 
 - Visual Studio Code 的初衷的作为编写代码的编辑器，但是这款工具真的太好用了，好用到已经不仅仅是写代码的程序员在用了，许多非程序员也会用这个工具，有一些内容创作者会用 markdown 语法创作，而 Visual Studio Code 就完美支持 markdown 语法，还能实时预览效果。
@@ -64,6 +50,19 @@ GitHub( https://www.githubs.cn/post/what-is-github )是一个面向开源及私�
 - 怎么判断git是否安装成功了呢？重新打开Visual Studio Code,有下面截图的内容，就代表git安装成功了。
   ![创建账户](../image/git02.PNG)
 
+<blockquote class="blockquote">怎么注册GitHub账号</blockquote>
+
+- 打开链接( https://github.com/ ), 点击页面右上侧的 `Sign in`按钮
+- 进入注册页面，账号、密码、验证账号等等都填上，然后创建账户，截图如下：
+  ![创建账户](../image/github01.PNG)
+- 进入设置页面，截图如下：
+  ![创建账户](../image/github02.PNG)
+- 进如邮箱验证引导页
+  ![创建账户](../image/github03.PNG)
+- 在邮箱里面验证成功，会跳转到验证确认页，截图如下：
+  ![创建账户](../image/github04.PNG)
+- 至此，账号创建成功，点击`Skip this for now`按钮，就进入 github 创建项目（仓库）引导页，截图如下：
+  ![创建账户](../image/github05.PNG)
 
 <blockquote class="blockquote">怎么在github里面创建自己的项目？</blockquote>
 
@@ -74,8 +73,11 @@ GitHub( https://www.githubs.cn/post/what-is-github )是一个面向开源及私�
 
 <blockquote class="blockquote">怎么将github上项目仓库的内容拉取到本地？</blockquote>
 
-- 现在 github 上的仓库已经创建好了，那怎么把内容上传到这个自己新建的仓库里面去？
+- 现在 github 上的仓库已经创建好了，现在这个仓库里面完全是空的，什么内容都没有。
+  ![创建账户](../image/github11.PNG)
 - 然后是下面这个界面，在这个界面里面点击下面截图中右侧的那个按钮。以我自己创建的这个仓库为例，这时候复制到的内容是 https://github.com/suimu057901/test.git
-  ![创建账户](../image/github08.PNG)
+  ![创建账户](../image/github07.PNG)
+
+- 打开Visual Studio Code，
 
 
