@@ -49,7 +49,6 @@ GitHub( https://www.githubs.cn/post/what-is-github )是一个面向开源及私�
 - Visual Studio Code 里面丰富的插件生态，比如写 markdown 的时候，可以用 Markdown All in One 这个插件，就可以轻松的对 markdown 语法的文件进行格式化了。
 - Visual Studio Code 编辑器配合git这个版本管理工具(下面会讲到这个工具)，让我们的创作每一次提交都有迹可循，哪怕每次只是提交一点点创作内容--聚沙成塔，集腋成裘，在一次次的提交过程中达成当初的大目标。
 
-
 <blockquote class="blockquote">怎么下载git这个版本管理工具</blockquote>
 
 <blockquote class="blockquote">怎么在github里面创建自己的项目？</blockquote>
