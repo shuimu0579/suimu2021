@@ -48,8 +48,21 @@ GitHub( https://www.githubs.cn/post/what-is-github )是一个面向开源及私�
 - Visual Studio Code 的初衷的作为编写代码的编辑器，但是这款工具真的太好用了，好用到已经不仅仅是写代码的程序员在用了，许多非程序员也会用这个工具，有一些内容创作者会用 markdown 语法创作，而 Visual Studio Code 就完美支持 markdown 语法，还能实时预览效果。
 - Visual Studio Code 里面丰富的插件生态，比如写 markdown 的时候，可以用 Markdown All in One 这个插件，就可以轻松的对 markdown 语法的文件进行格式化了。
 - Visual Studio Code 编辑器配合git这个版本管理工具(下面会讲到这个工具)，让我们的创作每一次提交都有迹可循，哪怕每次只是提交一点点创作内容--聚沙成塔，集腋成裘，在一次次的提交过程中达成当初的大目标。
+- Visual Studio Code 编辑器下载地址: https://code.visualstudio.com/。
+- 下载完成之后，打开这个编辑器，就是这个界面了。
+  ![创建账户](../image/github08.PNG)
+  ![创建账户](../image/github09.PNG)
 
-<blockquote class="blockquote">怎么下载git这个版本管理工具</blockquote>
+<blockquote class="blockquote">怎么下载git</blockquote>
+
+- 上面我提到了git这个工具，对于程序员来说它是一个有用的版本管理工具，其实对于非程序员来说也是很有用的，比如一篇文章太长，就可以分多次写，可以用git多次提交,每次都会生成提交记录，也可以查看自己的提交记录。这样把一个大任务分解为许多的小任务，只要一个个小任务完成了，大任务也完成了，这样就不容易犯拖延症。甚至极端一点的，一篇文章没想好怎么写，先只写个标题踏出第一步，然后提交到远程仓库，下次在写了标题的基础上接着写，也是可以的。
+- git下载地址( https://git-scm.com/download ),根据自己电脑系统的不同，点击不同的git下载链接。接下来的下载安装均以Windows为例。
+  ![创建账户](../image/github10.PNG)
+- git安装包下载之后，接下来就是安装环节了。然后一路next，**直到！**下面截图这一步，选择Visual Studio Code作为git的默认编辑器
+   ![创建账户](../image/git01.PNG)
+- 上图设置好之后，又是一通next,最后点击`install`按钮。
+- 怎么判断git是否安装成功了呢？
+
 
 <blockquote class="blockquote">怎么在github里面创建自己的项目？</blockquote>
 
@@ -60,8 +73,8 @@ GitHub( https://www.githubs.cn/post/what-is-github )是一个面向开源及私�
 
 <blockquote class="blockquote">怎么将github上项目仓库的内容拉取到本地？</blockquote>
 
-- 现在 github 上的仓库已经创建好了，那怎么把内容上传到这个自己新建的仓库里面去？这时候我一般就会用到 Visual Studio Code 编辑器(下载地址是: https://code.visualstudio.com/)。
-- 下载完成之后，打开这个编辑器，就是这个界面了。
-  ![创建账户](../image/github08.PNG)
+- 现在 github 上的仓库已经创建好了，那怎么把内容上传到这个自己新建的仓库里面去？
 - 然后是下面这个界面，在这个界面里面点击下面截图中右侧的那个按钮。以我自己创建的这个仓库为例，这时候复制到的内容是 https://github.com/suimu057901/test.git
   ![创建账户](../image/github08.PNG)
+
+
