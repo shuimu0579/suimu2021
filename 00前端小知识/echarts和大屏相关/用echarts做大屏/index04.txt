@@ -93,6 +93,15 @@
         // obj.url = img
         
         parkName.push(obj);
+        
+    }
+
+    parkName = parkName.sort((a,b)=> {
+      return b.number - a.number //降序 由高到底
+    });
+
+    if(parkName.length > 10){
+        parkName = parkName.slice(0, 10)
     }
     
 
