@@ -8,8 +8,11 @@
 
 > 通过npm安装live-server  
 
+- https://www.cnblogs.com/socket-zhang/p/10620948.html
 - npm install -g live-server
 - 在静态文件目录下XXX下执行  live-server
 ![live-server01](./image/live-server01.PNG)
 
 > 在VSCode里面安装插件Live Server( https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer )
+
+- https://threejs.org/docs/#manual/en/introduction/How-to-run-things-locally
