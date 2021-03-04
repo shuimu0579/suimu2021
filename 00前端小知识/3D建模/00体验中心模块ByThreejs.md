@@ -93,7 +93,7 @@ PS:代码参考：nextcloud\src\views\platformProducts\ExperienceCenter.vue
 </template>
 <script>
   import * as THREE from 'three'
-  import spriteData from '../../assets/data/btnSpriteData.js'
+  import spriteData from './images/btnSpriteData.js'
   import cookieHelper from '../../utils/cookies.js'
   const OrbitControls = require('three-orbit-controls')(THREE)
   const cq_config = require('cq_config')
