@@ -159,7 +159,12 @@ export default {
       this.scene.add(this.light)
 
       //初始化相机
-      this.camera = new THREE.PerspectiveCamera(this.fov, window.innerWidth / window.innerHeight, 0.1, 1000)
+      this.camera = new THREE.PerspectiveCamera(
+        this.fov,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      )
       this.camera.position.set(0, 10, 20)
       this.camera.lookAt(new THREE.Vector3(0, 20, 10))
       this.camera.setFocalLength(60) //设置焦距
@@ -227,7 +232,7 @@ export default {
       // })
 
       var loader = new FBXLoader()
-      loader.load('src/assets/model/gaobanben.fbx', function(object) {
+      loader.load('src/assets/model/gaobanben.fbx', function (object) {
         // var model = object.children[3]
         // console.log('object...', object)
         // console.log('model...', model)
@@ -316,7 +321,12 @@ export default {
       geometry.vertices = points
       var line = new MeshLine()
       line.setGeometry(geometry)
-      var material = new MeshLineMaterial({ color: 0x003275, lineWidth: 0.5, useMap: 0, dashArray: 0 })
+      var material = new MeshLineMaterial({
+        color: 0x003275,
+        lineWidth: 0.5,
+        useMap: 0,
+        dashArray: 0,
+      })
       // var line = new THREE.Line(geometry, material)
       var line = new THREE.Line(line.geometry, material)
       // this.scene.add(line)
@@ -331,13 +341,17 @@ export default {
       var times = new Float32Array(arr)
 
       var posArr = []
-      points.forEach(elem => {
+      points.forEach((elem) => {
         posArr.push(elem.x, elem.y, elem.z)
       })
       // 创建一个和时间序列相对应的位置坐标系列
       var values = new Float32Array(posArr)
       // 创建一个帧动画的关键帧数据，曲线上的位置序列对应一个时间序列
-      var posTrack = new THREE.KeyframeTrack(`${option.name}.position`, times, values)
+      var posTrack = new THREE.KeyframeTrack(
+        `${option.name}.position`,
+        times,
+        values
+      )
 
       return posTrack
     },
