@@ -7,7 +7,7 @@ const trace = util.setUuid()
 export default [
   {
     name: 'test01',
-    url: require('../images/experienceCenterBy3D/test01.png'),
+    url: require('./test01.png'),
     link: 'https://demo.yundeeiot.com/',
     position: {
       x: -1.0,
