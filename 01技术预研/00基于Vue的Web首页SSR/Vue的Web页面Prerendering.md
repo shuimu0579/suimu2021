@@ -5,7 +5,6 @@
 - 参考文档： https://github.com/chrisvfritz/prerender-spa-plugin
 
 - [Vue-cli 使用 prerender-spa-plugin 插件预渲染](https://www.jianshu.com/p/6a4c0b281e7f)
-- [mode: 'history'中的注意点：需要后端同步配置](https://www.cnblogs.com/duanzhenzhen/p/11433923.html) 首先搜索引擎对于#后面的内容（锚）点一般是不收录的，所以需要先把 hash 模式改成 history 模式；**改成 history 模式后**，后台的配置上篇文章已经说明，地址https://www.cnblogs.com/duanzhenzhen/p/11585952.html
 
 ```shell
 cnpm install prerender-spa-plugin --save
@@ -54,6 +53,8 @@ new Vue({
 }).$mount('#app')
 
 // router.js
+- [mode: 'history'中的注意点：需要后端同步配置](https://www.cnblogs.com/duanzhenzhen/p/11433923.html) 首先搜索引擎对于#后面的内容（锚）点一般是不收录的，所以需要先把 hash 模式改成 history 模式；**改成 history 模式后**，后台的配置上篇文章已经说明，地址https://www.cnblogs.com/duanzhenzhen/p/11585952.html
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
@@ -66,7 +67,6 @@ npm run build
 ```
 
 > [处理 Vue 单页面 Meta SEO 的另一种思路](https://zhuanlan.zhihu.com/p/29148760?group_id=890298677627879424)
-
 > 如果你想修改每个页面的 meta 信息，这里推荐使用 [vue-meta](https://vue-meta.nuxtjs.org/guide/)
 
 ```shell
