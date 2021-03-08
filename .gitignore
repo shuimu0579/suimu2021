@@ -15,6 +15,7 @@ Desktop.ini
 node_modules
 dist
 *.gz
+*.zip
 
 # webstorm
 .idea/
