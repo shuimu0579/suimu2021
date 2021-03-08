@@ -3,6 +3,12 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
+const path = require('path')
+console.log(Renderer)
+console.log(path)
+
 module.exports = {
   entry: './src/main.js',
   output: {
