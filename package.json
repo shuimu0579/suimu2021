@@ -12,14 +12,14 @@
         "builds": "node ./scripts/multiProjectConfig/build.js"
     },
     "dependencies": {
+        "three": "^0.118.3",
+        "three-orbit-controls": "^82.1.0",
         "axios": "^0.19.0",
         "copy-webpack-plugin": "^5.1.1",
         "core-js": "^3.6.4",
         "element-ui": "^2.13.0",
         "qs": "^6.9.2",
         "swiper": "^5.3.8",
-        "three": "^0.118.3",
-        "three-orbit-controls": "^82.1.0",
         "vue": "^2.6.12",
         "vue-awesome-swiper": "^4.1.1",
         "vue-router": "^3.1.6",
