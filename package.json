@@ -12,11 +12,9 @@
         "builds": "node ./scripts/multiProjectConfig/build.js"
     },
     "dependencies": {
-      "prerender-spa-plugin": "^3.4.0"
+        "prerender-spa-plugin": "^3.4.0"
     },
-    "devDependencies": {
-       
-    },
+    "devDependencies": {},
     "eslintConfig": {
         "root": true,
         "env": {
