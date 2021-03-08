@@ -9,7 +9,11 @@
    color:#666 !important
 }
 .underline{
-border-bottom:2px solid red;
+  border-bottom:2px solid lightgreen;
+}
+.turning-point{
+  color:lightblue !important;
+  font-weight: bolder;
 }
 </style>
 
