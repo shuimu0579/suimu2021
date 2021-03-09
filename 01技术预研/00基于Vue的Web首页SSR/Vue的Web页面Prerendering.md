@@ -80,44 +80,36 @@ npm run build
 [Prerenderer - PuppeteerRenderer] Unable to start Puppeteer(node:940) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'close' of null    at PuppeteerRenderer.destroy
 ```
 
+> 怎么展现静态页面--通过 node 搭建本地服务器(重要)
+
+- 在本地服务器中验证home、appmarket 是否显示正常，包括样式和点击事件等等。 有了自己搭建的本地服务器之后，就很方便了。
+
+- [如何使用 node 搭建本地服务器（最详细）](https://blog.csdn.net/qq_37547964/article/details/111850835)
+- [通过 node 搭建本地服务器](https://blog.csdn.net/A_bet_of_three_years/article/details/81263601?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control&dist_request_id=1328602.41135.16150855258988799&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control)
+
 > [处理 Vue 单页面 Meta SEO 的另一种思路](https://zhuanlan.zhihu.com/p/29148760?group_id=890298677627879424)
-> 如果你想修改每个页面的 meta 信息，这里推荐使用 [vue-meta](https://vue-meta.nuxtjs.org/guide/)
 
 ```shell
-npm i vue-meta
+npm i vue-meta-info
 ```
 
 ```js
 //main.js
 import Vue from 'vue'
 import Router from 'vue-router'
-import Meta from 'vue-meta'
+import MetaInfo from 'vue-meta-info'
 
 Vue.use(Router)
-Vue.use(Meta)
+Vue.use(MetaInfo)
 
 export default new Router({
   ...
 })
+```
 
-// App.js
-<template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
-</template>
-<script>
-  export default {
-    name: 'App',
-    metaInfo: {
-      // if no subcomponents specify a metaInfo.title, this title will be used
-      title: 'Default Title',
-      // all titles will be injected into this template
-      titleTemplate: '%s | My Awesome Webapp'
-    }
-  }
-</script>
+> title 或者 meta同步加载的情况
 
+```js
 // Home.vue
 <template>
   <div id="page">
@@ -128,19 +120,148 @@ export default new Router({
   export default {
     name: 'Home',
     metaInfo: {
-      title: 'My Awesome Webapp',
-      // override the parent template and just use the above title only
-      titleTemplate: null
+      title: 'My Example Home', // set a title
+      meta: [{                 // set meta
+        name: 'keyWords',
+        content: 'My Example Home'
+      }]
+      link: [{                 // set link
+        rel: 'asstes',
+        href: 'https://assets-cdn.github.com1/'
+      }]
     }
   }
 </script>
 
+// AppMarket.js
+<template>
+  <div id="app">
+    <router-view></router-view>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'AppMarket',
+    metaInfo: { // metaInfo在这里是一个对象
+      title: 'My Example AppMarket', // set a title
+      meta: [{                 // set meta
+        name: 'keyWords',
+        content: 'My Example AppMarket'
+      }]
+      link: [{                 // set link
+        rel: 'asstes',
+        href: 'https://assets-cdn.github.com/'
+      }]
+    }
+  }
+</script>
 ```
 
-> 怎么展现静态页面--通过 node 搭建本地服务器(重要)
+- 如果如果你的 title 或者 meta 是异步加载的，就需要如下这样了
 
-- 在本地服务器中验证home、appmarket 是否显示正常，包括样式和点击事件等等。 有了自己搭建的本地服务器之后，就很方便了。
+```js
+// main.js
+import globalConfig from "@/api/globalConfig";
+let globalConf = new globalConfig();
+Vue.prototype.$globalConfig = globalConf;
 
-- [如何使用 node 搭建本地服务器（最详细）](https://blog.csdn.net/qq_37547964/article/details/111850835)
-- [通过 node 搭建本地服务器](https://blog.csdn.net/A_bet_of_three_years/article/details/81263601?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control&dist_request_id=1328602.41135.16150855258988799&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control)
+// App.vue
+export default {
+    created() {
+        this.getGlobalConfig();
+    },
+    methods: {
+        getGlobalConfig() {
+            const data = {
+                vtenant: cq_config.platformid,
+            };
+            request
+                .post(cq_config.yundee_center_url + "/get/system/config", JSON.stringify(data), {
+                    withCredentials: false,
+                    headers: {
+                        "Content-Type": "application/json",
+                        traceId: util.setUuid(),
+                    },
+                })
+                .then(res => {
+                    if (res.success && res.data) {
+                        let { data } = res;
+                        this.$globalConfig.init(data);  // $globalConfig 就是main.js里面的全局属性 Vue.prototype.$globalConfig
+                    }
+                });
+        },
+    },
+};
 
+// Home.vue
+<template>
+  <div id="page">
+    <h1>Home Page</h1>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'Home',
+    metaInfo() {  //metaInfo在这里是一个函数
+        return {
+            title: this.$globalConfig.title, // set a title
+            meta: [
+                {
+                    // set meta
+                    name: "keywords",
+                    content: this.$globalConfig.keywords,
+                },
+                {
+                    // set meta
+                    name: "description",
+                    content: this.$globalConfig.description,
+                },
+            ],
+            link: [
+                {
+                    // set link
+                    rel: "icon",
+                    href: this.$globalConfig.icon,
+                },
+            ],
+        };
+    }
+  }
+</script>
+
+// AppMarket.js
+<template>
+  <div id="app">
+    <router-view></router-view>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'AppMarket',
+    metaInfo() {
+        return {
+            title: this.$globalConfig.title01, // set a title
+            meta: [
+                {
+                    // set meta
+                    name: "keywords",
+                    content: this.$globalConfig.keywords01,
+                },
+                {
+                    // set meta
+                    name: "description",
+                    content: this.$globalConfig.description01,
+                },
+            ],
+            link: [
+                {
+                    // set link
+                    rel: "icon",
+                    href: this.$globalConfig.icon01,
+                },
+            ],
+        };
+    }
+  }
+</script>
+```
