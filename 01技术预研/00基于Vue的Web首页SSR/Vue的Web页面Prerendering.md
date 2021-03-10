@@ -1,5 +1,7 @@
 # 预渲染 (SSR vs Prerendering)
 
+- 代码都在 dev-web-prerendering-wxz0308 分支里面
+
 > **Prerendering**--如何使用 prerender-spa-plugin 插件
 
 - 参考文档： https://github.com/chrisvfritz/prerender-spa-plugin
