@@ -12,13 +12,24 @@
 
 ## 2、在内网中新建地铁线, 参考如下的两张图
 
+- (注意：126 环境是在流程模板的这个目录下面的 `流程模板--云镝门户引擎安装-内网模板` )
+- (注意：91/预生产/生产 环境是在流程模板的这个目录下面的 `流程模板--云镝门户引擎安装-外网模板` )
+
 - ![01流程模板](./image/01流程模板.png)
 - ![02添加方案](./image/02添加方案.png)
 
 - 然后进入 内网中打开 http://crp.kingdee.com/cd/mymetro ，然后进入 我的地铁线 ，进入刚生成的地铁线， 开始编辑。
 
-## 3、新建相应二级平台的 release 分支（比如 release-zhangjiakou）,然后基于这个分支打包，讲打包好的内容复制到 http://192.168.16.99/svn/kingdee_idy/trunk/erp/web2.0/platfrom 下面的 nextcloud_wcjkq 文件夹 里面的 dist 文件夹里面。
+## 3
 
+> 对于用git作为代码管理工具的:
+
+- 代码里面不需要在**vue.config.js** 里面修改**publicPath**
+- 也不需要自己build,不过为了地铁线能够顺利构建，最好还是自己手动build试试，看看能不能build成功。
+
+> 对于用svn代码管理工具的，需要按照下面这样弄：
+
+- 新建相应二级平台的 release 分支（比如 release-zhangjiakou）,然后基于这个分支打包，讲打包好的内容复制到 http://192.168.16.99/svn/kingdee_idy/trunk/erp/web2.0/platfrom 下面的 nextcloud_wcjkq 文件夹 里面的 dist 文件夹里面。
 - 注意：如果http://192.168.16.99/svn/kingdee_idy/trunk/erp/web2.0/platfrom 里面没有 nextcloud_wcjkq 文件 那么需要你新建一个 nextcloud_wcjkq/dist
 - **vue.config.js** 里面的 **publicPath** 记得修改， 比如虚拟租户是 zjk 的话， publicPath: '/zjk/'
 
