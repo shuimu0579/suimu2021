@@ -2,7 +2,7 @@
 
 > meta、 title、 link优化
 
-- meta
+- [配合vue-meta-info插件](https://zhuanlan.zhihu.com/p/29148760?group_id=890298677627879424)
 
 > [h1-h6标签优化](https://www.xiuzhanwang.com/bcyy/2710.html)
 
@@ -13,6 +13,8 @@
 - h2到h6是越来越不重要，所以h3以后就用的很少了
 
 > a标签优化
+
+- a标签
 
 > 首页千万不要重定向
 
