@@ -11,6 +11,8 @@ npm install
 ```
 npm run serves yundeeDesign
 npm run serves yundeePlatform
+
+npm run serves yundeePlatform yundee
 ```
 
 ### Compiles and minifies for production
@@ -18,6 +20,8 @@ npm run serves yundeePlatform
 ```
 npm run builds yundeeDesign
 npm run builds yundeePlatform
+
+npm run builds yundeePlatform yundee
 ```
 
 ### Lints and fixes files
