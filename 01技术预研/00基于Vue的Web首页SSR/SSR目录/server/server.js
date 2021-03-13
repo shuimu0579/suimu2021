@@ -64,6 +64,6 @@ const handleRequest = async (ctx, next) => {
   microCache.set(url, html) // 设置当前缓存页面的内容
   ctx.body = html
 }
-router.get('*', handleRequest)
+router.get(':splat*', handleRequest) // 用':splat*' 替代 ‘*’
 
 module.exports = router

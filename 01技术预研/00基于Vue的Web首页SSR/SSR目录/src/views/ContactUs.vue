@@ -1,6 +1,8 @@
 <template>
-  <div>{{ title }}</div>
-  <ContactTips />
+  <div>
+    <div>{{ title }}</div>
+    <ContactTips />
+  </div>
 </template>
 <script>
 const ContactTips = () => import('../components/ContactTips/ContactTips.vue')

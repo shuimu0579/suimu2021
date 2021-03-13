@@ -7,8 +7,8 @@ const path = require('path')
 const resolve = file => path.resolve(__dirname, file)
 const app = new Koa()
 
-// const isDev = process.env.NODE_ENV !== 'production'
-const isDev = false
+const isDev = process.env.NODE_ENV !== 'production'
+// const isDev = false
 const router = isDev ? require('./dev.ssr') : require('./server')
 
 // 开放目录
@@ -19,7 +19,7 @@ const options = { threshold: 2048 }
 app.use(compress(options))
 app.use(router.routes()).use(router.allowedMethods())
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3010 // build时候3000被占用 用3010端口试试
 
 app.listen(port, () => {
   console.log(`server started at localhost:${port}`)

@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint",
     "build:client": "vue-cli-service build",
     "build:ssr": "cross-env NODE_ENV=production WEBPACK_TARGET=node vue-cli-service build",
-    "build:yundee": "npm run build:ssr && move dist\\vue-ssr-server-bundle.json bundle && npm run build:client && move bundle dist\\vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js",
+    "build:yundee": "npm run build:ssr && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js",
     "start": "cross-env NODE_ENV=production node ./server/ssr.js",
     "serve:ssr": "cross-env WEBPACK_TARGET=node node ./server/ssr.js",
     "dev:yundee": "concurrently \"npm run serve\" \"npm run serve:ssr\" ",
@@ -51,22 +51,8 @@
     "memory-fs": "^0.5.0",
     "vue-server-renderer": "^2.6.12",
     "vue-template-compiler": "^2.6.12",
-    "webpack": "^5.25.0",
+    "webpack": "^4.44.2",
     "webpack-node-externals": "^2.5.2"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
   },
   "postcss": {
     "plugins": {

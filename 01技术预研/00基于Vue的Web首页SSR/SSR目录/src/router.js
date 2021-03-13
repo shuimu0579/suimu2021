@@ -20,7 +20,7 @@ export function createRouter() {
           import(/* webpackChunkName: "home" */ './views/Index.vue'),
       },
       {
-        path: '/',
+        path: '/contact',
         name: 'ContactUs',
         meta: {
           isAuth: false,
