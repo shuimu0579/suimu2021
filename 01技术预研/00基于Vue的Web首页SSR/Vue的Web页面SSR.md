@@ -7,7 +7,6 @@
 ## SSR 目录项目分析
 
 - `package.json`里面的 build:yundee 和 dev:yundee 分别调用的是`server目录`下的 ssr.js，而 ssr.js 又调用了 dev.ssr.js(DEV 环境下的服务端渲染)和 server.js(生产环境下的服务端渲染),**先执行 dev.ssr.js**，生成最新的 vue-ssr-server-bundle.json 和 获取最新的 vue-ssr-client-manifest.json；也就是说先执行`dev:yundee`,再执行`build:yundee`； 也就是说先执行`npm run serves yundeePlatform yundee`、再执行`npm run builds yundeePlatform yundee`。
--
 
 ## SSR 过程中的注意点：
 
@@ -27,7 +26,6 @@
 - 通用 entry--main.js
 - entry-client.js，这个客户端 entry 只需创建应用程序，并且将其挂载到 DOM 中
 - entry-server.js，使用 default export 导出函数，作用是返回一个新的实例 vm = new Vue()，并在每次渲染中重复调用此函数。
-  - 当然`服务器端路由匹配`和`数据预取逻辑`都是在 entry-server.js 里面执行的
 
 > 构建配置：分为服务器配置和客户端配置
 
@@ -47,6 +45,8 @@
 
 - (TODO!!!)`SSR目录`中 main.js 里面的代码结构--由于要做 SSR--明显不同于其他地方平台的 main.js 的代码结构，所以是不是应该像 `yundeeDesign`这个项目一样，另立一个项目--既能共用组件，又可以与其他非 SSR 服务端渲染项目分离开，做到互相不污染。
 
-- (TODO!!!)`SSR目录`中 entry-client.js 文件里面的`const { asyncData } = this.$options`, `$options`到底是从哪里获取的？-- 也就是接口数据是从哪里过来的，最终做到 async 异步数据与 html 联合在一起的？
+- (TODO!!!)`SSR目录`中 entry-client.js 文件里面的`const { asyncData } = this.$options`, `$options`是实例 vm(或者 this 的一个属性)
+
+- (TODO!!!)head 标签里面的 meta 标签，其中的 keywords 和 description 怎么动态设置，以利于 SEO？参考[Head 管理](https://ssr.vuejs.org/zh/guide/head.html)?
 
 - [DONE!!! -- 解决“Error: Rule can only have one resource source (provided resource and test + include + exclude)”](https://blog.meathill.com/fe-tool-chain/how-to-fix-error-rule-can-only-have-one-resource-source-provided-resource-and-test-include-exclude.html)
