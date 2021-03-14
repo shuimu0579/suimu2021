@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { createRouter } from './router'
+
+import { createStore } from './store'
+import { sync } from 'vuex-router-sync'
 // 服务端渲染时, 将首页所有组件打包
 
 import Empty from './components/Empty/Empty.vue'
@@ -14,6 +17,11 @@ import ContactUs from './views/ContactUs.vue'
 
 export function createApp() {
   const router = createRouter()
+  const store = createStore()
+
+  // 同步路由状态(route state)到 store
+  sync(store, router)
+
   const app = new Vue({
     components: {
       Empty,
@@ -25,7 +33,8 @@ export function createApp() {
       ContactUs,
     },
     router,
+    store,
     render: h => h(App),
   })
-  return { app, router }
+  return { app, router, store }
 }
