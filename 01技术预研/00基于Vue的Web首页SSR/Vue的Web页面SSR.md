@@ -29,9 +29,19 @@
 - entry-server.js，使用 default export 导出函数，作用是返回一个新的实例 vm = new Vue()，并在每次渲染中重复调用此函数。
   - 当然`服务器端路由匹配`和`数据预取逻辑`都是在 entry-server.js 里面执行的
 
+> 构建配置：分为服务器配置和客户端配置
+
+- 服务器配置，是用于生成传递给 createBundleRenderer 的 server bundle，也就是`SSR目录`项目中的 vue-ssr-server-bundle.json。相当于`SSR目录`项目中的 vue.config.js 里面的服务器部分配置
+
+- 客户端配置 (Client Config)，生成 clientManifest(也就是 vue-ssr-client-manifest.json)。
+
 ## 问题分析
 
 - (TODO!!!)调用 API 返回的异步数据，怎么和没有数据的 HTNL 静态文件绑定？**SSR 目录**这个 demo 项目中没有加上 store,需要补上！需要参考给的 DEMO 预研清楚, 看看是否需要 npm install `vuex`、`vuex-router-sync`, 这两个包需要与 vue 的版本相匹配-- 使用状态管理工具 vuex。具体操作如下：在服务器端，我们可以在渲染之前预取数据，并将数据填充到 store 中。此外，我们将在 HTML 中序列化(serialize)和内联预置(inline)状态。这样，在挂载(mount)到客户端应用程序之前，可以直接从 store 获取到内联预置(inline)状态。
+
+- (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
+
+- (TODO!!!)dataPromise 在组件中怎么使用？参考那个 demo
 
 - (TODO!!!)`SSR目录`中 main.js 里面的代码结构--由于要做 SSR--明显不同于其他地方平台的 main.js 的代码结构，所以是不是应该像 `yundeeDesign`这个项目一样，另立一个项目--既能共用组件，又可以与其他非 SSR 服务端渲染项目分离开，做到互相不污染。
 
