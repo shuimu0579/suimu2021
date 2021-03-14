@@ -39,12 +39,14 @@
 
 - (TODO!!!)调用 API 返回的异步数据，怎么和没有数据的 HTNL 静态文件绑定？**SSR 目录**这个 demo 项目中没有加上 store,需要补上！需要参考给的 DEMO 预研清楚, 看看是否需要 npm install `vuex`、`vuex-router-sync`, 这两个包需要与 vue 的版本相匹配-- 使用状态管理工具 vuex。具体操作如下：在服务器端，我们可以在渲染之前预取数据，并将数据填充到 store 中。此外，我们将在 HTML 中序列化(serialize)和内联预置(inline)状态。这样，在挂载(mount)到客户端应用程序之前，可以直接从 store 获取到内联预置(inline)状态。
 
+- 为了配合调用 API 返回的异步数据,现在每个组件都要改写(至少要加 asyncData 方法，那有什么方法不用修改组件？去参考 DEMO 中 组件的改造！！！)
+
 - (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
 
 - (TODO!!!)dataPromise 在组件中怎么使用？参考那个 demo
 
 - (TODO!!!)`SSR目录`中 main.js 里面的代码结构--由于要做 SSR--明显不同于其他地方平台的 main.js 的代码结构，所以是不是应该像 `yundeeDesign`这个项目一样，另立一个项目--既能共用组件，又可以与其他非 SSR 服务端渲染项目分离开，做到互相不污染。
 
-* (TODO!!!)`SSR目录`中 entry-client.js 文件里面的`const { asyncData } = this.$options`, `$options`到底是从哪里获取的？-- 也就是接口数据是从哪里过来的，最终做到 async 异步数据与 html 联合在一起的？
+- (TODO!!!)`SSR目录`中 entry-client.js 文件里面的`const { asyncData } = this.$options`, `$options`到底是从哪里获取的？-- 也就是接口数据是从哪里过来的，最终做到 async 异步数据与 html 联合在一起的？
 
 - [DONE!!! -- 解决“Error: Rule can only have one resource source (provided resource and test + include + exclude)”](https://blog.meathill.com/fe-tool-chain/how-to-fix-error-rule-can-only-have-one-resource-source-provided-resource-and-test-include-exclude.html)
