@@ -45,4 +45,16 @@
 
 - [DONE!!! -- 解决“Error: Rule can only have one resource source (provided resource and test + include + exclude)”](https://blog.meathill.com/fe-tool-chain/how-to-fix-error-rule-can-only-have-one-resource-source-provided-resource-and-test-include-exclude.html)
 
+- [DONE!!!]在window系统里面，package.json里面的自定义脚本是这样的`move dist\\vue-ssr-server-bundle.json`;而在Mac系统里面却又是这样的`mv dist/vue-ssr-server-bundle.json`
+
+```shell
+"scripts": {
+  "build:yundee": "npm run build:ssr && move dist\\vue-ssr-server-bundle.json bundle && npm run build:client && move bundle dist\\vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js"
+}
+```
+
+```shell
+"build:yundee": "npm run build:ssr && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js",
+```
+
 - [DONE!!!]决定重新另立一个项目，main.js、congif.js等重新配置， 调用Api的组件重新修改(home组件里面的代码自己维护)

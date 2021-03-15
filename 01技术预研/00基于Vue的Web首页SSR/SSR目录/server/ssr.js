@@ -19,7 +19,7 @@ const options = { threshold: 2048 }
 app.use(compress(options))
 app.use(router.routes()).use(router.allowedMethods())
 
-const port = process.env.PORT || 3010 // build时候3000被占用 用3010端口试试
+const port = process.env.PORT || 3020 // build时候3000被占用 用3020端口试试
 
 app.listen(port, () => {
   console.log(`server started at localhost:${port}`)

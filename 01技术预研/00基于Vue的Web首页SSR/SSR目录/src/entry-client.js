@@ -15,7 +15,9 @@ Vue.mixin({
     let data = null // 把数据在computed的名称固定为data,防止重复渲染
     try {
       data = this.data // 通过try/catch包裹取值,防止data为空报错
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
 
     if (asyncData && !data) {
       // 如果拥有asyncData和data为空的时候,进行数据加载
