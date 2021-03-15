@@ -36,6 +36,8 @@
 
 ## 问题分析
 
+- 站点里面的几个页面才需要是SSR页面，那么这几个页面的跳转的时候用`<a />`标签或者`<router-link to="/ask">Ask</router-link>`等进行，这样就可以跳转到SSR渲染的页面。现在的疑问是：虽然我只要几个页面SEO,那其他的页面是不是也经过SSR处理了呢，只是我没有通过<a>标签去跳转调用SSR页面而已？？？
+
 - (TODO!!!)调用 API 返回的异步数据，怎么和没有数据的 HTNL 静态文件绑定？**SSR 目录**这个 demo 项目中没有加上 store,需要补上！需要参考给的 DEMO 预研清楚, 看看是否需要 npm install `vuex`、`vuex-router-sync`, 这两个包需要与 vue 的版本相匹配-- 使用状态管理工具 vuex。具体操作如下：在服务器端，我们可以在渲染之前预取数据，并将数据填充到 store 中。此外，我们将在 HTML 中序列化(serialize)和内联预置(inline)状态。这样，在挂载(mount)到客户端应用程序之前，可以直接从 store 获取到内联预置(inline)状态。
 
 - (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
