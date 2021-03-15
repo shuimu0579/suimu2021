@@ -69,6 +69,6 @@ function renderToString(context, renderer) {
 
 const router = new Router()
 
-router.get('*', handleRequest)
+router.get(':splat*', handleRequest) // 用':splat*' 替代 ‘*’
 
 module.exports = router

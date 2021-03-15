@@ -2,7 +2,7 @@ const multiProjectConfig = require('./scripts/multiProjectConfig/projectPages')
 const projectEnter = require('./scripts/multiProjectConfig/projectEnter')
 const TerserPlugin = require('terser-webpack-plugin')
 
-const platformId = require('./scripts/multiProjectConfig/projectPlatformId')
+const { platformId } = require('./scripts/multiProjectConfig/projectPlatformId')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 const nodeExternals = require('webpack-node-externals')
@@ -86,8 +86,8 @@ const defaultConfig = {
   },
 }
 const yundeeSSRConfig = {
-  publicPath: isDev ? 'http://127.0.0.1:8080' : 'http://127.0.0.1:3000',
-  // publicPath: '../../',
+  // publicPath: isDev ? 'http://127.0.0.1:8080' : 'http://127.0.0.1:3000',
+  publicPath: '/',
   devServer: {
     historyApiFallback: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
@@ -115,7 +115,7 @@ const yundeeSSRConfig = {
           // 不要外置化 webpack 需要处理的依赖模块。
           // 你可以在这里添加更多的文件类型。例如，未处理 *.vue 原始文件，
           // 你还应该将修改 `global`（例如 polyfill）的依赖模块列入白名单
-          whitelist: [/\.css$/],
+          allowlist: [/\.css$/],
         })
       : undefined,
 
