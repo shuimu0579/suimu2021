@@ -1,5 +1,6 @@
 # SSR 服务端渲染
 
+- [彻底理解服务端渲染 - SSR原理](https://github.com/yacan8/blog/issues/30) 这里有创建store实例的mock数据， 我们mock一个远程服务函数fetchItem，用于查询对应item。
 - [vue-cli3 搭建的 vue 改造成 SSR 项目](https://blog.csdn.net/weixin_40965293/article/details/106619172)
 
 - [Vue.js 服务器端渲染指南](https://ssr.vuejs.org/zh/)
