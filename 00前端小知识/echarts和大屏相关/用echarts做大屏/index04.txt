@@ -6,18 +6,18 @@
             align-items: center;
             box-sizing: border-box;
             width: 100%;
-            padding: 0px 30px
+            padding: 0px 0.2rem
         }
         
         .app-sort-content li {
             box-sizing: border-box;
             width: 50%;
             display: flex;
-            margin: 6px 0px
+            margin: 0.04rem 0rem
         }
         
         .app-sort-content li:nth-child(2n) {
-            padding-left: 10px
+            padding-left: 0.13rem
         }
         
         .app-sort-content li .right-content {
@@ -25,26 +25,31 @@
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            padding-left: 15px
+            padding-left: 0.2rem
+        }
+
+        .list-img{
+            width: 0.55rem; 
+            height: 0.55rem;
         }
         
         .app-sort-content li .right-content .count {
-            font-size: 12px;
+            font-size: 0.16rem;
             font-family: PingFangSC, PingFangSC-Light;
             font-weight: 300;
             text-align: left;
             color: #eef8fe;
-            line-height: 17px;
+            line-height: 0.23rem;
         }
         
         .app-sort-content li .right-content .app-name {
             opacity: 1;
-            font-size: 14px;
+            font-size: 0.20rem;
             font-family: PingFangSC, PingFangSC-Semibold;
             font-weight: 600;
             text-align: center;
             color: #eef8fe;
-            line-height: 20px;
+            line-height: 0.27rem;
         }
 </style>
 
@@ -80,10 +85,13 @@
 
     var currentBlock = null;
     for(var i = 0; i < $Report.viewBlocks.count; i++){
-      if($Report.viewBlocks.item(i).blockName == "块13"){
+      if($Report.viewBlocks.item(i).blockName == "块23"){
         currentBlock = $Report.viewBlocks.item(i);
       }
     }
+
+    console.log('currentBlock',currentBlock)
+
     for(var i = 0; i < currentBlock.blockDataToDraw.length; i++){
         var obj = {};
         var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
@@ -107,7 +115,7 @@
 
     var str = "";
     for (var i = 0; i < parkName.length; i++) {
-        str += "<li><div style = 'width: 45px; height:45px;background: no-repeat 100% 100%" + " url(" + '"' +  parkName[i].url + '"' + ");" + " background-position:center;'> </div> <div class='right-content'><div class='app-name'>" + parkName[i].name + "</div> <div class = 'count' > <span> 打开次数： </span><span>" + parkName[i].number + "</span> 次 </div> </div> </li>"
+        str += "<li><div class='list-img' style = 'background: no-repeat 100% 100%" + " url(" + '"' +  parkName[i].url + '"' + ");" + " background-position:center;'> </div> <div class='right-content'><div class='app-name'>" + parkName[i].name + "</div> <div class = 'count' > <span> 打开次数： </span><span>" + parkName[i].number + "</span> 次 </div> </div> </li>"
     };
     document.getElementById("parkNumber").innerHTML = str;
 </script>

@@ -9,19 +9,15 @@ npm install
 ### Compiles and hot-reloads for development
 
 ```
-npm run serves yundeeDesign
-npm run serves yundeePlatform
-
 npm run serves yundeePlatform yundee
+npm run dev:yundee
 ```
 
 ### Compiles and minifies for production
 
 ```
-npm run builds yundeeDesign
-npm run builds yundeePlatform
-
 npm run builds yundeePlatform yundee
+npm run build:yundee
 ```
 
 ### Lints and fixes files

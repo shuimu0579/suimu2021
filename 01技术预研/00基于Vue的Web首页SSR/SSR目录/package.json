@@ -1,5 +1,5 @@
 {
-  "name": "yundee_web",
+  "name": "yundee_web_ssr",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,11 +11,7 @@
     "build:yundee": "npm run build:ssr && move dist\\vue-ssr-server-bundle.json bundle && npm run build:client && move bundle dist\\vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js",
     "start": "cross-env NODE_ENV=production node ./server/ssr.js",
     "serve:ssr": "cross-env WEBPACK_TARGET=node node ./server/ssr.js",
-    "dev:yundee": "concurrently \"npm run serve\" \"npm run serve:ssr\" ",
-    "new:comp": "node ./scripts/generateComponent/index",
-    "new:view": "node ./scripts/generateView/index",
-    "serves": "node ./scripts/multiProjectConfig/serve.js",
-    "builds": "node ./scripts/multiProjectConfig/build.js"
+    "dev:yundee": "concurrently \"npm run serve\" \"npm run serve:ssr\" "
   },
   "dependencies": {
     "axios": "^0.19.0",

@@ -5,7 +5,7 @@
         /*这里是字体文件路径*/
     }
 </style>
-<div id="connect-device-container" style="width: 100%; height:190px; background-color:transparent;></div>
+<div id="connect-device-container" style="width: 100%; height:100%; background-color:transparent;></div>
 <script type="text/javascript" src="/Report/resource/report/custom/js/echarts.min.js"></script>
 <script type="text/javascript">
     var dom = document.getElementById("connect-device-container");
@@ -80,12 +80,12 @@
     option = {
             title: {
                 text: `${totalCount}`,
-                top: '30%',
+                top: 112 * $BDA.defaultRatio,
                 textAlign: "center",
-                left: "20%",
+                 left: 85 * $BDA.defaultRatio,
                 textStyle: {
                     color: '#fff',
-                    fontSize: 28,
+                    fontSize: 28 * $BDA.defaultRatio,
                     fontWeight: '700'
                 }
             },
@@ -95,20 +95,18 @@
                     z: 3,
                     style: {
                         image: img,
-                        width: 90,
-                        height: 90
+                         width: 95 * $BDA.defaultRatio,
+                        height: 95 * $BDA.defaultRatio
                     },
-                    left: "11.5%",
-                    top: '16.2%',
-                    position: [100, 100]
+                    position: [43 * $BDA.defaultRatio, 83 * $BDA.defaultRatio]
                 }]
             },
             legend: {
                 show: true,
                 orient: 'vertical',
-                itemGap: 20,
-                right: '10%',
-                top: '15%',
+                itemGap: 20 * $BDA.defaultRatio,
+                left: 200 * $BDA.defaultRatio,
+                top: 90 * $BDA.defaultRatio,
                 icon: 'circle',
                 formatter: (name) => {
                     const obj = seriesData.find(i => {
@@ -142,19 +140,19 @@
                 textStyle: {
                     rich: {
                         a: {
-                            width: 130,
-                            fontSize: 12,
+                            width: 100 * $BDA.defaultRatio,
+                            fontSize: 12 * $BDA.defaultRatio,
                             align: 'left',
                             color: "#98a8da"
                         },
                         b: {
-                            width: 50,
-                            fontSize: 12,
+                            width: 50 * $BDA.defaultRatio,
+                            fontSize: 12 * $BDA.defaultRatio,
                             align: 'left',
                             color: "#98a8da"
                         },
                         c: {
-                            fontSize: 16,
+                            fontSize: 16 * $BDA.defaultRatio,
                             align: 'center',
                             fontFamily: 'DINCondBold',
                             fontWeight: 700,
@@ -166,14 +164,14 @@
             },
             series: [{
                 type: 'pie',
-                radius: ['48%', '55%'],
+                radius: [50 * $BDA.defaultRatio,60 * $BDA.defaultRatio],
                 avoidLabelOverlap: false,
                 color: color,
-                center: ['21%', '40%'],
+                center: [90 * $BDA.defaultRatio, 130 * $BDA.defaultRatio],
                 itemStyle: {
-                    borderRadius: 2,
+                    borderRadius: 2 * $BDA.defaultRatio,
                     borderColor: '#030612',
-                    borderWidth: 2
+                    borderWidth: 2 * $BDA.defaultRatio
                 },
                 label: {
                     show: false,
@@ -182,7 +180,7 @@
                 emphasis: {
                     label: {
                         show: false,
-                        fontSize: '12',
+                        fontSize: 12 * $BDA.defaultRatio,
                         fontWeight: 'bold'
                     }
                 },

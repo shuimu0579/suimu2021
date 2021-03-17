@@ -7,7 +7,7 @@
         /*这里是字体文件路径*/
     }
 </style>
-<div id="enterprise-category-container" style="width: 100%; height:170px; background-color:transparent;></div>
+<div id="enterprise-category-container" style="width: 100%; height:100%; background-color:transparent;></div>
 <script type="text/javascript" src="/Report/resource/report/custom/js/echarts.min.js"></script>
 <script type="text/javascript">
     var dom = document.getElementById("enterprise-category-container");
@@ -134,9 +134,9 @@
             })
         }
     })
-
+ 
     othersData = initData.filter((item,index) => {
-        return (index !== 0 || index !== 1 || index !== 2 || index !== 3)
+        return index > 3
     })
     var othersValue = othersData.reduce((accumulator, currentValue) => {
         return Number(accumulator) + Number(currentValue.value)
@@ -169,13 +169,13 @@
     var option = {
         legend: {
             orient: 'vertical',
-            right: '2%',
+            left: '40%',
             top: 'center',
             orient: 'vertical',
             icon: 'roundRect',
-            itemGap: 8,
-            itemWidth: 12,
-            itemHeight: 10,
+            itemGap: 8 * $BDA.defaultRatio,
+            itemWidth: 12 * $BDA.defaultRatio,
+            itemHeight: 10 * $BDA.defaultRatio,
             formatter: (name) => {
                 var totalCount = legendData.reduce((accumulator, currentValue) => {
                     return Number(accumulator) + Number(currentValue.value)
@@ -210,29 +210,30 @@
                 )
             },
             textStyle: {
-                fontSize: 12,
+                fontSize: 12 * $BDA.defaultRatio,
                 color: '#BED3F8',
                 rich: {
                     name: {
-                        width: 130,
+                        width: 140 * $BDA.defaultRatio,
+                        fontSize: 12 * $BDA.defaultRatio,
                     },
                     a: {
-                        width: 35,
-                        fontSize: 12,
+                        width: 35 * $BDA.defaultRatio,
+                        fontSize: 12 * $BDA.defaultRatio,
                         align: 'center',
                         fontFamily: 'DINCondBold',
                         fontWeight: 700,
                         color: "#98a8da",
-                        paddingLeft: 10
+                        paddingLeft: 10 * $BDA.defaultRatio
                     },
                     b: {
-                        fontSize: 16,
+                        fontSize: 16 * $BDA.defaultRatio,
                         align: 'center',
                         fontFamily: 'DINCondBold',
                         fontWeight: 700,
                         textAlign: 'right',
                         color: '#59b0f2',
-                        paddingLeft: 8
+                        paddingLeft: 8 * $BDA.defaultRatio
                     }
                 },
             },
@@ -241,22 +242,22 @@
             top: 'center',
             type: 'funnel',
             color: colorList,
-            height: '140',
-            gap: 5,
-            maxSize: 160,
-            minSize: 20,
+            height: 140 * $BDA.defaultRatio + '',
+            gap: 5 * $BDA.defaultRatio,
+            maxSize: 160 * $BDA.defaultRatio,
+            minSize: 20 * $BDA.defaultRatio,
             left: '2%',
             width: '35%',
             label: {
                 show: false,
                 position: 'inside',
-                fontSize: '14',
+                fontSize: 14 * $BDA.defaultRatio + '',
                 formatter: function() {
                     return ''
                 },
                 rich: {
                     aa: {
-                        padding: [8, 0, 6, 0]
+                        padding: [8 * $BDA.defaultRatio, 0, 6 * $BDA.defaultRatio, 0]
                     }
                 }
             },
