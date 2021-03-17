@@ -40,6 +40,14 @@
 
 - (TODO!!!)调用 API 返回的异步数据，怎么和没有数据的 HTNL 静态文件绑定？**SSR 目录**这个 demo 项目中没有加上 store,需要补上！需要参考给的 DEMO 预研清楚, 看看是否需要 npm install `vuex`、`vuex-router-sync`, 这两个包需要与 vue 的版本相匹配-- 使用状态管理工具 vuex。具体操作如下：在服务器端，我们可以在渲染之前预取数据，并将数据填充到 store 中。此外，我们将在 HTML 中序列化(serialize)和内联预置(inline)状态。这样，在挂载(mount)到客户端应用程序之前，可以直接从 store 获取到内联预置(inline)状态。
 
+- [TODO!!! -- 解决 build成功之后，localhost:port  发现控制台有报错，加载不到客户端构建css和js，报404  的问题 ](https://blog.csdn.net/qq_43624878/article/details/107739956)
+
+```js
+// koa-mount可以和koa-static结合，以实现和express一样的静态服务请求前缀的功能  
+// 路径：01技术预研\00基于Vue的Web首页SSR\SSR目录\server\ssr.js
+app.use(koaMount('/', koaStatic(resolve('../dist')))) 
+```
+
 - (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
 
 - (TODO!!!)dataPromise 在组件中怎么使用？参考那个 demo
@@ -59,14 +67,6 @@ module.exports = {
   }
 };
 
-```
-
-- [DONE!!! -- 解决 build成功之后，localhost:port  发现控制台有报错，加载不到客户端构建css和js，报404  的问题 ](https://blog.csdn.net/qq_43624878/article/details/107739956)
-
-```js
-// koa-mount可以和koa-static结合，以实现和express一样的静态服务请求前缀的功能  
-// 路径：01技术预研\00基于Vue的Web首页SSR\SSR目录\server\ssr.js
-app.use(koaMount('/', koaStatic(resolve('../dist')))) 
 ```
 
 - [DONE!!!]在window系统里面，package.json里面的自定义脚本是这样的`move dist\\vue-ssr-server-bundle.json`;而在Mac系统里面却又是这样的`mv dist/vue-ssr-server-bundle.json`
