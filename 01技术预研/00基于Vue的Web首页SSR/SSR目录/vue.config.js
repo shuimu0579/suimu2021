@@ -8,7 +8,8 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 const yundeeSSRConfig = {
   // publicPath: isDev ? 'http://127.0.0.1:8080' : 'http://127.0.0.1:3000',
-  publicPath: '/',
+  // publicPath: '/',
+  publicPath: isDev ? '/' : '/dist', //publicPath为`/dist` 这句相当重要
   devServer: {
     historyApiFallback: true,
     headers: { 'Access-Control-Allow-Origin': '*' },

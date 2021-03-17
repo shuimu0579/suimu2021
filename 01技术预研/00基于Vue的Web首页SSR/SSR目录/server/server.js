@@ -22,8 +22,8 @@ const resolve = file => path.resolve(__dirname, file)
 
 // 第 2 步：获得一个createBundleRenderer
 const { createBundleRenderer } = require('vue-server-renderer')
-const bundle = require('../dist/vue-ssr-server-bundle.json')
-const clientManifest = require('../dist/vue-ssr-client-manifest.json')
+const bundle = require(resolve('../dist/vue-ssr-server-bundle.json'))
+const clientManifest = require(resolve('../dist/vue-ssr-client-manifest.json'))
 
 const renderer = createBundleRenderer(bundle, {
   runInNewContext: false,

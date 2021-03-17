@@ -1,6 +1,6 @@
 # SSR 服务端渲染
 
-- [彻底理解服务端渲染 - SSR原理](https://github.com/yacan8/blog/issues/30) 这里有创建store实例的mock数据， 我们mock一个远程服务函数fetchItem，用于查询对应item。
+- [彻底理解服务端渲染 - SSR 原理](https://github.com/yacan8/blog/issues/30) 这里有创建 store 实例的 mock 数据， 我们 mock 一个远程服务函数 fetchItem，用于查询对应 item。
 - [vue-cli3 搭建的 vue 改造成 SSR 项目](https://blog.csdn.net/weixin_40965293/article/details/106619172)
 
 - [Vue.js 服务器端渲染指南](https://ssr.vuejs.org/zh/)
@@ -36,40 +36,43 @@
 
 ## 问题分析
 
-- 站点里面的几个页面才需要是SSR页面，那么这几个页面的跳转的时候用`<a />`标签或者`<router-link to="/ask">Ask</router-link>`等进行，这样就可以跳转到SSR渲染的页面。现在的疑问是：虽然我只要几个页面SEO,那其他的页面是不是也经过SSR处理了呢，只是我没有通过<a>标签去跳转调用SSR页面而已？？？
+- 站点里面的几个页面才需要是 SSR 页面，那么这几个页面的跳转的时候用`<a />`标签或者`<router-link to="/ask">Ask</router-link>`等进行，这样就可以跳转到 SSR 渲染的页面。现在的疑问是：虽然我只要几个页面 SEO,那其他的页面是不是也经过 SSR 处理了呢，只是我没有通过<a>标签去跳转调用 SSR 页面而已？？？
 
 - (TODO!!!)调用 API 返回的异步数据，怎么和没有数据的 HTNL 静态文件绑定？**SSR 目录**这个 demo 项目中没有加上 store,需要补上！需要参考给的 DEMO 预研清楚, 看看是否需要 npm install `vuex`、`vuex-router-sync`, 这两个包需要与 vue 的版本相匹配-- 使用状态管理工具 vuex。具体操作如下：在服务器端，我们可以在渲染之前预取数据，并将数据填充到 store 中。此外，我们将在 HTML 中序列化(serialize)和内联预置(inline)状态。这样，在挂载(mount)到客户端应用程序之前，可以直接从 store 获取到内联预置(inline)状态。
 
-- [TODO!!! -- 解决 build成功之后，localhost:port  发现控制台有报错，加载不到客户端构建css和js，报404  的问题 ](https://blog.csdn.net/qq_43624878/article/details/107739956)
+- [TODO!!! -- 解决 build 成功之后，localhost:port 发现控制台有报错，加载不到客户端构建 css 和 js，报 404 的问题 ](https://blog.csdn.net/qq_43624878/article/details/107739956)
 
 ```js
-// koa-mount可以和koa-static结合，以实现和express一样的静态服务请求前缀的功能  
+// koa-mount可以和koa-static结合，以实现和express一样的静态服务请求前缀的功能
 // 路径：01技术预研\00基于Vue的Web首页SSR\SSR目录\server\ssr.js
-app.use(koaMount('/', koaStatic(resolve('../dist')))) 
+const resolve = file => path.resolve(__dirname, file)
+app.use(koaMount('/dist', koaStatic(resolve('../dist'))))
+
+//vue.config.js   01技术预研/00基于Vue的Web首页SSR/SSR目录/vue.config.js
+publicPath: '/dist', //publicPath为`/dist` 这句相当重要
 ```
 
 - (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
 
 - (TODO!!!)dataPromise 在组件中怎么使用？参考那个 demo
 
-- (TODO!!!)head 标签里面的 meta 标签，其中的 keywords 和 description 怎么动态设置，以利于 SEO？  可以参考 [Vue2 SSR渲染, 如何根据不同页面修改 meta?](https://www.mmxiaowu.com/article/585005b24b8f0c283f7ce0d1)  或者 [https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips](https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips)
+- (TODO!!!)head 标签里面的 meta 标签，其中的 keywords 和 description 怎么动态设置，以利于 SEO？ 可以参考 [Vue2 SSR 渲染, 如何根据不同页面修改 meta?](https://www.mmxiaowu.com/article/585005b24b8f0c283f7ce0d1) 或者 [https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips](https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips)
 
 - [DONE!!! -- 解决“Error: Rule can only have one resource source (provided resource and test + include + exclude)”](https://blog.meathill.com/fe-tool-chain/how-to-fix-error-rule-can-only-have-one-resource-source-provided-resource-and-test-include-exclude.html)
 
-- [DONE!!! -- 解决 build成功之后，localhost:port 报错的问题，“TypeError: Cannot read property 'replace' of undefined”](https://www.cnblogs.com/myjyixi/p/12274244.html)
+- [DONE!!! -- 解决 build 成功之后，localhost:port 报错的问题，“TypeError: Cannot read property 'replace' of undefined”](https://www.cnblogs.com/myjyixi/p/12274244.html)
 
 ```js
 //可以修改 vue.config.js 配置文件（项目由vue cli3/4创建）
 module.exports = {
   css: {
-    extract: true, 
-    sourceMap: true  //加上这个是关键！！！
-  }
-};
-
+    extract: true,
+    sourceMap: true, //加上这个是关键！！！
+  },
+}
 ```
 
-- [DONE!!!]在window系统里面，package.json里面的自定义脚本是这样的`move dist\\vue-ssr-server-bundle.json`;而在Mac系统里面却又是这样的`mv dist/vue-ssr-server-bundle.json`
+- [DONE!!!]在 window 系统里面，package.json 里面的自定义脚本是这样的`move dist\\vue-ssr-server-bundle.json`;而在 Mac 系统里面却又是这样的`mv dist/vue-ssr-server-bundle.json`
 
 ```shell
 "scripts": {
@@ -81,4 +84,4 @@ module.exports = {
 "build:yundee": "npm run build:ssr && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js",
 ```
 
-- [DONE!!!]决定重新另立一个项目，main.js、congif.js等重新配置， 调用Api的组件重新修改(home组件里面的代码自己维护)
+- [DONE!!!]决定重新另立一个项目，main.js、congif.js 等重新配置， 调用 Api 的组件重新修改(home 组件里面的代码自己维护)
