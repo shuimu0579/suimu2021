@@ -45,7 +45,7 @@
         "cross-env": "^5.2.0",
         "lodash.merge": "^4.6.1",
         "memory-fs": "^0.4.1",
-        "vue-server-renderer": "2.5.17",
+        "vue-server-renderer": "^2.6.12",
         "vue-template-compiler": "^2.6.12",
         "webpack": "^4.20.2",
         "webpack-node-externals": "^1.7.2",

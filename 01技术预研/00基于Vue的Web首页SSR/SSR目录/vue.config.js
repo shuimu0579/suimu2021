@@ -94,6 +94,7 @@ const yundeeSSRConfig = {
   },
   css: {
     extract: process.env.NODE_ENV === 'production',
+    sourceMap: true,
   },
   configureWebpack: () => ({
     // 将 entry 指向应用程序的 server / client 文件

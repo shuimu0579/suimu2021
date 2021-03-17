@@ -48,6 +48,27 @@
 
 - [DONE!!! -- 解决“Error: Rule can only have one resource source (provided resource and test + include + exclude)”](https://blog.meathill.com/fe-tool-chain/how-to-fix-error-rule-can-only-have-one-resource-source-provided-resource-and-test-include-exclude.html)
 
+- [DONE!!! -- 解决 build成功之后，localhost:port 报错的问题，“TypeError: Cannot read property 'replace' of undefined”](https://www.cnblogs.com/myjyixi/p/12274244.html)
+
+```js
+//可以修改 vue.config.js 配置文件（项目由vue cli3/4创建）
+module.exports = {
+  css: {
+    extract: true, 
+    sourceMap: true  //加上这个是关键！！！
+  }
+};
+
+```
+
+- [DONE!!! -- 解决 build成功之后，localhost:port  发现控制台有报错，加载不到客户端构建css和js，报404  的问题 ](https://blog.csdn.net/qq_43624878/article/details/107739956)
+
+```js
+// koa-mount可以和koa-static结合，以实现和express一样的静态服务请求前缀的功能  
+// 路径：01技术预研\00基于Vue的Web首页SSR\SSR目录\server\ssr.js
+app.use(koaMount('/', koaStatic(resolve('../dist')))) 
+```
+
 - [DONE!!!]在window系统里面，package.json里面的自定义脚本是这样的`move dist\\vue-ssr-server-bundle.json`;而在Mac系统里面却又是这样的`mv dist/vue-ssr-server-bundle.json`
 
 ```shell
