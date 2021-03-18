@@ -31,6 +31,7 @@
     "three-orbit-controls": "^82.1.0",
     "vue": "^2.6.12",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.1.6",
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
@@ -55,18 +56,18 @@
   "eslintConfig": {
     "root": true,
     "env": {
-        "node": true
+      "node": true
     },
     "extends": [
-        "plugin:vue/essential",
-        "eslint:recommended"
+      "plugin:vue/essential",
+      "eslint:recommended"
     ],
     "rules": {
-        "no-console": "off",
-        "no-debugger": "off"
+      "no-console": "off",
+      "no-debugger": "off"
     },
     "parserOptions": {
-        "parser": "babel-eslint"
+      "parser": "babel-eslint"
     }
   },
   "postcss": {
