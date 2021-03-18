@@ -38,10 +38,11 @@ function renderToString(context) {
       console.log('html...', html)
       console.log('title...', title)
       console.log('meta...', meta)
+      console.log('meta.text()...', meta.text())
+
       html = html
         .replace(/<title.*?<\/title>/g, title.text())
         .replace(/<meta.*?name="description".*?\/>/g, meta.text())
-        .replace(/<meta.*?name="keywords".*?\/>/g, meta.text())
 
       err ? reject(err) : resolve(html)
     })
