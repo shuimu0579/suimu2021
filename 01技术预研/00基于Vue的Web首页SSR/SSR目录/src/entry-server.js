@@ -24,8 +24,7 @@ export default context => {
       // Promise 应该 resolve 应用程序实例，以便它可以渲染
       // 对所有匹配的路由组件调用 `asyncData()`
       Promise.all(
-        matchedComponents.map((Component, index) => {
-          console.log('index...', index)
+        matchedComponents.map(Component => {
           if (Component.asyncData) {
             return Component.asyncData({
               store,

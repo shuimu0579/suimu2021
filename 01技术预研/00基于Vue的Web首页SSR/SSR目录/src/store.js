@@ -14,7 +14,7 @@ export function createStore() {
       item: {},
     },
     actions: {
-      fetchItem({ commit }, id) {
+      fetchItems({ commit }, id) {
         return fetchItem(id).then(item => {
           commit('setItem', item)
         })
@@ -22,7 +22,7 @@ export function createStore() {
     },
     mutations: {
       setItem(state, item) {
-        Vue.set(state.item, item)
+        state.item = item
       },
     },
   })

@@ -42,7 +42,7 @@ function renderToString(context) {
 
 // 第 3 步：添加一个中间件来处理所有请求
 const handleRequest = async (ctx, next) => {
-  const url = ctx.path
+  const url = ctx.request.url
   const cacheable = isCacheable(url)
   if (url.includes('.')) {
     ctx.res.setHeader('Access-Control-Allow-Origin', '*')
@@ -64,6 +64,10 @@ const handleRequest = async (ctx, next) => {
   microCache.set(url, html) // 设置当前缓存页面的内容
   ctx.body = html
 }
-router.get(':splat*', handleRequest) // 用':splat*' 替代 ‘*’
+
+// router.get(':splat*', handleRequest) // 用':splat*' 替代 ‘*’  这样操作貌似不行，需要下面这样显式的确定需要SSR的路由
+//重要！！！ 哪些页面需要 走SSR 都在这里面定义-- 这样就能做到SSR渲染特定的页面, 爬虫也能够只爬取特定的页面
+router.get('/', handleRequest)
+router.get('/contact', handleRequest)
 
 module.exports = router
