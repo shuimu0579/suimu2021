@@ -6,9 +6,11 @@ export default context => {
   // 就已经准备就绪。
   return new Promise((resolve, reject) => {
     const { app, router, store } = createApp()
+    const meta = app.$meta()
 
     // 设置服务器端 router 的位置
     router.push(context.url)
+    context.meta = meta
 
     if (context.isWebp) {
       store.state.isWebp = context.isWebp

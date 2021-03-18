@@ -34,7 +34,15 @@ const renderer = createBundleRenderer(bundle, {
 function renderToString(context) {
   return new Promise((resolve, reject) => {
     renderer.renderToString(context, (err, html) => {
-      // console.log(html)
+      const { title, meta } = context.meta.inject()
+      console.log('html...', html)
+      console.log('title...', title)
+      console.log('meta...', meta)
+      html = html
+        .replace(/<title.*?<\/title>/g, title.text())
+        .replace(/<meta.*?name="description".*?\/>/g, meta.text())
+        .replace(/<meta.*?name="keywords".*?\/>/g, meta.text())
+
       err ? reject(err) : resolve(html)
     })
   })

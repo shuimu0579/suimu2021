@@ -19,6 +19,17 @@ export default {
       return item
     },
   },
+  // 添加以下代码
+  metaInfo() {
+    const title = 'Index'
+    return {
+      title,
+      meta: [
+        { name: 'description', content: title },
+        { name: 'keywords', content: title },
+      ],
+    }
+  },
 }
 </script>
 
