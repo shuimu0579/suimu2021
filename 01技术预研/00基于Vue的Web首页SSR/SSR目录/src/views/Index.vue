@@ -1,12 +1,21 @@
 <template>
-  <div>{{ title }}</div>
+  <div>
+    <div>id: {{ item.id }}</div>
+    <div>name: {{ item.name }}</div>
+  </div>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      title: 'Hello World',
-    }
+  asyncData({ store, route }) {
+    // 触发 action 后，会返回 Promise
+    console.log('route...', route)
+    return store.dispatch('fetchItems', route.params.id)
+  },
+  computed: {
+    // 从 store 的 state 对象中的获取 item。
+    item() {
+      return this.$store.state.item
+    },
   },
 }
 </script>
