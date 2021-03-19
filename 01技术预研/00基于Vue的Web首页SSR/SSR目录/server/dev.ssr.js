@@ -46,6 +46,7 @@ const handleRequest = async ctx => {
   const clientManifestResp = await axios.get(
     'http://localhost:8080/vue-ssr-client-manifest.json'
   )
+
   const clientManifest = clientManifestResp.data
 
   const renderer = createBundleRenderer(bundle, {

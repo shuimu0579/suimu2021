@@ -38,7 +38,7 @@
 
 - (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
 
-- (TODO!!!)dataPromise 在组件中怎么使用？参考那个 demo
+- (TODO!!!)怎么设置favicon.ico图标
 
 - (TODO!!!)预取数据时cookie穿透的问题。
 在服务器端asyncData预取数据时，不会把客户端请求中的cookie带上，所以需要手动将客户端中的cookie在预取数据时加到请求头部。
