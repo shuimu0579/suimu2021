@@ -34,7 +34,95 @@
 
 - 客户端配置 (Client Config)，生成 clientManifest(也就是 vue-ssr-client-manifest.json)。
 
+
+## [重要的！！！]
+
+- 每次引入新页面的时候，一定要在main.js的components里面引入Index(如果页面组件Index里面引入了ContactTips，一定也要引入ContactTips)，不然就会发生`document is not defined`的错误
+
+```js
+export function createApp() {
+  const router = createRouter()
+  const store = createStore()
+
+  // 同步路由状态(route state)到 store
+  sync(store, router)
+
+  const app = new Vue({
+    components: {
+      Empty,
+      Header,
+      Footer,
+      ContactTips, //引入Index页面用到的组件
+
+      Index, //引入页面
+      ContactUs,
+    },
+    router,
+    store,
+    render: h => h(App),
+  })
+  return { app, router, store }
+}
+```
+
+- 在引入新页面的时候，也要写记得在新页面里面加上metaInfo函数,不然`meta.text()`可能是defined。
+
+```js
+// server.js
+
+// router.get(':splat*', handleRequest) // 用':splat*' 替代 ‘*’  这样操作貌似不行，需要下面这样显式的确定需要SSR的路由
+//重要！！！ 哪些页面需要 走SSR 都在这里面定义-- 这样就能做到SSR渲染特定的页面, 爬虫也能够只爬取特定的页面
+router.get('/', handleRequest)
+router.get('/contact', handleRequest)
+```
+
+```js
+//比如根目录采用了SSR, 那么就要在Index里面添加metaInfo函数
+<template>
+  <div>
+    <div>id: {{ item.id }}</div>
+    <div>name: {{ item.name }}</div>
+  </div>
+</template>
+<script>
+export default {
+  asyncData({ store, route }) {
+    console.log('store...', store)
+    console.log('route...', route)
+    // 触发 action 后，会返回 Promise
+    return store.dispatch('testModule/fetchItems', route.query.id || 1)
+  },
+  computed: {
+    // 从 store 的 state 对象中的获取 item。
+    item() {
+      const { item } = this.$store.state.testModule
+      return item
+    },
+  },
+  // ！！ 只要运用了vue-meta的页面 首先要添加以下代码
+  metaInfo() {
+    const title = 'Index'
+    return {
+      title,
+      meta: [
+        { name: 'description', content: title },
+        { name: 'keywords', content: title },
+      ],
+    }
+  }
+}
+</script>
+
+<style scoped></style>
+```
+
+- 正常引入elementUI是没有问题的，不会引起`document is not defined`的错误。有错误肯定是别的引起的，不是elementUI的锅
+
+- 本地代码中有`window`、`document`、`sessionStorage`、`localStorage`的，需要加上`typeof XXX === 'object'`的判断，不然就会报错 ，类似`document is not defined`
+
 ## 问题分析
+
+
 
 - (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
 
