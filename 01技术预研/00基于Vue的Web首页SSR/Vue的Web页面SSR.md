@@ -34,8 +34,43 @@
 
 - 客户端配置 (Client Config)，生成 clientManifest(也就是 vue-ssr-client-manifest.json)。
 
-
 ## [重要的！！！]
+
+- 如果要在Home.vue里面的子组件Header.vue里面使用`asyncData`的话,那么必须在`childred里面加上Header.vue的路由配配置`,不然`router.getMatchedComponents()`根本捕获不到`Header.vue`里面定义的`asyncData`
+
+```js
+// router.js
+// 错误的示例
+{
+    path: "/",
+    name: "home",
+    meta: {
+        isAuth: false,
+    },
+    component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue"),
+},
+
+```
+
+```js
+// router.js
+//正确的示例
+{
+        path: "/",
+        name: "home",
+        meta: {
+            isAuth: false,
+        },
+        component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue"),
+        children: [  // childred里面加上Header.vue的路由配配置
+            {
+                path: "",
+                component: () => import(/* webpackChunkName: "home" */ "../../components/layout/Header.vue"),
+            },
+        ],
+    },
+```
+  
 
 - 每次引入新页面的时候，一定要在main.js的components里面引入Index(如果页面组件Index里面引入了ContactTips，一定也要引入ContactTips)，不然就会发生`document is not defined`的错误
 
@@ -119,6 +154,9 @@ export default {
 - 正常引入elementUI是没有问题的，不会引起`document is not defined`的错误。有错误肯定是别的引起的，不是elementUI的锅
 
 - 本地代码中有`window`、`document`、`sessionStorage`、`localStorage`的，需要加上`typeof XXX === 'object'`的判断，不然就会报错 ，类似`document is not defined`
+
+
+
 
 ## 问题分析
 
