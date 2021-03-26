@@ -36,6 +36,10 @@
 
 ## [重要的！！！]
 
+- 在SSR的时候，`el-tab-pane`与`v-for`无法一起使用，不然的话， SSR的html里面没有数据。正确的做法是：`<div v-for=''></div>`
+
+- 在SSR调用接口的时候， 接口地址一定要写全面，`http://172.168.23:8080/test`  不然node里面无法调用接口,也就是接口报错
+
 - 如果要在Home.vue里面的子组件Header.vue里面使用`asyncData`的话,那么必须在`childred里面加上Header.vue的路由配配置`,不然`router.getMatchedComponents()`根本捕获不到`Header.vue`里面定义的`asyncData`
 
 ```js
