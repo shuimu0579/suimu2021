@@ -3,7 +3,7 @@ const path = require('path')
 const Router = require('koa-router')
 const send = require('koa-send')
 const router = new Router()
-const LRU = require('lru-cache') //不需要放在package.json里面，但是需要在本地npm install
+const LRU = require('lru-cache')
 
 const microCache = new LRU({
   max: 100, // 最大缓存的数目
@@ -27,16 +27,22 @@ const clientManifest = require(resolve('../dist/vue-ssr-client-manifest.json'))
 
 const renderer = createBundleRenderer(bundle, {
   runInNewContext: false,
-  template: fs.readFileSync(resolve('../src/index.temp.html'), 'utf-8'),
+  template: fs.readFileSync(
+    resolve('../src/projects/yundeePlatform/index.temp.html'),
+    'utf-8'
+  ),
   clientManifest: clientManifest,
+  // directives: {
+  //     example(vnode, directiveMeta) {
+  //         // 基于指令绑定元数据(metadata)转换 vnode
+  //     },
+  // },
 })
 
 function renderToString(context) {
   return new Promise((resolve, reject) => {
     renderer.renderToString(context, (err, html) => {
-      const { title, meta } = context.meta.inject()
-      console.log('html...', html)
-      console.log('title...', title)
+      const { title, meta } = context.meta && context.meta.inject()
       console.log('meta...', meta)
       console.log('meta.text()...', meta.text())
 
@@ -74,9 +80,12 @@ const handleRequest = async (ctx, next) => {
   ctx.body = html
 }
 
-// router.get(':splat*', handleRequest) // 用':splat*' 替代 ‘*’  这样操作貌似不行，需要下面这样显式的确定需要SSR的路由
-//重要！！！ 哪些页面需要 走SSR 都在这里面定义-- 这样就能做到SSR渲染特定的页面, 爬虫也能够只爬取特定的页面
-router.get('/', handleRequest)
-router.get('/contact', handleRequest)
+// router.get("*", handleRequest);  这样有问题，需要get(":splat*"
+router.get(':splat*', handleRequest)
+
+// router.get("/", handleRequest);
+router.get('/supplychain', handleRequest)
+// router.get("/test", handleRequest);
+// router.get("/testId", handleRequest);
 
 module.exports = router
