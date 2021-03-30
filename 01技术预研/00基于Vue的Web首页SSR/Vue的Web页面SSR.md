@@ -36,9 +36,17 @@
 
 ## [重要的！！！]
 
-- 在SSR的时候，`router.getMatchedComponents()`只能获取到页面组件(Home.vue)的路由，获取不到页面组件里面的子组件(DemandComponent.vue)的路由，所以`asyncData`在`DemandComponent`里面设置是无效的，所以`asyncData`只能在页面组件(Home.vue)里面设置。那么纸组件怎么获得数据呢？ 通过props从页面组件(Home.vue)将数据传递下来，直到子组件(DemandComponent.vue)。
+- 如果想在除了Home页面增加SSR ,还想在SupplyChain页面里面增加SSR的话，就需要在server.js 里面增添`router.get("/supplychain", handleRequest)`
 
-- 在SSR的时候，`el-tab-pane`与`v-for`无法一起使用，不然的话， SSR的html里面没有数据。正确的做法是：`<div v-for=''></div>`
+```js
+router.get(":splat*", handleRequest);
+// router.get("/", handleRequest);
+router.get("/supplychain", handleRequest); // add SupplyChain SSR
+```
+
+- element-ui 中 el-tab el-tab-pane 这个组件的使用时没有问题的，所以没出效果是别的地方出问题了，上述组件本身是没有问题的。
+
+- 在SSR的时候，`router.getMatchedComponents()`只能获取到页面组件(Home.vue)的路由，获取不到页面组件里面的子组件(DemandComponent.vue)的路由，所以`asyncData`在`DemandComponent`里面设置是无效的，所以`asyncData`只能在页面组件(Home.vue)里面设置。那么纸组件怎么获得数据呢？ 通过props从页面组件(Home.vue)将数据传递下来，直到子组件(DemandComponent.vue)。
 
 - 在SSR调用接口的时候， 接口地址一定要写全面，`http://172.168.23:8080/test`  不然node里面无法调用接口,也就是接口报错
 

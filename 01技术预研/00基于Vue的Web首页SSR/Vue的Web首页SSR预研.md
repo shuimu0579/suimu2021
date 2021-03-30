@@ -24,3 +24,11 @@
 - 参考文档：
 - [使用 Vue 完成 SSR 的官方 DEMO](https://github.com/vuejs/vue-hackernews-2.0/)
 - [Vue 服务端渲染实践 ——Web 应用首屏耗时最优化方案](https://segmentfault.com/a/1190000018577041)
+
+## 使用SSR预研成功的标志（这三点没有都满足的话，就容易有坑）
+
+> 参考DEMO:
+
+- Home首页中 `各个子组件` 通过调用api数据，挂载到store 能够成功。
+- 除了Home首页的渲染，其他`特定宣传页`(和Home页面同级)也要渲染成功。
+- 用meta-vue做TDK动态配置，需要做到随页面的不同而不同，也就是动态配置。
