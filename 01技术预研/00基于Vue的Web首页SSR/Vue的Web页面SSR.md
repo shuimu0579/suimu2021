@@ -173,23 +173,6 @@ export default {
 
 ## 问题分析
 
-
-
-- (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
-
-- (TODO!!!)怎么设置favicon.ico图标
-
-- (TODO!!!)预取数据时cookie穿透的问题。
-在服务器端asyncData预取数据时，不会把客户端请求中的cookie带上，所以需要手动将客户端中的cookie在预取数据时加到请求头部。
-
-- (TODO!!!)部署方案的实现：
-
-  - 为了解决以上提到的一些问题 。我们引入了新的技术方案 。
-    Docker ：容器技术 。轻量级 、 快速的 ”虚拟化“ 方案。
-    Kubernetes ：容器编排方案
-    使用 Docker 接入整个开发 、 生产 、 打包流程 ， 保证各运行环境一致 。
-  - 使用 Kubernetes 作为容器编排方案。
-
 - [DONE!!!]head 标签里面的 meta 标签，其中的 keywords 和 description 怎么动态设置，以利于 SEO？ 可以参考 [Vue2 SSR 渲染, 如何根据不同页面修改 meta?](https://www.mmxiaowu.com/article/585005b24b8f0c283f7ce0d1) 或者 [https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips](https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips)
 
 ```js
@@ -250,3 +233,20 @@ router.get('/contact', handleRequest)
 ```
 
 - [DONE!!!]调用 API 返回的异步数据，怎么和没有数据的 HTNL 静态文件绑定？**SSR 目录**这个 demo 项目中没有加上 store,需要补上！需要参考给的 DEMO 预研清楚, 看看是否需要 npm install `vuex`、`vuex-router-sync`, 这两个包需要与 vue 的版本相匹配-- 使用状态管理工具 vuex。具体操作如下：在服务器端，我们可以在渲染之前预取数据，并将数据填充到 store 中。此外，我们将在 HTML 中序列化(serialize)和内联预置(inline)状态。这样，在挂载(mount)到客户端应用程序之前，可以直接从 store 获取到内联预置(inline)状态。
+
+- (TODO!!!)SSR首屏加载耗时分析
+
+- (TODO!!!)dev.ssr.js 里面的`http://localhost:8080/vue-ssr-client-manifest.json`，为什么在 http://localhost:8080/ （也就是本机） 可以获取到 vue-ssr-client-manifest.json？
+
+- (TODO!!!)怎么设置favicon.ico图标
+
+- (TODO!!!)预取数据时cookie穿透的问题。
+在服务器端asyncData预取数据时，不会把客户端请求中的cookie带上，所以需要手动将客户端中的cookie在预取数据时加到请求头部。
+
+- (TODO!!!)部署方案的实现：
+
+  - 为了解决以上提到的一些问题 。我们引入了新的技术方案 。
+    Docker ：容器技术 。轻量级 、 快速的 ”虚拟化“ 方案。
+    Kubernetes ：容器编排方案
+    使用 Docker 接入整个开发 、 生产 、 打包流程 ， 保证各运行环境一致 。
+  - 使用 Kubernetes 作为容器编排方案。
