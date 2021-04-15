@@ -169,7 +169,7 @@ export default {
 
 - 本地代码中有`window`、`document`、`sessionStorage`、`localStorage`的，需要加上`typeof XXX === 'object'`的判断，不然就会报错 ，类似`document is not defined`
 
-- SSR渲染的组件里面，不能出现`v-show` 等指令，还有`自定义指令`也不能出现，这些指令都会操作DOM元素，在走SSR渲染的时候就会报错，SSR流程进行不下去（只是`v-if`貌似可以出现）。使`visibility: visible`和`visibility: hidden`，同时采用鼠标划入划出事件，来控制 dom的显示或隐藏。
+- SSR渲染的组件里面，不能出现`v-show` 等指令，还有`自定义指令`也不能出现，这些指令都会操作DOM元素，在走SSR渲染的时候就会报错，SSR流程进行不下去（只是`v-if`貌似可以出现）。使`visibility: visible`和`visibility: hidden`，同时采用鼠标划入划出事件，来控制 dom的显示或隐藏。(el-dropdown组件里面可以使用v-show 却不能使用v-if 有点奇怪！！！)
 
 ## 问题分析
 
