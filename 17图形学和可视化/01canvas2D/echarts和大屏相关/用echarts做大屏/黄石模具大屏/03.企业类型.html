@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: DINCondBold;
+        /*这里是说明调用来的字体名字*/
+        src: url("./DINCond-Bold.otf");
+        /*这里是字体文件路径*/
+      }
+    </style>
+  </head>
+
+  <body style="height: 100%; margin: 0">
+    <div
+      id="enterprise-type-container"
+      style="
+        width: 475px;
+        min-width: 475px;
+        height: 190px;
+        background-color: #030612;
+      "
+    ></div>
+    <script type="text/javascript" src="./echarts.min.js"></script>
+    <script type="text/javascript">
+      // var seriesData = [];
+      // var initData = [];
+      // var othersData = [];
+
+      // var currentBlock = null;
+      // for (var i = 0; i < $Report.viewBlocks.count; i++) {
+      //   if ($Report.viewBlocks.item(i).blockName == "垂直表_机型分布") {
+      //     currentBlock = $Report.viewBlocks.item(i);
+      //   }
+      // }
+      // var arr = [];
+      // for (var i = 0; i < currentBlock.blockDataToDraw.length; i++) {
+      //   var obj = {};
+      //   var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
+      //   obj.name =
+      //     currentBlock.blockDataToDraw[i][
+      //       viewTableRow.viewTableCells.item(0).cellObject[0] +
+      //         "___" +
+      //         viewTableRow.viewTableCells.item(0).cellObject[1]
+      //     ];
+      //   obj.value =
+      //     currentBlock.blockDataToDraw[i][
+      //       viewTableRow.viewTableCells.item(1).cellObject[0] +
+      //         "___" +
+      //         viewTableRow.viewTableCells.item(1).cellObject[1]
+      //     ];
+      //   arr.push(obj);
+      // }
+      let datas = [
+        {
+          value: 180,
+          name: "挤出",
+        },
+        {
+          value: 220,
+          name: "注塑",
+        },
+        {
+          value: 600,
+          name: "冲压",
+        },
+      ];
+      
+
+      var dom = document.getElementById("enterprise-type-container");
+      var myChart = echarts.init(dom);
+      var scale = 1; //用 $BDA.defaultRatio 替换 scale
+      var colors = [
+        {
+          type: "linear",
+          x: 0,
+          y: 0,
+          x2: 1,
+          y2: 0,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#0A4F58", // 0% 处的颜色
+            },
+            {
+              offset: 1,
+              color: "#23C2A6", // 100% 处的颜色
+            },
+          ],
+        },
+        {
+          type: "linear",
+          x: 0,
+          y: 0,
+          x2: 1,
+          y2: 0,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#D4771D", // 0% 处的颜色
+            },
+            {
+              offset: 1,
+              color: "#D1BE31", // 100% 处的颜色
+            },
+          ],
+        },
+        {
+          type: "linear",
+          x: 0,
+          y: 0,
+          x2: 1,
+          y2: 0,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#2A48C7", // 0% 处的颜色
+            },
+            {
+              offset: 1,
+              color: "#55ACFB", // 100% 处的颜色
+            },
+          ],
+        },
+      ];
+      var totalCount = datas.reduce((accumulator, currentValue) => {
+          return Number(accumulator) + Number(currentValue.value)
+      }, 0)
+
+      let legendData = [];
+      for (var j = 0; j < datas.length; j++) {
+        var data = {
+          name: datas[j].name,
+          icon: "circle",
+          textStyle: {
+            fontSize: 18 * scale,
+            color: colors[j],
+          },
+        };
+        legendData.push(data);
+      }
+      let objData = array2obj(datas, "name");
+      console.log(objData);
+      
+      var option;
+      option = {
+        legend: {
+          orient: "vertical",
+          top: 50  * scale,
+          left: 240  * scale,
+          itemGap: 20  * scale,
+          itemHeight: 10 * scale, //修改icon图形大小
+          data: legendData,
+          formatter: function (name) {
+            return `{title|${name}}{percent|${(Number(objData[name].value)*100/totalCount).toFixed(2)}}{unit|%}{value|${objData[name].value}}{unit|家}`;
+          },
+          textStyle: {
+            rich: {
+              title: {
+                color: "#82baff",
+                fontSize: 14  * scale,
+                fontWeight: 600,
+                fontFamily: "Microsoft YaHei",
+                padding: [0 * scale, 0 * scale, 0 * scale, 20 * scale],
+              },
+              percent: {
+                color: "#82baff",
+                fontSize: 14 * scale,
+                fontWeight: 600,
+                fontFamily: "DINCondBold",
+                padding: [0 * scale, 0 * scale, 0 * scale, 20 * scale],
+              },
+              unit: {
+                color: "#82baff",
+                fontSize: 14 * scale,
+                fontWeight: 600,
+                fontFamily: "DINCondBold",
+                padding: [0 * scale, 5 * scale, 0 * scale, 0 * scale],
+              },
+              value: {
+                color: "#82baff",
+                fontSize: 14 * scale,
+                fontWeight: 600,
+                fontFamily: "DINCondBold",
+                padding: [0 * scale, 0 * scale, 0 * scale, 20 * scale],
+              },
+            },
+          },
+        },
+        color: colors,
+        series: [
+          {
+            name: "访问来源",
+            type: "pie",
+            radius: 70  * scale,
+            center: [120 * scale, 100 * scale],
+            label: {
+              show: false,
+              fontSize: 18 * scale,
+            },
+            data: datas,
+            // roseType: "radius",
+            animationType: "scale",
+            animationEasing: "elasticOut",
+            animationDelay: function (idx) {
+              return Math.random() * 200;
+            },
+            itemStyle: {
+              normal: {
+                shadowColor: "rgba(0, 0, 0, 0.6)",
+                shadowBlur: 50 * scale,
+              },
+            },
+          },
+        ],
+      };
+      function array2obj(array, key) {
+        var resObj = {};
+        for (var i = 0; i < array.length; i++) {
+          resObj[array[i][key]] = array[i];
+        }
+        return resObj;
+      }
+
+      // 3、自动高亮展示
+      var charPie3currentIndex = 0;
+      var chartHover = function () {
+        var dataLen = option.series[0].data.length;
+        // 取消之前高亮的图形
+        myChart.dispatchAction({
+          type: "downplay",
+          seriesIndex: 0,
+          dataIndex: charPie3currentIndex,
+        });
+        charPie3currentIndex = (charPie3currentIndex + 1) % dataLen;
+        // 高亮当前图形
+        myChart.dispatchAction({
+          type: "highlight",
+          seriesIndex: 0,
+          dataIndex: charPie3currentIndex,
+        });
+      };
+      setInterval(chartHover, 2000);
+
+      if (option && typeof option === "object") {
+        myChart.setOption(option);
+      }
+    </script>
+  </body>
+</html>

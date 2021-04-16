@@ -1,0 +1,612 @@
+<style>
+    .echarts-word-map {
+        width: 100%;
+        height: 100%;
+    }
+    </style>
+    <div class="echarts-word-map" id="echarts-word-map" ></div>
+    <script src="/Report/resource/report/custom/js/huangshi03.js"></script>
+    <script src="/Report/resource/report/custom/js/TweenMax.min.js"></script>
+    <script src="/Report/resource/report/custom/js/easeljs.min.js"></script>
+    <script>
+    var mapChart = echarts.init($(".echarts-word-map")[0]);
+    var mapTimer;
+    var myData = [];
+
+    var typeOfMyData = []; //数据展示 名称 与 单位
+
+    var sumData = 0;
+    var currentBlock;
+
+    //获取模块数据信息
+    for(var i = 0; i < $Report.viewBlocks.count; i++){
+        // if($Report.viewBlocks.item(i).blockName == "块13"){
+        if($Report.viewBlocks.item(i).blockName == "块22"){
+            currentBlock= $Report.viewBlocks.item(i);
+            break;
+        }
+    }
+    //处理 数据信息 ， myData 为 数据存储, typeOfMyData 为 数据名称 以及 单位
+    for(var i = 0; i < currentBlock.blockDataToDraw.length; i++){
+        let item = currentBlock.blockDataToDraw[i];
+        var obj = {};
+
+        var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
+        obj.name = currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(0).cellObject[0]+'___'+viewTableRow.viewTableCells.item(0).cellObject[1]];
+
+        obj.value = [
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(4).cellObject[0]+'___'+viewTableRow.viewTableCells.item(4).cellObject[1]],
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(5).cellObject[0]+'___'+viewTableRow.viewTableCells.item(5).cellObject[1]],
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(1).cellObject[0]+'___'+viewTableRow.viewTableCells.item(1).cellObject[1]],
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(2).cellObject[0]+'___'+viewTableRow.viewTableCells.item(2).cellObject[1]],
+            currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(3).cellObject[0]+'___'+viewTableRow.viewTableCells.item(3).cellObject[1]]
+        ];
+        typeOfMyData=[
+                {
+                    typeName: getTypeName(viewTableRow.viewTableCells.item(4).cellObject[1]),
+                    unit: getTypeUnit(viewTableRow.viewTableCells.item(4).cellObject[1]),
+                },
+                {
+                    typeName: getTypeName(viewTableRow.viewTableCells.item(5).cellObject[1]),
+                    unit: getTypeUnit(viewTableRow.viewTableCells.item(5).cellObject[1]),
+                },
+                {
+                    typeName: getTypeName(viewTableRow.viewTableCells.item(1).cellObject[1]),
+                    unit: getTypeUnit(viewTableRow.viewTableCells.item(1).cellObject[1]),
+                },
+                {
+                    typeName: getTypeName(viewTableRow.viewTableCells.item(2).cellObject[1]),
+                    unit: getTypeUnit(viewTableRow.viewTableCells.item(2).cellObject[1]),
+                },
+                {
+                    typeName: getTypeName(viewTableRow.viewTableCells.item(3).cellObject[1]),
+                    unit: getTypeUnit(viewTableRow.viewTableCells.item(3).cellObject[1]),
+                },
+        ]
+
+        obj.typeOfMyData = typeOfMyData;
+        sumData += currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(3).cellObject[0]+'___'+viewTableRow.viewTableCells.item(3).cellObject[1]];
+        myData.push(obj);
+    }
+    //获取数据名称
+    function getTypeName(data){
+        let str = data;
+        if(data.indexOf('(') !== -1){
+            return str.split('(')[0];
+        }else{
+            return str
+        }
+        return
+    }
+    //获取数据单位 若 不存在 xxx('单位')此类形式，则返回原字段
+    function getTypeUnit(data){
+        let str = data
+        if(data.indexOf('(') !== -1){
+            return str.split('(')[1].split(')')[0];
+        }else{
+            return str
+        }
+    }
+    var left = false, vTop = false, priority = 'top';
+    
+    var mapLeft=200*$BDA.defaultRatio;
+    var mapTop=50*$BDA.defaultRatio;
+
+    // 自定义tooltip配置属性
+    var config = {
+        ecBoxId: 'echarts-word-map',
+        lineColor: 'rgba(255,255,255,1)',
+        L1: {
+            time: 0.3,
+            long: 40
+        },
+        L2: {
+            time: 0.3,
+            long: 40
+        },
+        text: {
+            time: 0.5,
+            text: '',
+            font: 18*$BDA.defaultRatio+'px Arial',
+            color: 'rgba(255,255,255,1)',
+            padding: [20*$BDA.defaultRatio, 20*$BDA.defaultRatio],
+            width: 260*$BDA.defaultRatio,
+            height: 220*$BDA.defaultRatio,
+            lineHeight: 30*$BDA.defaultRatio,
+            backgroundColor: 'rgba(50, 50, 50, 0.8)'
+        }
+    }
+
+    var option = {
+        backgroundColor: 'transparent',
+        xAxis: {
+            type:'value',
+            show:false,
+            min:0,
+            max:100,
+            position:'top',
+            rotate: 50
+        },
+        yAxis: {
+            type:'value',
+            show:false,
+            min:0,
+            max:100,
+            inverse:true
+        },
+        tooltip : {
+            trigger: 'item',
+            triggerOn: 'click',
+            backgroundColor: 'transparent',
+            alwaysShowContent: true,
+            position: function(pos) {
+                let position = getPosOrSize('pos', pos)
+                return position
+            },
+            formatter: function(params,p,a) {
+                console.log('params',params);
+                console.log('p---------',p);
+                console.log('a---------',a);
+
+                canvasAnimation(params)
+                let size = getPosOrSize('size')
+                let tooltipDom = '<canvas id="tCanvas" width="'+size.width+'" height="'+size.height+'"></canvas>';
+                return tooltipDom
+                // return `<div></div>`
+            }
+        },
+        geo:{
+            map: 'huangshi',
+            label: {
+                color: 'rgba(253,108,106,1)',
+                normal: {
+                    show: false,
+                    color: '#A5E6FF',
+                    fontSize: 22*$BDA.defaultRatio,
+                    // textShadowColor: '#000000',
+                    textShadowBlur: 3,
+                    textShadowOffsetX: 3,
+                    textShadowOffsetY: 3
+                },
+                emphasis: {
+                    show: false,
+                    color: '#A5E6FF',
+                    textShadowColor: 'rgba(0,0,0,.8)'
+                }
+            },
+            zoom: 1,
+            zlevel: 97,
+            roam: false,
+            itemStyle: {
+                normal: {
+                    areaColor: '#1E3273',
+                    borderColor: 'rgba(151,184,239,1)',
+                    borderWidth: 1
+                },
+                emphasis: {
+                    // areaColor: 'transparent',
+                    areaColor: '#1E3273',
+                    borderColor: 'rgba(151,184,239,1)',
+                    borderWidth: 1
+                }
+            },
+            regions: [      //对不同的区块进行着色
+                        {
+                        name: '大冶市', //区块名称
+                        itemStyle: {
+                            normal: {
+                                areaColor: '#2E4796'
+                            },
+                            emphasis: {
+                                areaColor: '#2E4796'
+                            }
+                        }
+                    }
+                ],
+            top: 85,
+            layoutSize: 200,
+            aspectScale: 1,
+        },
+        series:[
+        {
+                type: 'effectScatter',
+                coordinateSystem: 'geo',
+                zlevel: 98,
+                // symbolSize: function(val){
+                //     console.log('value123123',val);
+                //     return val[2] * 80*$BDA.defaultRatio /sumData
+                // },
+                symbolSize:5,
+                showEffectOn: 'render',
+                hoverAnimation: true,
+                // rippleEffect: {
+                //     brushType: 'fill',
+                //     scale: 5,
+                //     period: 8
+                // },
+                itemStyle: {
+                    normal: {
+                        show: false,
+                        // color: 'rgba(0,255,0,1)',
+                        color: '#fff294',
+                        areaColor: '#1E3273'
+                    },
+                },
+                
+                // data:[
+                //     {
+                //         name:'黄石港区',
+                //         value:[
+                //             115.090164,
+                //             30.212086,
+                //             66
+                //         ]
+                //     },
+                //     {
+                //         name:'西塞山区',
+                //         value:[
+                //             115.093354,
+                //             30.205365,
+                //             66
+                //         ]
+                //     },
+                //     {
+                //         name:'下陆区',
+                //         value:[
+                //             114.975755,
+                //             30.177845,
+                //             66
+                //         ]
+                //     },
+                //     {
+                //         name:'铁山区',
+                //         value:[
+                //             114.901366,
+                //             30.20601,
+                //             66
+                //         ]
+                //     },
+                //     {
+                //         name:'阳新县',
+                //         value:[
+                //             115.212883,
+                //             29.841572,
+                //             66
+                //         ]
+                //     },
+                //     {
+                //         name:'大冶市',
+                //         value:[
+                //             114.974842,
+                //             30.098804,
+                //             66
+                //         ]
+                //     },
+                // ],
+                data:myData
+            },
+            {
+                type:'map',
+                map: 'huangshi',
+                zoom: 1,
+                zlevel: 96,
+                top: 90,
+                // left: mapLeft,
+                aspectScale: 1,
+                label: {
+                    emphasis: {
+                        show: false
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        areaColor: 'rgba(46,71,150,0.5)', 
+                        borderColor: 'rgba(156,178,239,0.5)',
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        areaColor: 'rgba(46,71,150,0.5)',
+                        borderColor: 'rgba(156,178,239,0.5)',
+                        borderWidth: 1
+                    }
+                },
+            },
+            {
+                type:'map',
+                map: 'huangshi',
+                zoom: 1.1,
+                zlevel: 94,
+                top: 95,
+                // left: mapLeft,
+                aspectScale: 1,
+                label: {
+                    emphasis: {
+                        show: false
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        areaColor: 'rgba(11,51,108,0.5)', 
+                        borderColor: 'rgba(40,83,145,0.5)',
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        areaColor: 'rgba(11,51,108,0.5)', 
+                        borderColor: 'rgba(40,83,145,0.5)',
+                        borderWidth: 1
+                    }
+                },
+            },
+            // {
+            //     type:'map',
+            //     map: 'huangshi',
+            //     zoom: 1,
+            //     zlevel: 2,
+            //     top: 30,
+            //     // left: mapLeft,
+            //     aspectScale: 1,
+            //     label: {
+            //         emphasis: {
+            //             show: false
+            //         }
+            //     },
+            //     itemStyle: {
+            //         normal: {
+            //             areaColor: 'rgba(8,31,71,0.5)', 
+            //             borderColor: 'rgba(25,45,85,1)',
+            //             borderWidth: 1
+            //         },
+            //         emphasis: {
+            //             areaColor: 'rgba(8,31,71,0.5)', 
+            //             borderColor: 'rgba(25,45,85,1)',
+            //             borderWidth: 1
+            //         }
+            //     },
+            // },
+        ]
+    };
+    mapChart.setOption(option);
+    
+    // mapChart.on('click',function(params){
+    //     var tableCell = currentBlock.viewTableBody.viewTableRows.item(0).viewTableCells.item(0);
+    //     var reportLink = tableCell.reportLink;
+    //     var name = params.name;
+    //     var filterObj = {
+    //         selectedValues : [name],
+    //         prompt : reportLink.reportLinkFilters[0].prompt  
+    //     };
+    //     var linkFilters = [filterObj];
+    //     var linkFilters_base64 = " "+linkFiltersParameters(linkFilters);
+    //     var url = ajaxTools.basePath + '/Report/report_front_end/jsp/report.jsp' + '?' + 'token=' + ajaxTools.authorization +'&reportID=' +reportLink.reportID + '&deviceTypeID='+ ajaxTools.deviceTypeID+ '&themeID='+ $BDA.theme.themeID + (linkFilters_base64?('&parameters=' + linkFilters_base64):'') + '&queryTimeOut=' + ajaxTools.queryTimeOut;
+    //     if(window.parent){
+    //         window.parent.linkReport(url);
+    //     }else{
+    //         window.location.href = url;
+    //     }
+    // });
+    
+    function linkFiltersParameters(linkFilters){
+        var parameters = {};
+        var base64 = new $BDA.Base64();
+        $.each(linkFilters , function(){
+            parameters[this.prompt] = this.selectedValues;
+        });
+        return encodeURI(JSON.stringify(parameters));
+    }
+    
+    var canvasAnimation = function(params){
+        setTimeout(function() {
+            let typeOfMyData = params.data.typeOfMyData;
+            let value = params.data.value;
+            let typeName2 = typeOfMyData[2].typeName?typeOfMyData[2].typeName:'', 
+                unit2 = typeOfMyData[2].unit?typeOfMyData[2].unit:'' , 
+                typeName3= typeOfMyData[3].unit?typeOfMyData[3].typeName:'', 
+                unit3= typeOfMyData[3].unit?typeOfMyData[3].unit:'', 
+                typeName4= typeOfMyData[4].unit?typeOfMyData[4].typeName:'', 
+                unit4= typeOfMyData[4].unit?typeOfMyData[4].unit:''
+            config.text.text = params.name+'\n'+`${typeName2}：`+value[2]+'  '+`${unit2}`+'\n'+`${typeName3}：`+value[3]+'  '+`${unit3}`+'\n'+`${typeName4}：`+value[4]+'  '+`${unit4}`;
+            new myTooltip('tCanvas', config)
+        }, 0);
+    }
+    
+    // 计算tooltip位置
+    var getPosOrSize = function(type, point){
+        let x1 = config.L1.long * Math.sin(Math.PI / 4)
+        let width = x1 + config.L2.long + config.text.width,
+            height = x1 + config.text.height / 2
+        if (type === 'size') {
+            config.width = width
+            config.height = height
+            return {
+                'width': width,
+                'height':height
+            }
+        } else {
+            let box = document.getElementById(config.ecBoxId),
+                bw = box.offsetWidth,
+                bh = box.offsetHeight,
+                x = point[0],
+                y = point[1]
+            left = false
+            if (x + width >= bw / 1.2) {
+                x = x - width - 5
+                left = true
+            }
+            if (priority === 'top') {
+                // L1向上
+                vTop = true
+                y = y - height - 5
+                if (y <= 0) {
+                    y = point[1]
+                    vTop = false
+                }
+                return [x, y]
+            } else {
+                vTop = false
+                if (y + height >= bh) {
+                    y = y - height - 5
+                    vTop = true
+                }
+                return [x, y]
+            }
+        }
+    }
+    
+    function myTooltip(id, config){
+        this.config = config
+        this.totalTime = 0
+        this.stage = new createjs.Stage(id)
+        this.timeline = new TimelineMax({repeat: 0})
+        this.g = new createjs.Graphics()
+        this.lineShape = new createjs.Shape(this.g)
+        this.textShape = new createjs.Shape()
+        this.stage.addChild(this.lineShape, this.textShape)
+        this.init()
+        this.begin()
+        this.update()
+    }
+    myTooltip.prototype.init = function(){
+        this.start = [0, 0]
+        if (left) {
+            this.start[0] = this.config.width 
+        }
+        if (vTop) {
+            this.start[1] = this.config.height
+        }
+    }
+    myTooltip.prototype.begin = function(){
+        this.L1()
+        this.L2()
+        this.addText()
+    }
+    myTooltip.prototype.L1 = function(){
+        let me = this
+            let c = me.config
+            let tl = new TimelineMax()
+            let scale = {s: 0},
+            x = c.L1.long * Math.sin(Math.PI / 4)
+            if (left) {
+                if (vTop) {
+                    this.L1End = [me.start[0] - x, me.start[1] - x]
+                } else {
+                    this.L1End = [me.start[0] - x, me.start[1] + x]
+                }
+            } else {
+                if (vTop) {
+                    this.L1End = [x, me.start[1] - x]
+                } else {
+                    this.L1End = [x, x]
+                }
+            }
+            
+            tl.to(scale, c.L1.time, {
+                s: 1,
+                onUpdate: function() {
+                    let s = scale.s
+                    if (left) {
+                        if (vTop) {
+                            me.g.c().s(c.lineColor).mt(me.start[0],me.start[1]).lt(me.start[0] - x * s, me.start[1] - x * s)
+                        } else {
+                            me.g.c().s(c.lineColor).mt(me.start[0],me.start[1]).lt(me.start[0] - x * s, me.start[1] + x * s)
+                        }
+                    } else {
+                        if (vTop) {
+                            me.g.c().s(c.lineColor).mt(me.start[0],me.start[1]).lt(x * s, me.start[1] - x * s)
+                        } else {
+                            me.g.c().s(c.lineColor).mt(me.start[0],me.start[1]).lt(x * s, x * s)
+                        }
+                    }
+                    me.update()
+                }
+            })
+            this.timeline.add(tl, this.totalTime)
+            this.totalTime += c.L1.time
+    }
+    myTooltip.prototype.L2 = function(){
+        // 只跟左右有关，只判断left
+        let me = this
+            let c = me.config
+            let tl = new TimelineMax()
+            let scale = {s: 0}
+            tl.to(scale, c.L2.time, {
+                s: 1,
+                onUpdate: function() {
+                    let s = scale.s
+                    if (left) {
+                        me.g.c().s(c.lineColor).mt(me.start[0],me.start[1]).lt(me.L1End[0],me.L1End[1]).lt(me.L1End[0] - c.L2.long * s, me.L1End[1])
+                    } else {
+                        me.g.c().s(c.lineColor).mt(me.start[0],me.start[1]).lt(me.L1End[0],me.L1End[1]).lt(me.L1End[0] + c.L2.long * s, me.L1End[1])
+                    }
+                    me.update()
+                }
+            })
+            this.timeline.add(tl, this.totalTime)
+            this.totalTime += c.L2.time
+    }
+    myTooltip.prototype.addText = function(){
+        // text框只与L2end有关，只需判断left即可，top不影响
+        let me = this
+        let c = me.config
+        let tl = new TimelineMax()
+        let scale = {s: 0},
+            L2End = [me.L1End[0] + c.L2.long, me.L1End[1]]
+        if (left) {
+            L2End = [me.L1End[0] - c.L2.long, me.L1End[1]]
+        }
+        tl.to(scale, c.text.time, {
+            s: 1,
+            onStart: function() {
+                let x = 0, y = 0
+                if (left) {
+                    x = L2End[0] - c.text.width
+                } else {
+                    x = L2End[0]
+                }
+                me.g.c().s(c.lineColor).mt(me.start[0],me.start[1]).lt(me.L1End[0],me.L1End[1]).lt(L2End[0],L2End[1])
+                me.text = new createjs.Text(c.text.text, c.text.font, c.text.color)
+                me.text.alpha = 0
+                me.text.lineHeight = c.text.lineHeight
+                me.text.x = x + c.text.padding[0]
+                me.text.y = L2End[1] - c.text.height / 2 + c.text.padding[1]
+                me.stage.addChild(me.text)
+                me.textShape.graphics.c().f(c.text.backgroundColor).rr(x, L2End[1] - c.text.height / 2, c.text.width, c.text.height, 5)
+                me.textShape.alpha = 0
+                me.update()
+            },
+            onUpdate: function() {
+                me.text.alpha = scale.s
+                me.textShape.alpha = scale.s
+                me.update()
+            }
+        })
+        this.timeline.add(tl, this.totalTime)
+    }
+    myTooltip.prototype.update = function(){
+        this.stage.update()
+    }
+    
+    
+    
+    var EC = echarts.getInstanceByDom(document.getElementById("echarts-word-map"));
+    
+    var index = 0;
+    clearInterval(mapTimer);
+    mapTimer=null;
+    mapTimer=setInterval(function(){
+        EC.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: index
+        })
+        index++
+        if (index >= myData.length) {
+            index = 0
+        }
+    }, 3000)
+    window.addEventListener('resize', function(){
+        let tCanvas = document.getElementById('tCanvas')
+        if (tCanvas) {
+            tCanvas.style.display = 'none'
+        }
+    })
+    </script>  

@@ -1,0 +1,230 @@
+<style>
+    font-family: DINCondBold;
+        /*这里是说明调用来的字体名字*/
+        src: url('/Report/resource/report/custom/ttf/DINCond-Bold.otf');
+        /*这里是字体文件路径*/
+    }
+</style>
+<div id="course-training-container" style="width: 100%; height:100%; background-color:transparent;"></div>
+<script type="text/javascript">
+
+    var currentBlock = null;
+    for (var i = 0; i < $Report.viewBlocks.count; i++) {
+      if ($Report.viewBlocks.item(i).blockName == "块30") {
+        currentBlock = $Report.viewBlocks.item(i);
+      }
+    }
+    var arr = [];
+    for (var i = 0; i < currentBlock.blockDataToDraw.length; i++) {
+      var obj = {};
+      var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
+      obj.name =
+        currentBlock.blockDataToDraw[i][
+          viewTableRow.viewTableCells.item(0).cellObject[0] +
+            "___" +
+            viewTableRow.viewTableCells.item(0).cellObject[1]
+        ];
+      obj.coursesNumber =
+        currentBlock.blockDataToDraw[i][
+          viewTableRow.viewTableCells.item(1).cellObject[0] +
+            "___" +
+            viewTableRow.viewTableCells.item(1).cellObject[1]
+        ];
+
+      obj.trainingNumber =
+      currentBlock.blockDataToDraw[i][
+        viewTableRow.viewTableCells.item(2).cellObject[0] +
+          "___" +
+          viewTableRow.viewTableCells.item(2).cellObject[1]
+      ];
+
+      arr.push(obj);
+    }
+
+    console.log('05产学研课程培训  arr...', arr)
+
+    let xAxisData = arr.map(item => item.name)
+    //开课次数基础数据
+    let coursesNumberData = arr.map(item => item.coursesNumber)
+    //培训人数基础数据
+    let trainingNumberData = arr.map(item => item.trainingNumber)
+
+
+    //y 轴行数
+    let rowNum=5;
+    //开课次数
+    const maxDataY=Math.max(...coursesNumberData);
+    const rowLabelSize=getRowSize(maxDataY,rowNum);
+    const coursesNumberMaxLabelY=rowLabelSize*rowNum;
+    //培训人数
+    const maxDataY01=Math.max(...trainingNumberData);
+    const rowLabelSize01=getRowSize(maxDataY01,rowNum);
+    const trainingNumberMaxLabelY=rowLabelSize01*rowNum;
+
+    var dom = document.getElementById("course-training-container");
+    var courseTrainingChart = echarts.init(dom);
+    var scale = $BDA.defaultRatio; //用 $BDA.defaultRatio 替换 scale
+
+    var option = {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          // 坐标轴指示器，坐标轴触发有效
+          type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+        },
+      },
+      grid: {
+        left: 20 * scale,
+        right: 40 * scale,
+        bottom: 14 * scale,
+        top: 40 * scale,
+        containLabel: true,
+      },
+      legend: {
+        data: ["开课次数", "培训人数"],
+        left: 20 * scale,
+        top: 6 * scale,
+        textStyle: {
+          color: '#b2e4ff',
+          fontSize: 12 * scale,
+          fontFamily: "Microsoft YaHei",
+          fontWeight: 400,
+        },
+        itemWidth: 12 * scale,
+        itemHeight: 10,
+        icon: 'circle',
+      },
+      xAxis: {
+        type: "category",
+        data: xAxisData,
+        axisLine: {
+          lineStyle: {
+            color: '#98a8da',
+            fontSize: 12 * scale,
+            fontFamily: "Microsoft YaHei",
+            fontWeight: 400,
+          },
+        },
+        axisLabel: {
+          textStyle: {
+            fontFamily: "Microsoft YaHei",
+          },
+        },
+      },
+
+      yAxis: [
+        {
+          type: "value",
+          scale: true,
+          // name: "开课次数",
+          max: coursesNumberMaxLabelY,
+          min: 0,
+          splitLine: {
+            show: false,
+            lineStyle: {
+              color: "rgba(255,255,255,0.3)",
+            },
+          },
+          boundaryGap: [0.5 * scale, 0.5 * scale],
+                
+        },
+        {
+          type: "value",
+          scale: true,
+          // name: "培训人数",
+          max: trainingNumberMaxLabelY,
+          min: 0,
+          splitLine: {
+            show: false,
+            lineStyle: {
+              color: "rgba(255,255,255,0.3)",
+            },
+          },
+          boundaryGap: [0.5 * scale, 0.5 * scale],
+        },
+      ],
+
+      series: [
+        {
+          name: "开课次数",
+          type: "bar",
+          barWidth: 15 * scale,
+          yAxisIndex: 0,
+          barGap:0.5,/*多个并排柱子设置柱子之间的间距*/
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: "#6C44E2",
+                },
+                {
+                  offset: 1,
+                  color: "#150847",
+                },
+              ]),
+              barBorderRadius: 2 * scale,
+            },
+          },
+          // data: [40, 40, 30, 30, 30],
+          data: coursesNumberData,
+        },
+        {
+          name: "培训人数",
+          type: "bar",
+          barWidth: 15 * scale,
+          yAxisIndex: 1,
+          barGap:0.5 * scale,/*多个并排柱子设置柱子之间的间距*/
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: "#D1BE31",
+                },
+                {
+                  offset: 1,
+                  color: " #98520E",
+                },
+              ]),
+              barBorderRadius: 2 * scale,
+            },
+          },
+          data: trainingNumberData,
+        },
+      ],
+    };
+    
+    //计算行高 - 行高取整 - 扩展
+  function getRowSize(maxDataY,rowNum){
+      console.log('极值maxDataY',maxDataY);
+      console.log('行数rowNum',rowNum);
+      //计算均分值，将最大尺寸均分成rowNum 段
+      const size=Math.ceil(maxDataY/rowNum); //1
+      console.log('size',size);
+      //均分值size 的长度
+      const len=size.toString().length; //2
+      console.log('len',len);
+      //将长度的一半作为幂的指数
+      const index=Math.floor(len/2);
+      console.log('index',index);
+      //求10的index次幂
+      const power=Math.pow(10,index); //3
+      console.log('power',power);
+      //将size除以幂的值，得到小数
+      const flNum=size/power;
+      console.log('flNum',flNum);
+      //将小数上舍取整
+      const intNum=Math.ceil(flNum); //4
+      console.log('intNum',intNum);
+      //基于整数还原数据
+      const c=intNum*power; //5
+      console.log('c',c);
+      //行高不能小于1
+      return Math.max(c,1);
+  }
+    
+  if (option && typeof option === "object") {
+    courseTrainingChart.setOption(option);
+  }
+</script>

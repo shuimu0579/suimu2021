@@ -1,0 +1,198 @@
+<style>
+    font-family: DINCondBold;
+        /*这里是说明调用来的字体名字*/
+        src: url('/Report/resource/report/custom/ttf/DINCond-Bold.otf');
+        /*这里是字体文件路径*/
+    }
+</style>
+<div id="connect-device-container" style="width: 100%; height:190px; background-color:transparent;></div>
+<script type="text/javascript" src="/Report/resource/report/custom/js/echarts.min.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("connect-device-container");
+    var myChart = echarts.init(dom);
+    var img = 'data:image/png;base64,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';
+
+    // init data
+    var color = ['#3869d8', '#dc5461', '#f8b105']
+
+
+    // var seriesData = [{
+    //     value: 201,
+    //     name: '注塑机'
+    // }, {
+    //     value: 17,
+    //     name: 'PLC'
+    // }, {
+    //     value: 6,
+    //     name: '未细分行业'
+    // }]
+    var seriesData = []
+    var initData = []
+    var othersData = []
+
+    var currentBlock = null;
+    for(var i = 0; i < $Report.viewBlocks.count; i++){
+      if($Report.viewBlocks.item(i).blockName == "垂直表_机型分布"){
+        currentBlock = $Report.viewBlocks.item(i);
+      }
+    }
+    var arr = []
+    for(var i = 0; i < currentBlock.blockDataToDraw.length; i++){
+        var obj = {};
+        var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
+        obj.name = currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(0).cellObject[0]+'___'+viewTableRow.viewTableCells.item(0).cellObject[1]];
+        obj.value = currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(1).cellObject[0]+'___'+viewTableRow.viewTableCells.item(1).cellObject[1]];
+       
+        arr.push(obj);
+    }
+
+     // 排序
+    var initData = arr.sort((a,b)=> {
+      return b.value - a.value //降序 由高到底
+    });
+    initData.forEach((item,index) =>{
+        if(item.name){
+             seriesData.push({
+                value: item.value,
+                name: item.name
+            })
+        } else {
+             seriesData.push({
+                value: item.value,
+                name: '未细分行业'
+            })
+        }
+    })
+
+    seriesData = seriesData.sort((a,b)=> {
+      return b.value - a.value //降序 由高到底
+    });
+
+
+
+
+    
+    var totalCount = seriesData.reduce((accumulator, currentValue) => {
+        return Number(accumulator) + Number(currentValue.value)
+    }, 0)
+
+    var option;
+    option = {
+            title: {
+                text: `${totalCount}`,
+                top: '30%',
+                textAlign: "center",
+                left: "20%",
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 28,
+                    fontWeight: '700'
+                }
+            },
+            graphic: {
+                elements: [{
+                    type: "image",
+                    z: 3,
+                    style: {
+                        image: img,
+                        width: 90,
+                        height: 90
+                    },
+                    left: "11.5%",
+                    top: '16.2%',
+                    position: [100, 100]
+                }]
+            },
+            legend: {
+                show: true,
+                orient: 'vertical',
+                itemGap: 20,
+                right: '10%',
+                top: '15%',
+                icon: 'circle',
+                formatter: (name) => {
+                    const obj = seriesData.find(i => {
+                        return i.name === name
+                    })
+                    var splitName = obj.name
+
+                    let tip1 = "";
+                    let tip = "";
+                    let le = splitName.length //图例文本的长度
+                    if (le > 8) { //几个字换行大于几就可以了
+                        let l = Math.ceil(le / 8) //有些不能整除，会有余数，向上取整
+                        for (let i = 1; i <= l; i++) { //循环
+                            if (i < l) { //最后一段字符不能有\n
+                                tip1 += splitName.slice(i * 8 - 8, i * 8) + '\n'; //字符串拼接
+                            } else if (i === l) { //最后一段字符不一定够9个
+                                tip = tip1 + splitName.slice((l - 1) * 8, le) //最后的拼接在最后
+                            }
+                        }
+                    } else {
+                        tip = splitName //前面定义了tip为空，这里要重新赋值，不然会替换为空
+                    }
+
+                    let arr = [
+                        '{a|' + tip + '}',
+                        '{b|' + (Number(obj.value)*100/totalCount).toFixed(2) + '%}',
+                        '{c|' + obj.value + '}'
+                    ]
+                    return arr.join('  ')
+                },
+                textStyle: {
+                    rich: {
+                        a: {
+                            width: 130,
+                            fontSize: 12,
+                            align: 'left',
+                            color: "#98a8da"
+                        },
+                        b: {
+                            width: 50,
+                            fontSize: 12,
+                            align: 'left',
+                            color: "#98a8da"
+                        },
+                        c: {
+                            fontSize: 16,
+                            align: 'center',
+                            fontFamily: 'DINCondBold',
+                            fontWeight: 700,
+                            textAlign: 'right',
+                            color: '#59b0f2'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                radius: ['48%', '55%'],
+                avoidLabelOverlap: false,
+                color: color,
+                center: ['21%', '40%'],
+                itemStyle: {
+                    borderRadius: 2,
+                    borderColor: '#030612',
+                    borderWidth: 2
+                },
+                label: {
+                    show: false,
+                    position: 'left'
+                },
+                emphasis: {
+                    label: {
+                        show: false,
+                        fontSize: '12',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: seriesData
+            }]
+        };
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+</script>

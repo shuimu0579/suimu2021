@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @font-face {
+        font-family: DINCondBold;
+        /*这里是说明调用来的字体名字*/
+        src: url("./DINCond-Bold.otf");
+        /*这里是字体文件路径*/
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #list-loop-container {
+        position: relative;
+        height: 175px;
+        overflow: hidden;
+      }
+      .title-container {
+        display: flex;
+        text-align: center;
+        padding-bottom:20px;
+      }
+      .title-industry{
+        width:30%;
+        font-size: 14px;
+        font-family: 'Microsoft YaHei';
+        font-weight: 400;
+        text-align: left;
+        color: #afbdd1;
+      }
+      .title-order{
+        width:10%;
+        font-size: 14px;
+        font-family: 'Microsoft YaHei';
+        font-weight: 400;
+        text-align: left;
+        color: #5dc098;
+      }
+      .title-line{
+        width:60%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .list-line{
+        height:8px;
+        border-radius: 4px;
+        background: linear-gradient(to right, #2449C3, #55AFFC);
+        width:100%
+      }
+      #list-wrapper {
+        position: relative;
+      }
+      ul {
+        list-style: none;
+        text-align: center;
+      }
+      li {
+        display: flex;
+        height: 35px;
+        line-height: 35px;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body style="height: 100%; margin: 0">
+    <div style="width: 475px; min-width: 475px; height: 300px">
+      <div class="title-container">
+        <div class='title-industry'>行业</div>
+        <div class='title-industry'>订单数</div>
+      </div>
+      <div id="list-loop-container">
+        <div id="list-wrapper" style="top: 0">
+          <ul class="notice-list" id="notice-list">
+            <!-- <li>
+              <div class='title-industry'>服装设计</div>
+              <div class='title-order'>879</div>
+              <div class='title-line'><div class='list-line'></div></div>
+            </li>
+            <li>
+              <div class='title-industry'>原料供给</div>
+              <div class='title-order'>778</div>
+              <div class='title-line'><div class='list-line'></div></div>
+            </li>
+            <li>
+              <div class='title-industry'>产能共享</div>
+              <div class='title-order'>770</div>
+              <div class='title-line'><div class='list-line'></div></div>
+            </li>
+            <li>
+              <div class='title-industry'>维修服务</div>
+              <div class='title-order'>667</div>
+              <div class='title-line'><div class='list-line'></div></div>
+            </li>
+            <li>
+              <div class='title-industry'>回收服务</div>
+              <div class='title-order'>610</div>
+              <div class='title-line'><div class='list-line'></div></div>
+            </li>
+            <li>
+              <div class='title-industry'>保洁服务</div>
+              <div class='title-order'>610</div>
+              <div class='title-line'><div class='list-line'></div></div>
+            </li> -->
+          </ul>
+          <ul class="notice-list" id="notice-list-2"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // var parkName =[]
+      var currentBlock = null;
+      for(var i = 0; i < $Report.viewBlocks.count; i++){
+        if($Report.viewBlocks.item(i).blockName == "块23"){
+          currentBlock = $Report.viewBlocks.item(i);
+        }
+      }
+      console.log('currentBlock',currentBlock)
+
+      for(var i = 0; i < currentBlock.blockDataToDraw.length; i++){
+          var obj = {};
+          var viewTableRow = currentBlock.viewTableBody.viewTableRows.item(0);
+          obj.name = currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(0).cellObject[0]+'___'+viewTableRow.viewTableCells.item(0).cellObject[1]];
+          obj.number  = currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(1).cellObject[0]+'___'+viewTableRow.viewTableCells.item(1).cellObject[1]] || 0;
+          obj.url = currentBlock.blockDataToDraw[i][viewTableRow.viewTableCells.item(2).cellObject[0]+'___'+viewTableRow.viewTableCells.item(2).cellObject[1]] || 0;
+          // obj.url = img
+          parkName.push(obj);
+      }
+
+      var parkName = [
+        {
+            name: '服装设计',
+            number: 879
+        },
+        {
+            name: '原料供给',
+            number: 778
+        },
+        {
+            name: '产能共享',
+            number: 770
+        },
+        {
+            name: '维修服务',
+            number: 667
+        },
+        {
+            name: '回收服务',
+            number: 610
+        },
+        {
+            name: '保洁服务',
+            number: 610
+        },
+      ]
+
+      var ROLL_SPEED = 100;
+      var noticeList1 = document.getElementById("notice-list");
+      var noticeList2 = document.getElementById("notice-list-2");
+      var listWrapper = document.getElementById("list-wrapper");
+
+      var parkNameNumber = parkName.map(item => item.number)
+
+      const maxData=Math.max(...parkNameNumber);
+
+      let arr = parkName.map(item =>{
+        return {...item, percent:(Number(item.number/maxData) *100).toFixed(0) + '%'}
+      })
+
+      console.log('arr...',arr)
+
+      var str = "";
+      for (var i = 0; i < arr.length; i++) {
+          str += "<li><div class='title-industry'>" + arr[i].name + "</div><div class='title-order'>" + arr[i].number + "</div><div class='title-line'><div class='list-line' style='width: " + arr[i].percent  + "'></div></div></li>"
+      };
+      noticeList1.innerHTML = str;
+      noticeList2.innerHTML = noticeList1.innerHTML;
+
+      var timer = setInterval(rollStart, ROLL_SPEED);
+      function rollStart() {
+        if (
+          Math.abs(_subStr(listWrapper.style.top)) >= noticeList1.clientHeight
+        ) {
+          listWrapper.style.top = "0px";
+        } else {
+          var top = listWrapper.style.top;
+          listWrapper.style.top = _subStr(top) - 1 + "px";
+        }
+      }
+      // 截取px前数值
+      function _subStr(str) {
+        var index = str.indexOf("px");
+        if (index > -1) {
+          return parseFloat(str.substr(0, index + 1));
+        }
+      }
+    </script>
+  </body>
+</html>
