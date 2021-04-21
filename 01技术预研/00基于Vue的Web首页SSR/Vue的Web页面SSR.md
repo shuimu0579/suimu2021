@@ -36,6 +36,147 @@
 
 ## [重要的！！！]
 
+- 对于不想要走SSR的页面，点击的时候**不能是a标签**，**哪怕设置的不是a标签，比如是span标签，也加了click事件，但是click回调事件里面用了window.location.href的话，也是会走SSR的**，所以click回调事件里面不能有window.location.href方法，而是用`this.$router.push({path: url});`
+
+**`@select="openUrl`和下面的代码是关键**
+
+```js
+if (data.hrefTarget === 0) {
+        let url = `/${menuNumber}`;
+        if (menuNumber === "home") {
+            // window.location.reload();
+            if (typeof window === "object") window.location.href = "/";
+        } else if (
+            menuNumber === "supplychain" ||
+            menuNumber === "iotmanufacture" ||
+            menuNumber === "5gandai" ||
+            menuNumber === "bibigdata" ||
+            menuNumber === "consult"
+        ) {
+            if (typeof window === "object") window.location.href = url;
+        } else {
+            this.$router.push({
+                path: url,
+            });
+        }
+
+        // if (typeof window === "object") window.location.href = data.url;
+    }
+```
+
+```html
+<el-menu
+                class="page"
+                :default-active="curSelect"
+                @select="openUrl"
+                mode="horizontal"
+                :unique-opened="true"
+                text-color="#ffffff"
+                active-text-color="#ffffff"
+                scrollbar="no"
+            >
+                <template v-for="(menu, key) in menuArr">
+                    <el-submenu
+                        popper-class="submenuList"
+                        v-if="menu.children"
+                        :key="key"
+                        :index="menu.menuUrl ? menu.menuUrl : '/' + menu.menuNumber"
+                        :popper-append-to-body="false"
+                    >
+                        <template slot="title">
+                            <h2 class="menuEnterUrl">
+                                <span>{{ menu.menuName }}</span>
+                            </h2>
+                        </template>
+                        <el-menu-item
+                            v-for="(childItem, key) in menu.children"
+                            :key="key"
+                            :disabled="childItem.disabled"
+                            :index="childItem.menuUrl ? childItem.menuUrl : '/' + childItem.menuNumber"
+                        >
+                            <h2 class="menuEnterUrl">
+                                <a :href="childItem.url === '' ? '#' : childItem.url">
+                                    <span>{{ childItem.menuName }}</span>
+                                </a>
+                            </h2>
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-menu-item
+                        v-else
+                        :key="key"
+                        :disabled="menu.disabled"
+                        :index="menu.menuUrl ? menu.menuUrl : '/' + menu.menuNumber"
+                    >
+                        <h2 class="menuEnterUrl" slot="title">
+                            <a
+                                v-if="
+                                    menu.menuNumber === 'home' ||
+                                        menu.menuNumber === 'supplychain' ||
+                                        menu.menuNumber === 'iotmanufacture' ||
+                                        menu.menuNumber === '5gandai' ||
+                                        menu.menuNumber === 'bibigdata' ||
+                                        menu.menuNumber === 'consult'
+                                "
+                                :href="menu.url === '' ? '#' : menu.url"
+                            >
+                                <span>{{ menu.menuName }}</span>
+                            </a>
+                            <span v-else>{{ menu.menuName }}</span>
+                        </h2>
+                    </el-menu-item>
+                </template>
+            </el-menu>
+```
+
+```js
+openUrl(key) {
+let _self = this;
+const menuNumber = key.charAt(0) === "/" ? key.slice(1) : key;
+_self.getMenuNumber(menuNumber);
+},
+getMenuNumber(menuNumber, subfixType) {
+let _self = this;
+const data = {
+menuNumber,
+vtenant: this.cq_config.platformid,
+casTicket: cookieHelper.getCookieData(this.cq_config.platformid + "ticket"),
+subfixType,
+};
+getMenuNumberUrl(data).then(res => {
+let { data } = res;
+switch (data.status) {
+case 0:
+    if (data.hrefTarget === 0) {
+        let url = `/${menuNumber}`;
+        if (menuNumber === "home") {
+            // window.location.reload();
+            if (typeof window === "object") window.location.href = "/";
+        } else if (
+            menuNumber === "supplychain" ||
+            menuNumber === "iotmanufacture" ||
+            menuNumber === "5gandai" ||
+            menuNumber === "bibigdata" ||
+            menuNumber === "consult"
+        ) {
+            if (typeof window === "object") window.location.href = url;
+        } else {
+            this.$router.push({
+                path: url,
+            });
+        }
+
+        // if (typeof window === "object") window.location.href = data.url;
+    } else {
+        if (typeof window === "object") window.open(data.url);
+    }
+    break;
+}
+}
+}
+
+```
+
 - 如果想在除了Home页面增加SSR ,还想在SupplyChain页面里面增加SSR的话，就需要在server.js 里面增添`router.get("/supplychain", handleRequest)`
 
 ```js
