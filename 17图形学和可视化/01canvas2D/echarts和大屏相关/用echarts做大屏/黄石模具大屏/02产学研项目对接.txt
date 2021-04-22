@@ -142,13 +142,13 @@
                     rich: {
                         a: {
                             width: 100 * $BDA.defaultRatio,
-                            fontSize: 12 * $BDA.defaultRatio,
+                            fontSize: 16 * $BDA.defaultRatio,
                             align: 'left',
                             color: "#98a8da"
                         },
                         b: {
                             width: 50 * $BDA.defaultRatio,
-                            fontSize: 12 * $BDA.defaultRatio,
+                            fontSize: 16 * $BDA.defaultRatio,
                             align: 'left',
                             color: "#98a8da"
                         },
@@ -181,7 +181,7 @@
                 emphasis: {
                     label: {
                         show: false,
-                        fontSize: 12 * $BDA.defaultRatio,
+                        fontSize: 16 * $BDA.defaultRatio,
                         fontWeight: 'bold'
                     }
                 },

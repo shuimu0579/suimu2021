@@ -172,7 +172,7 @@
       },
       unit: {
         color: "#afbdd1",
-        fontSize: 12 * scale,
+        fontSize: 14 * scale,
         fontFamily: 'PingFangSC, PingFangSC-Light',
         fontWeight: 300,
       },
@@ -180,7 +180,7 @@
       white: {
         color: "#98a8da",
         align: "center",
-        fontSize: 14 * scale,
+        fontSize: 16 * scale,
         padding: [5 * scale, 0 * scale],
         fontFamily: 'Microsoft YaHei',
         fontWeight: 600,
@@ -206,7 +206,7 @@
         padding: [24 * scale, 0 * scale],
         textStyle: {
           color: "#fff",
-          fontSize: 14 * scale,
+          fontSize: 16 * scale,
           align: "center",
         },
       },

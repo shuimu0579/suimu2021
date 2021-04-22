@@ -134,7 +134,7 @@
       legend: {
         orient: "vertical",
         top: 50  * scale,
-        left: 140  * scale,
+        left: 150  * scale,
         itemGap: 20  * scale,
         itemHeight: 10 * scale, //修改icon图形大小
         data: legendData,
@@ -144,32 +144,32 @@
         textStyle: {
           rich: {
             title: {
-              color: "#82baff",
-              fontSize: 14  * scale,
+              color: "#98a8da",
+              fontSize: 16  * scale,
               fontWeight: 600,
               fontFamily: "Microsoft YaHei",
-              padding: [0 * scale, 0 * scale, 0 * scale, 20 * scale],
+              padding: [0 * scale, 0 * scale, 0 * scale, 0* scale],
             },
             percent: {
-              color: "#82baff",
-              fontSize: 14 * scale,
+              color: "#98a8da",
+              fontSize: 16 * scale,
               fontWeight: 600,
               fontFamily: "DINCondBold",
               padding: [0 * scale, 0 * scale, 0 * scale, 20 * scale],
             },
             unit: {
-              color: "#82baff",
-              fontSize: 14 * scale,
+              color: "#98a8da",
+              fontSize: 16 * scale,
               fontWeight: 600,
               fontFamily: "DINCondBold",
               padding: [0 * scale, 5 * scale, 0 * scale, 0 * scale],
             },
             value: {
-              color: "#82baff",
-              fontSize: 14 * scale,
+              color: "#98a8da",
+              fontSize: 16 * scale,
               fontWeight: 600,
               fontFamily: "DINCondBold",
-              padding: [0 * scale, 0 * scale, 0 * scale, 20 * scale],
+              padding: [0 * scale, 0 * scale, 0 * scale, 10 * scale],
             },
           },
         },
@@ -180,7 +180,7 @@
           name: "访问来源",
           type: "pie",
           radius: 50  * scale,
-          center: [60 * scale, 100 * scale],
+          center: [70 * scale, 100 * scale],
           label: {
             show: false,
             fontSize: 18 * scale,

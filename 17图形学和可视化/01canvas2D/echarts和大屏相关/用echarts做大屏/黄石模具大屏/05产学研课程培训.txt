@@ -86,7 +86,7 @@
         top: 6 * scale,
         textStyle: {
           color: '#b2e4ff',
-          fontSize: 12 * scale,
+          fontSize: 14 * scale,
           fontFamily: "Microsoft YaHei",
           fontWeight: 400,
         },
@@ -100,7 +100,7 @@
         axisLine: {
           lineStyle: {
             color: '#98a8da',
-            fontSize: 12 * scale,
+            fontSize: 14 * scale,
             fontFamily: "Microsoft YaHei",
             fontWeight: 400,
           },
