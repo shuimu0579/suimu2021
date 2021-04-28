@@ -121,7 +121,23 @@ export function createRouter() {
               console.log('ParamsString...', ParamsString)
               console.log('pageUrl...', path)
             }
-            next(path.split('ticket')[0])
+            // 很重要
+            const urlListBySSR = [
+              '/',
+              '/erpConnect',
+              '/erpDoctor',
+              '/supplychain',
+              '/iotmanufacture',
+              '/5gandai',
+              '/bibigdata',
+              '/consult',
+            ]
+            if (urlListBySSR.some(item => item === to.path)) {
+              window.location.href = to.path
+            } else {
+              next(path.split('ticket')[0])
+            }
+            // next(path.split('ticket')[0])
           })
       } else {
         // 验证是否过期

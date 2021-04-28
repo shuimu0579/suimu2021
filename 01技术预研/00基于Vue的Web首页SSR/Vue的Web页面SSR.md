@@ -36,6 +36,101 @@
 
 ## [重要的！！！]
 
+- 怎么做到部分页面的SSR  `router.get('/(.*)', handleRequest)`
+  
+```js
+// server.js
+// 参考 `./SSR目录` 文件夹
+
+// 第 3 步：添加一个中间件来处理所有请求
+const handleRequest = async (ctx, next) => {
+  const url = ctx.request.url
+
+  // 哪些页面是需要SSR的，在这里配置
+  const urlListBySSR = [
+    '/',
+    '/contact',
+    '/erpConnect',
+    '/erpDoctor',
+    '/supplychain',
+    '/iotmanufacture',
+    '/5gandai',
+    '/bibigdata',
+    '/consult',
+  ]
+  let isSSR = urlListBySSR.some(item => item === url)
+
+  if (isSSR) {
+    const cacheable = isCacheable(url)
+    if (url.includes('.')) {
+      ctx.res.setHeader('Access-Control-Allow-Origin', '*')
+      return await send(ctx, url, { root: path.resolve(__dirname, '../dist') })
+    }
+    if (cacheable) {
+      const hit = microCache.get(url)
+      if (hit) {
+        return ctx.res.end(hit)
+      }
+    }
+  }
+  const context = {
+    title: '云镝工业互联网',
+    url,
+    isSSR,
+    isWebp: ctx.req.headers.accept.toString().indexOf('image/webp') > -1,
+  }
+  // 将 context 数据渲染为 HTML
+  const html = await renderToString(context)
+  isSSR && microCache.set(url, html) // 设置当前缓存页面的内容
+  ctx.body = html
+}
+
+// 让所以的路径都进来handleRequest
+
+router.get('/(.*)', handleRequest)
+// router.get("*", handleRequest);  这样有问题，需要get(":splat*"
+// router.get(":splat*", handleRequest);
+
+// // router.get("/", handleRequest);
+// router.get("/erpConnect", handleRequest);
+// router.get("/erpDoctor", handleRequest);
+
+// router.get("/supplychain", handleRequest);
+// router.get("/iotmanufacture", handleRequest);
+// router.get("/5gandai", handleRequest);
+// router.get("/bibigdata", handleRequest);
+// router.get("/consult", handleRequest);
+
+module.exports = router
+
+```
+
+```js
+//router.js
+
+// 参考 `./SSR目录` 文件夹
+router.beforeEach((to, from, next) => {
+
+// 很重要
+const urlListBySSR = [
+    '/',
+    '/erpConnect',
+    '/erpDoctor',
+    '/supplychain',
+    '/iotmanufacture',
+    '/5gandai',
+    '/bibigdata',
+    '/consult',
+]
+if (urlListBySSR.some(item => item === to.path)) {
+    window.location.href = to.path
+} else {
+    next(path.split('ticket')[0])
+}
+// next(path.split('ticket')[0])
+})
+```
+
 - 对于不想要走SSR的页面，点击的时候**不能是a标签**，**哪怕设置的不是a标签，比如是span标签，也加了click事件，但是click回调事件里面用了window.location.href的话，也是会走SSR的**，所以click回调事件里面不能有window.location.href方法，而是用`this.$router.push({path: url});`
 
 **`@select="openUrl`和下面的代码是关键**
@@ -177,13 +272,6 @@ case 0:
 
 ```
 
-- 如果想在除了Home页面增加SSR ,还想在SupplyChain页面里面增加SSR的话，就需要在server.js 里面增添`router.get("/supplychain", handleRequest)`
-
-```js
-router.get(":splat*", handleRequest);
-// router.get("/", handleRequest);
-router.get("/supplychain", handleRequest); // add SupplyChain SSR
-```
 
 - element-ui 中 el-tab el-tab-pane 这个组件的使用时没有问题的，所以没出效果是别的地方出问题了，上述组件本身是没有问题的。
 
