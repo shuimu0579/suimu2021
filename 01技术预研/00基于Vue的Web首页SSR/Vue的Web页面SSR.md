@@ -402,6 +402,9 @@ export default {
 
 ## 问题分析
 
+- [解决 vue 项目运行过程中内存泄漏问题](https://zhuanlan.zhihu.com/p/112763489)
+[‘“node --max-old-space-size=4096“‘ 不是内部或外部命令，也不是可运行的程序 或批处理文件。](https://blog.csdn.net/qq_41614928/article/details/115835337)
+
 - [DONE!!!]head 标签里面的 meta 标签，其中的 keywords 和 description 怎么动态设置，以利于 SEO？ 可以参考 [Vue2 SSR 渲染, 如何根据不同页面修改 meta?](https://www.mmxiaowu.com/article/585005b24b8f0c283f7ce0d1) 或者 [https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips](https://www.digitalocean.com/community/tutorials/vuejs-vue-seo-tips)
 
 ```js
