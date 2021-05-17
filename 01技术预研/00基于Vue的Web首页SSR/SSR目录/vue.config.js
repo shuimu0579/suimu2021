@@ -7,6 +7,8 @@ const target = TARGET_NODE ? 'server' : 'client'
 const isDev = process.env.NODE_ENV !== 'production'
 const cq_config = require('./public/Config')
 
+const webpack = require('webpack')
+
 const yundeeSSRConfig = {
   // publicPath: isDev ? 'http://127.0.0.1:8080' : 'http://127.0.0.1:3000',
   // publicPath: '/',
@@ -44,8 +46,14 @@ const yundeeSSRConfig = {
       : undefined,
 
     optimization: {
-      splitChunks: TARGET_NODE ? false : undefined,
+      splitChunks: false,
     },
+    plugins: [
+      TARGET_NODE ? new VueSSRServerPlugin() : new VueSSRClientPlugin(),
+      new webpack.optimize.MinChunkSizePlugin({
+        minChunkSize: 5000000, //500KB 通过合并小于 minChunkSize 大小的 chunk，将 chunk 体积保持在指定大小限制以上
+      }),
+    ],
     plugins: [
       TARGET_NODE ? new VueSSRServerPlugin() : new VueSSRClientPlugin(),
     ],
@@ -69,6 +77,7 @@ const yundeeSSRConfig = {
         }
         return options
       })
+    config.optimization.delete('splitChunks')
     // 热更新
     if (TARGET_NODE) {
       config.plugins.delete('hmr')
