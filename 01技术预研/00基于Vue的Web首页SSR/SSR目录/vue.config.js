@@ -51,7 +51,7 @@ const yundeeSSRConfig = {
     plugins: [
       TARGET_NODE ? new VueSSRServerPlugin() : new VueSSRClientPlugin(),
       new webpack.optimize.MinChunkSizePlugin({
-        minChunkSize: 5000000, //500KB 通过合并小于 minChunkSize 大小的 chunk，将 chunk 体积保持在指定大小限制以上
+        minChunkSize: 2000000, //200KB 通过合并小于 minChunkSize 大小的 chunk，将 chunk 体积保持在指定大小限制以上
       }),
     ],
     plugins: [
