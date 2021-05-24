@@ -11,12 +11,20 @@ const microCache = new LRU({
 })
 
 const isCacheable = url => {
+  const urlListBySSR = [
+    '/',
+    '/contact',
+    '/erpConnect',
+    '/erpDoctor',
+    '/supplychain',
+    '/iotmanufacture',
+    '/5gandai',
+    '/bibigdata',
+    '/consult',
+  ]
+  let isSSR = urlListBySSR.some(item => item === url)
   // 判断是否需要页面缓存
-  if (url && url === '/') {
-    return url
-  } else {
-    return false
-  }
+  return isSSR
 }
 const resolve = file => path.resolve(__dirname, file)
 

@@ -1,63 +1,42 @@
 {
-    "name": "yundee_web_ssr",
+    "name": "yundee_web",
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit",
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "build:client": "vue-cli-service build",
-        "build:ssr": "cross-env NODE_ENV=production WEBPACK_TARGET=node vue-cli-service build",
-        "build:yundee:linux": "npm run build:ssr && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js",
-        "build:yundee:windows": "npm run build:ssr && move dist\\vue-ssr-server-bundle.json bundle && npm run build:client && move bundle dist\\vue-ssr-server-bundle.json && cross-env WEBPACK_TARGET=node NODE_ENV=production node ./server/ssr.js",
-        "start": "cross-env NODE_ENV=production node ./server/ssr.js",
-        "serve:ssr": "cross-env WEBPACK_TARGET=node node ./server/ssr.js",
-        "dev:yundee": "concurrently \"npm run serve\" \"npm run serve:ssr\" "
+        "new:comp": "node ./scripts/generateComponent/index",
+        "new:view": "node ./scripts/generateView/index",
+        "serves": "node ./scripts/multiProjectConfig/serve.js",
+        "builds": "node ./scripts/multiProjectConfig/build.js"
     },
     "dependencies": {
-        "axios": "^0.19.0",
-        "copy-webpack-plugin": "^5.1.1",
-        "core-js": "^2.6.5",
-        "element-ui": "^2.13.0",
-        "koa": "^2.13.1",
-        "koa-compress": "^5.0.1",
-        "koa-mount": "^4.0.0",
-        "koa-router": "^10.0.0",
-        "koa-send": "^5.0.1",
-        "koa-static": "^5.0.0",
-        "qs": "^6.9.2",
-        "sm-crypto": "^0.2.5",
-        "swiper": "^5.3.8",
         "three": "^0.118.3",
         "three-orbit-controls": "^82.1.0",
+        "axios": "^0.19.0",
+        "copy-webpack-plugin": "^5.1.1",
+        "core-js": "^3.6.4",
+        "element-ui": "^2.13.0",
+        "qs": "^6.9.2",
+        "swiper": "^5.3.8",
         "vue": "^2.6.12",
         "vue-awesome-swiper": "^4.1.1",
-        "vue-meta": "^2.4.0",
         "vue-router": "^3.1.6",
         "vuedraggable": "^2.24.3",
-        "vuex": "^3.6.2",
-        "vuex-router-sync": "^5.0.0",
-        "weixin-js-sdk": "^1.6.0"
+        "vuex": "^3.4.0",
+        "sm-crypto": "^0.2.5"
     },
     "devDependencies": {
-        "babel-cli": "^6.26.0",
-        "babel-core": "^6.26.3",
-        "babel-preset-es2015": "^6.24.1",
-        "@vue/cli-plugin-babel": "^3.0.1",
-        "@vue/cli-plugin-eslint": "^3.0.1",
-        "@vue/cli-service": "^3.0.1",
-        "@vue/eslint-config-standard": "^3.0.3",
+        "@vue/cli-plugin-babel": "^4.2.0",
+        "@vue/cli-plugin-eslint": "^4.2.0",
+        "@vue/cli-service": "^4.2.0",
+        "babel-eslint": "^10.0.3",
         "babel-plugin-component": "^1.1.1",
-        "concurrently": "^6.0.0",
-        "cross-env": "^7.0.3",
-        "increase-memory-limit": "^1.0.7",
-        "lodash.merge": "^4.6.2",
-        "memory-fs": "^0.5.0",
-        "vue-server-renderer": "^2.6.12",
+        "eslint": "^6.7.2",
+        "eslint-plugin-vue": "^6.1.2",
         "vue-template-compiler": "^2.6.12",
-        "webpack": "^4.44.2",
-        "webpack-node-externals": "^2.5.2"
+        "postcss-pxtorem": "^5.1.1"
     },
     "eslintConfig": {
         "root": true,
@@ -84,6 +63,6 @@
     "browserslist": [
         "> 1%",
         "last 2 versions",
-        "not ie <= 8"
+        "not dead"
     ]
 }

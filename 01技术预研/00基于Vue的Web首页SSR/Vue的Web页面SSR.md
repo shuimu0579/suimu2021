@@ -275,8 +275,6 @@ case 0:
 
 - element-ui 中 el-tab el-tab-pane 这个组件的使用时没有问题的，所以没出效果是别的地方出问题了，上述组件本身是没有问题的。
 
-- 在SSR的时候，`router.getMatchedComponents()`只能获取到页面组件(Home.vue)的路由，获取不到页面组件里面的子组件(DemandComponent.vue)的路由，所以`asyncData`在`DemandComponent`里面设置是无效的，所以`asyncData`只能在页面组件(Home.vue)里面设置。那么纸组件怎么获得数据呢？ 通过props从页面组件(Home.vue)将数据传递下来，直到子组件(DemandComponent.vue)。
-
 - 在SSR调用接口的时候， 接口地址一定要写全面，`http://172.168.23:8080/test`  不然node里面无法调用接口,也就是接口报错
 
 - 如果要在Home.vue里面的子组件Header.vue里面使用`asyncData`的话,那么必须在`childred里面加上Header.vue的路由配配置`,不然`router.getMatchedComponents()`根本捕获不到`Header.vue`里面定义的`asyncData`
@@ -299,21 +297,27 @@ case 0:
 // router.js
 //正确的示例
 {
-        path: "/",
-        name: "home",
-        meta: {
-            isAuth: false,
-        },
-        component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue"),
-        children: [  // childred里面加上Header.vue的路由配配置
-            {
-                path: "",
-                component: () => import(/* webpackChunkName: "home" */ "../../components/layout/Header.vue"),
-            },
-        ],
+    path: "/",
+    name: "home",
+    meta: {
+        isAuth: false,
     },
+    component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue"),
+    children: [  // childred里面加上Header.vue的路由配配置
+        {
+            path: "/",  //一定要加上这个'/'，不然getMatchedComponents方法是无法获取到Header的。
+            component: () => import(/* webpackChunkName: "home" */ "../../components/layout/Header.vue"),
+        },
+    ],
+},
+
+// Header.js
+export default {
+  asyncData() {
+      return false;
+  },
+} 
 ```
-  
 
 - 每次引入新页面的时候，一定要在main.js的components里面引入Index(如果页面组件Index里面引入了ContactTips，一定也要引入ContactTips)，不然就会发生`document is not defined`的错误
 
