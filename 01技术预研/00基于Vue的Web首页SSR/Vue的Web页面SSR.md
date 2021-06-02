@@ -36,6 +36,19 @@
 
 ## [重要的！！！]
 
+- SSR中内存溢出，怎么处理？
+[Easy-Monitor](https://cnodejs.org/topic/594f6e21642874f845d9fe0d)
+
+```shell
+npm install easy-monitor
+```
+
+```js
+//ssr.js
+const easyMonitor = require("easy-monitor");
+easyMonitor("OOM test");
+```
+
 - 怎么做到部分页面的SSR  `router.get('/(.*)', handleRequest)`
   
 ```js
