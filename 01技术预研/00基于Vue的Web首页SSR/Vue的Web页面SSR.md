@@ -36,6 +36,27 @@
 
 ## [重要的！！！]
 
+- 页面获取数据成功，怎么 status code 还是 404
+
+```js
+// ssr.js里面 将`return ctx.res.end(hit)` 改为 `ctx.body = hit; return false;`
+if (isSSR) {
+    const cacheable = isCacheable(url)
+    if (url.includes('.')) {
+      ctx.res.setHeader('Access-Control-Allow-Origin', '*')
+      return await send(ctx, url, { root: path.resolve(__dirname, '../dist') })
+    }
+    if (cacheable) {
+      const hit = microCache.get(url)
+      if (hit) {
+        // return ctx.res.end(hit)
+        ctx.body = hit;
+        return false;
+      }
+    }
+  }
+```
+
 - SSR中内存溢出，怎么处理？
 [Easy-Monitor](https://cnodejs.org/topic/594f6e21642874f845d9fe0d)
 
@@ -82,7 +103,9 @@ const handleRequest = async (ctx, next) => {
     if (cacheable) {
       const hit = microCache.get(url)
       if (hit) {
-        return ctx.res.end(hit)
+        // return ctx.res.end(hit)
+        ctx.body = hit;
+        return false;
       }
     }
   }

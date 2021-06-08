@@ -90,7 +90,9 @@ const handleRequest = async (ctx, next) => {
     if (cacheable) {
       const hit = microCache.get(url)
       if (hit) {
-        return ctx.res.end(hit)
+        ctx.body = hit;
+        return false;
+        // return ctx.res.end(hit)
       }
     }
   }
