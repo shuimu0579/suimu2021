@@ -36,13 +36,15 @@
 
 ## [重要的！！！]
 
+- 某些页面(比如'/erpConnect','/erpDoctor','/supplychain','/iotmanufacture','/5gandai','/bibigdata','/consult')已经做了SSR, 如果需要搜索引擎能爬取到，就需要给用`<a href="supplychain">数字供应链</a>`来指向SSR化的页面,只有这样才能被搜索引擎捕获到。
+
 - 页面获取数据成功，怎么 status code 还是 404
 
 ```js
 // ssr.js里面 将`return ctx.res.end(hit)` 改为 `ctx.body = hit; return false;`
 if (isSSR) {
     const cacheable = isCacheable(url)
-    if (url.includes('.')) {
+    if (url.includes('.')) 
       ctx.res.setHeader('Access-Control-Allow-Origin', '*')
       return await send(ctx, url, { root: path.resolve(__dirname, '../dist') })
     }
