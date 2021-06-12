@@ -12,20 +12,12 @@ Vue.mixin({
   beforeMount() {
     // 在挂载之前
     const { asyncData } = this.$options
-    // 如果拥有asyncData和data为空的时候,进行数据加载
-    // 触发loading加载为true,显示加载器不显示实际内容
-    // this.loading = true
-    // 为当前组件的dataPromise赋值为这个返回的promise，通过判断这个的运行情况来改变loading状态或者进行数据的处理 (在组件内通过this.dataPromise.then保证数据存在)
-    // this.dataPromise = asyncData({ store, route: router.currentRoute })
+    //当地址栏里面的url是非首页的情况下，这时候进入非首页，然后通过页面里面的跳转进入首页，就会出现数据没有获取到的情况。
+    //这时候就需要由客户端获取数据，调用asyncData
     this.dataPromise = asyncData({
       store: this.$store,
       route: this.$route,
     })
-    // this.dataPromise.then(() => {
-    //   this.loading = false
-    // }).catch(e => {
-    //   this.loading = false
-    // })
   },
 })
 
