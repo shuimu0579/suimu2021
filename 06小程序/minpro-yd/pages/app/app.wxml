@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="main" wx:for="{{appList}}" wx:key="id" data-index="{{item.menuNumber}}" wx:if="{{item.children}}">
+    <text class="navTitle" style="font-weight: 800;">{{item.menuName}}</text>
+    <view class="nav" style="padding:50rpx 25rpx 50rpx 25rpx">
+      <view class="menuBox" wx:for="{{item.children}}" wx:key="id" wx:for-item="items" data-index="{{items.menuNumber}}" bindtap="goApp">
+        <image class="navIcon" src="{{items.menuIcon}}"></image>
+        <text class="navText">{{items.menuName}}</text>
+      </view>
+    </view>
+  </view>
+  <view style="padding-bottom:75rpx"></view>
+</view>

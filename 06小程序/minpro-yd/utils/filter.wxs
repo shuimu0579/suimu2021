@@ -1,0 +1,92 @@
+var formatDateTime = function (timestamp, option) {
+  if (timestamp == null || timestamp==""){
+    return "--";
+  }
+  var date = getDate(timestamp);
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  var hour = function () {
+    if (date.getHours() < 10) {  //补‘0’
+      return '0' + date.getHours()
+    }
+    return date.getHours();
+  }
+  var minute = function () {
+    if (date.getMinutes() < 10) {
+      return '0' + date.getMinutes()
+    }
+    return date.getMinutes();
+  }
+
+  if (option == 'notime') {  //不需要时间
+    return year + '-' + month + '-' + day;
+  }
+
+  return year + '-' + month + '-' + day + ' ' + hour() + ':' + minute();
+}
+
+var formatMonth = function (strdate, option) {
+  var format = strdate.replace(getRegExp('-', 'g'), "/");
+  var date = getDate(format);
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  return year + '-' + month;
+}
+
+var formatTime = function (strdate) {
+  var format = strdate.replace(getRegExp('-', 'g'), "/");
+  var date = getDate(format);
+  var hour = function () {
+    if (date.getHours() < 10) {  //补‘0’
+      return '0' + date.getHours()
+    }
+    return date.getHours();
+  }
+  var minute = function () {
+    if (date.getMinutes() < 10) {
+      return '0' + date.getMinutes()
+    }
+    return date.getMinutes();
+  }
+  return hour() + ':' + minute();
+}
+var getInspectResultName=function(index){
+
+  return ['','正常','异常','异常报修','未巡检'][parseInt(index)]
+}
+var eventgroupstyle=function(index,size){
+  if (size > 1) {
+    if (index % 2 == 0) {
+      return 'border-bottom:rgba(229,229,229,1) solid 10px';
+    } else {
+      return 'border-bottom: 0' ;
+    }
+  } else {
+    return 'border-bottom: 0';
+  }
+}
+
+var contain=function(arr,value){
+  var index = arr.indexOf(value);
+  return index>-1;
+}
+var formateWord= function(str){
+    if(str.length>8){
+      str=str.slice(0,8)+"…"
+    }
+    return str;
+}
+var formateFrequency=function(str){
+  return str.split(" ")[0]
+}
+module.exports = {
+  formatDateTime: formatDateTime,
+  formatMonth: formatMonth,
+  formatTime: formatTime,
+  eventgroupstyle: eventgroupstyle,
+  contain: contain,
+  formateFrequency: formateFrequency,
+  formateWord: formateWord,
+  getInspectResultName: getInspectResultName
+};

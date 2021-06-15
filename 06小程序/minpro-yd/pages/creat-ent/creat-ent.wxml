@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="padding-xl">
+    <view class="cu-form-group">
+      <input name="input" class="weui-search-bar__input" placeholder="请在此输入您的企业名称" value="{{inputVal}}" data-name='inputVal' bindinput="inputTyping" />
+      <view class='clearsearch' bindtap='clearsearch' hidden='{{!clearsearch}}' style="line-height:0">
+        <icon type="clear" size="17" />
+      </view>
+      <scroll-view class='scroll-view' wx:if='{{viewShowed}}' scroll-y>
+        <view wx:for="{{catList}}" wx:key="no" class="msg-item" bindtap='name' data-index="{{index}}">
+          <view class='user-name' style="{{item.check ? 'color:#507FFF':'color:#333333'}}">
+            {{item.name}}
+            <view hidden="{{!item.check}}" class='gou'>
+              <icon type="success_no_circle" size="17" color='#507FFF' />
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <view class="btnView">
+    <button class="btn" bindtap="addEnt">确定</button>
+  </view>
+</view>

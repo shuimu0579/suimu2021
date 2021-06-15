@@ -1,0 +1,24 @@
+<view class="container">
+  <view class='headView'>
+    <view class='headImageView'>
+      <image class='headImage' src='../../static/image/yundeelogo2.png' mode='scaleToFill'></image>
+    </view>
+    <view class='titleText'>申请获取以下权限</view>
+    <view class='contentText'>获得你的公开信息(昵称，头像，手机等)</view>
+    <view class='contentText'>用于注册云镝智慧助手</view>
+    <button class='authBtn' open-type='getPhoneNumber' bindgetphonenumber='getPhoneNumber'>
+      授权登录
+    </button>
+  </view>
+  <!-- <view class="cu-modal {{ show1?'show':'' }}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="contentTitle">您还没有加入企业</view>
+        <view class="contentTitle">请选择以下方式进入应用</view>
+      </view>
+      <button class='btn1' bindtap="goCreatEnt">创建企业</button>
+      <button class='btn1' bindtap="goAddEnt">加入企业</button>
+      <button class='btn2' bindtap="goisExperience">使用体验账号登录</button>
+    </view>
+  </view> -->
+</view>

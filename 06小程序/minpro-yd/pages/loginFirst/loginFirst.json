@@ -1,0 +1,5 @@
+{
+  "component": true,
+    "navigationBarTitleText": "微信授权登录",
+    "usingComponents": {}
+}

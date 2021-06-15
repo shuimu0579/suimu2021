@@ -1,0 +1,35 @@
+<view class="container">
+  <view class="header">
+    <swiper autoplay="{{true}}" circular="{{true}}" class="headerImg">
+      <swiper-item wx:for="{{background}}" wx:key="*this">
+        <image src="{{item}}" class="headerImg"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class="navHeader">
+    <text class="navTitle">应用</text>
+    <text class="lg text-gray cuIcon-settingsfill" style="font-size: 40rpx;" bindtap="goEdit"></text>
+  </view>
+  <view class="nav" wx:if="{{userMenu.length>0}}" style="padding:50rpx 25rpx 50rpx 25rpx">
+    <view class="menuBox" bindtap="goApp" wx:for="{{userMenu}}" wx:key="id" data-index="{{item.menuNumber}}">
+      <image class="navIcon" src="{{item.menuIcon}}"></image>
+      <text class="navText">{{item.menuName}}</text>
+    </view>
+  </view>
+  <view style="padding-bottom:75rpx"></view>
+  <view class="cu-modal show">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="contentTitle">您还没有加入企业</view>
+        <view class="contentTitle">请选择以下方式进入应用</view>
+      </view>
+      <!-- <button class='btn1' bindtap="goCreatEnt">创建企业</button> -->
+      <button class='btn1' open-type='getPhoneNumber' bindgetphonenumber="getPhoneNumber" data-value="1">
+        企业用户登录
+      </button>
+      <button class='btn2' open-type='getPhoneNumber' bindgetphonenumber="getPhoneNumber" data-value="2">
+        使用体验账号登录
+      </button>
+    </view>
+  </view>
+</view>

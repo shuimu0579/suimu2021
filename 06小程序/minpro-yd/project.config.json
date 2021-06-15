@@ -1,0 +1,120 @@
+{
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"preloadBackgroundData": false,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false,
+		"coverView": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"enhance": true,
+		"nodeModules": true,
+		"uglifyFileName": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"bundle": false,
+		"useCompilerModule": false,
+		"userConfirmedUseCompilerModuleSwitch": false,
+		"compileHotReLoad": false,
+		"useMultiFrameRuntime": true,
+		"useApiHook": true,
+		"useApiHostProcess": true,
+		"useIsolateContext": true,
+		"userConfirmedBundleSwitch": false,
+		"packNpmManually": false,
+		"packNpmRelationList": [
+			{
+				"packageJsonPath": "./package.json",
+				"miniprogramNpmDistDir": "./"
+			}
+		],
+		"minifyWXSS": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.14.4",
+	"appid": "wx81e0317640582953",
+	"projectname": "minpro-yd",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"plugin": {
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"gamePlugin": {
+			"list": []
+		},
+		"miniprogram": {
+			"list": [
+				{
+					"id": 0,
+					"name": "pages/editApp/editApp",
+					"pathName": "pages/editApp/editApp",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/me/me",
+					"pathName": "pages/me/me",
+					"query": "",
+					"scene": null
+				},
+				{
+					"name": "扫码进入",
+					"pathName": "pages/wxLogin/wxLogin",
+					"query": "",
+					"scene": 1011
+				},
+				{
+					"name": "pages/appdetail/appdetail",
+					"pathName": "pages/appdetail/appdetail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"name": "首页",
+					"pathName": "pages/wxmininative/native",
+					"query": "",
+					"scene": null
+				},
+				{
+					"name": "创建企业",
+					"pathName": "pages/creat-ent/creat-ent",
+					"query": "",
+					"scene": null
+				},
+				{
+					"name": "加入企业",
+					"pathName": "pages/add-ent/add-ent",
+					"query": "",
+					"scene": null
+				},
+				{
+					"name": "首次进入",
+					"pathName": "pages/loginFirst/loginFirst",
+					"scene": null
+				}
+			]
+		}
+	}
+}

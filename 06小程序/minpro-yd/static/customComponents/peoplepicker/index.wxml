@@ -1,0 +1,51 @@
+<!--static/customComponents/peoplepicker/index.wxml-->
+<wxs module="filter" src="../../../utils/filter.wxs"></wxs>
+ <view class="free-dialog {{ showDialog ? 'free-dialog--show' : '' }}">
+  <view class="free-dialog__mask"/>
+  <view class="free-dialog__container">
+    <view class="header">
+      <view bindtap='handleClickCancel' class="free-button free-dialog-reset">取消</view>
+      <view bindtap='handleClickSure' class="free-button free-dialog-submit">确定</view>
+    </view>
+   <view>
+    <form bindsubmit='submit' bindreset="reset">
+      <radio-group wx:if="{{mode==='sigle'}}" bindchange="selectChange">
+        <scroll-view class="list" style="height: 30vh" scroll-y="true" bindscrolltolower="loadMore">
+          <radio class="radio" wx:for="{{items}}" wx:key="item.userid" value="{{item.userid}}#{{item.name}}" checked="{{filter.contain(current,item.userid)}}">
+            <view class="row">
+              <view class="cell">
+                  <view class="picCenter">
+                      <view class="userPic">
+                          <image src="{{item.coverpicture}}"></image>
+                      </view>
+                  </view>
+              </view>
+              <view class="cell">
+                  {{item.name}}
+              </view>
+            </view>  
+          </radio>
+        </scroll-view>
+      </radio-group>
+      <checkbox-group wx:if="{{mode==='multi'}}" bindchange="selectChange">
+        <scroll-view class="list" style="height: 30vh" scroll-y="true" bindscrolltolower="loadMore">
+          <checkbox class="radio" wx:for="{{items}}" wx:key="{{item.userid}}" value="{{item.userid}}#{{item.name}}" checked="{{filter.contain(current,item.userid)}}">
+            <view class="row">
+              <view class="cell">
+                  <view class="picCenter">
+                      <view class="userPic">
+                          <image src="{{item.coverpicture}}"></image>
+                      </view>
+                  </view>
+              </view>
+              <view class="cell">
+                  {{item.name}}
+              </view>
+            </view>  
+          </checkbox>
+        </scroll-view>
+      </checkbox-group>
+    </form>
+   </view>
+ </view>
+ </view>

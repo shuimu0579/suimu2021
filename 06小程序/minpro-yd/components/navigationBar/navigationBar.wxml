@@ -1,0 +1,8 @@
+<!-- <view class="topbar" style="padding-top:{{statusBarHeight}}px">
+  <view class="arrow-box row">
+    <image src="/static/image/banner2.png"></image>
+  </view>
+  <view class="input-box row">
+    <input placeholder="请输入你想找的内容" />
+  </view>
+</view> -->

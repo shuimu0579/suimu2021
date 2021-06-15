@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "navigationBarTitleText": "应用中心",
+  "usingComponents": {},
+  "enablePullDownRefresh": true
+}

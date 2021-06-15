@@ -1,0 +1,7 @@
+{
+  "component": true,
+    "navigationBarTitleText": "微信授权登录",
+    "usingComponents": {
+      "van-loading": "@vant/weapp/loading/index"
+    }
+}

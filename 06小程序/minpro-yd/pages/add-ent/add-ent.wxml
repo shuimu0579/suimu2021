@@ -1,0 +1,36 @@
+<view class="container">
+  <view class="padding-xl" wx:if="{{firstView}}">
+    <view class="cu-form-group">
+      <input name="input" class="weui-search-bar__input" placeholder="请在此输入您要加入的企业名称" value="{{inputVal}}" bindinput="inputTyping" />
+      <view class='clearsearch' bindtap='clearsearch' hidden='{{!clearsearch}}' style="line-height:0">
+        <icon type="clear" size="17" />
+      </view>
+      <scroll-view class='scroll-view' wx:if='{{viewShowed}}' scroll-y>
+        <view wx:for="{{catList}}" wx:key="index" class="msg-item" bindtap='name' data-index="{{index}}">
+          <view class='user-name' style="{{item.check ? 'color:#507FFF':'color:#333333'}}">
+            {{item.enterpriseName}}
+            <view hidden="{{!item.check}}" class='gou'>
+              <icon type="success_no_circle" size="17" color='#507FFF' />
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      <!-- <view class="msg-notEnt" wx:if="{{notEnt}}">
+        <view class='user-name'>不存在该企业,是否使用体验账号登录</view>
+        <button class="cu-btn round bg-blue shadow" bindtap="goCreatEnt">体验账号</button>
+      </view> -->
+    </view>
+  </view>
+  <view class="btnView" wx:if="{{firstView}}">
+    <button class="btn" bindtap="goDetail">确定</button>
+  </view>
+  <view wx:if="{{!firstView}}">
+    <van-field value="{{entInfo.name}}" label="企业名称" readonly border="{{ false }}" />
+    <van-field label="申请人" model:value="{{ applicant }}" placeholder="请输入申请人" border="{{ false }}" bind:change="onChange" data-value="applicant" />
+    <van-field label="联系方式" model:value="{{ contactWay }}" placeholder="请输入联系方式" border="{{ false }}" bind:change="onChange" data-value="contactWay" />
+    <van-field label="备注" model:value="{{ applyNote }}" placeholder="请输入您的备注内容" border="{{ false }}" bind:change="onChange" data-value="applyNote" />
+  </view>
+  <view class="btnView2" wx:if="{{!firstView}}">
+    <button class="btn" bindtap="addEnt">确定</button>
+  </view>
+</view>

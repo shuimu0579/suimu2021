@@ -1,0 +1,37 @@
+<view class="container">
+  <view style="min-height: 100%;width: 100%;overflow: hidden;">
+    <view class="main">
+      <text class="navTitle">首页应用</text>
+      <view class="nav" wx:if="{{userMenu.length>0}}">
+        <view class="menuBox" wx:for="{{userMenu}}" wx:key="id" bindtap="removeApp" data-index="{{item}}">
+          <view class="navIcon" style="background:url({{item.menuIcon}}) no-repeat;background-size: cover;">
+            <view class="cu-tag badge" class="iconCss cuIcon-close bg-red"></view>
+          </view>
+          <text class="navText">{{item.menuName}}</text>
+        </view>
+      </view>
+      <view class="empty-content" wx:else>
+        <view class="empty-image">
+          <image src="/static/image/_bg_empty_default.png"></image>
+        </view>
+        <text class="empty-description">当前没有应用，您可以点击下方的
+        加号按钮添加应用。</text>
+      </view>
+    </view>
+    <view style="height:24rpx;background:#f9f9f9"></view>
+    <view class="main" wx:for="{{appList}}" wx:key="id" data-index="{{item.menuNumber}}" wx:if="{{item.children}}">
+      <text class="navTitle">{{item.menuName}}</text>
+      <view class="nav">
+        <view class="menuBox" wx:for="{{item.children}}" wx:key="id" wx:for-item="items" bindtap="addApp" data-index="{{items}}" style="{{items.disabled?'opacity:0.5':'opacity:1'}}">
+          <view class="navIcon" style="background:url({{items.menuIcon}}) no-repeat;background-size: cover;">
+            <view class="cu-tag badge" class="iconCss cuIcon-add bg-green"></view>
+          </view>
+          <text class="navText">{{items.menuName}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btnView">
+    <button class="btn" bindtap="saveApp">确定</button>
+  </view>
+</view>

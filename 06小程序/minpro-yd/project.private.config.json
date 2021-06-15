@@ -1,0 +1,92 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": 0,
+          "name": "pages/editApp/editApp",
+          "pathName": "pages/editApp/editApp",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/me/me",
+          "pathName": "pages/me/me",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "扫码进入",
+          "pathName": "pages/wxLogin/wxLogin",
+          "query": "",
+          "scene": 1011
+        },
+        {
+          "name": "pages/appdetail/appdetail",
+          "pathName": "pages/appdetail/appdetail",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "首页",
+          "pathName": "pages/wxmininative/native",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "创建企业",
+          "pathName": "pages/creat-ent/creat-ent",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "加入企业",
+          "pathName": "pages/add-ent/add-ent",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "首次进入",
+          "pathName": "pages/loginFirst/loginFirst",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/wxmininative/native",
+          "pathName": "pages/wxLogin/wxLogin",
+          "query": "platformId=yy",
+          "scene": null
+        },
+        {
+          "name": "扫带参数小程序码进入",
+          "pathName": "pages/wxLogin/wxLogin",
+          "query": "scene=id%3D2213131321123132%26aaa%3D233",
+          "scene": null
+        },
+        {
+          "name": "pages/wxmininative/native",
+          "pathName": "pages/message/message",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/message/message",
+          "pathName": "pages/message/message",
+          "query": "userId=876006395370013730&vtenant=yundee&enterpriseId=909203843009478656&url=https%3A%2F%2Fyundeetest.kingdee.com%2Fyundeetest91%2Fmobile.html%23%2Fform%2Ficiq_mobilecomparedetail%3FpkId%3D1125375277443055616&backUrl=https%3A%2F%2Fyundeetest.kingdee.com%2FwxMessage",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

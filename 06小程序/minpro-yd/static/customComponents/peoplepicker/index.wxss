@@ -1,0 +1,90 @@
+/* static/customComponents/peoplepicker/index.wxss */
+
+.free-dialog__mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+.free-dialog__container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 750rpx;
+  background: white;
+  transform: translateY(150%);
+  transition: all 0.4s ease;
+  z-index: 11;
+}
+
+.free-dialog--show .free-dialog__container {
+  transform: translateY(0);
+}
+
+.free-dialog--show .free-dialog__mask {
+  display: block;
+}
+
+.header{
+  width: 100%;
+  padding-top: 18rpx;
+  padding-bottom: 18rpx;
+  border-bottom: 1px solid #f2f6f9
+}
+
+/*模态框中的内容*/
+.free-button {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  font-size: 18px;
+  color: #707070;
+}
+
+.free-dialog-submit {
+  float: right;
+  color: #48c23d;
+}
+
+.radio{
+  width: 90%;
+  border-bottom: 1px solid #ddd;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.row{
+  width: 100%;
+}
+
+.cell {
+  display: table-cell;
+  vertical-align: middle;
+  width: 25vw;
+  height: 40px;
+  text-align: center;
+}
+
+.picCenter {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.userPic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 30px;
+  transform: translate(-50%, -50%);
+}
+
+.userPic image {
+  width: 30px;
+  height: 30px;
+}

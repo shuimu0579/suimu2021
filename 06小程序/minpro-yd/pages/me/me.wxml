@@ -1,0 +1,65 @@
+<!-- pages/me/me.wxml -->
+<view class="page-container">
+  <view class="user-info-container">
+    <view class="userinfo-avatar">
+      <open-data type="userAvatarUrl" wx:if="{{!isExperience}}"></open-data>
+      <image wx:if="{{isExperience}}" src="../../static/image/moren.png" />
+    </view>
+    <view class="userinfo-nickname">
+      <open-data type="userNickName" wx:if="{{!isExperience}}"></open-data>
+      <text wx:else>体验账号</text>
+      <text class="entName">{{currentEnt.enterpriseName? currentEnt.enterpriseName:'未加入企业'}}</text>
+    </view>
+  </view>
+  <view class="main">
+    <!-- <view class="mainItem" bindtap="goCreatEnt" style="opacity:{{isExperience?'0.6':'1'}}">
+      <text class="item">创建企业</text>
+      <text class="lg text-gray cuIcon-right" style="margin-top: 6rpx;"></text>
+    </view>
+    <view style="height: 1rpx;border: 1rpx solid #eeeeee;opacity: 0.4;"></view> -->
+    <view class="mainItem" bindtap="goAddEnt" style="opacity:{{isExperience?'0.6':'1'}}">
+      <text class="item">加入企业</text>
+      <text class="lg text-gray cuIcon-right" style="margin-top: 6rpx;"></text>
+    </view>
+    <view style="height: 1rpx;border: 1rpx solid #eeeeee;opacity: 0.4;"></view>
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{enterpriseList}}" range-key="enterpriseName" disabled="{{isExperience}}" style="opacity:{{isExperience?'0.6':'1'}}">
+      <view class="mainItem">
+        <text class="item">切换企业</text>
+        <view class="picker">
+          <text class="lg text-gray cuIcon-right" style="margin-top: 6rpx;"></text>
+        </view>
+      </view>
+    </picker>
+    <!-- <view style="height: 1rpx;border: 1rpx solid #eeeeee;opacity: 0.4;"></view>
+    <view class="mainItem" bindtap="createQrcode">
+      <text class="item">邀请加入云镝助手</text>
+      <text class="lg text-gray cuIcon-right" style="margin-top: 6rpx;"></text>
+    </view> -->
+    <view style="height: 1rpx;border: 1rpx solid #eeeeee;opacity: 0.4;"></view>
+    <view class="mainItem" wx:if="{{!isExperience}}">
+      <text class="item">授权开启接受公众号消息</text>
+      <view class="body-view">
+        <van-button round wx:if="{{msgStatus==='0'}}" type="info" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" size='mini'>
+          开启
+        </van-button>
+        <van-button round wx:else type="info" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" size='mini'>
+          关闭
+        </van-button>
+      </view>
+    </view>
+  </view>
+  <official-account></official-account>
+  <van-dialog id="van-dialog" use-slot>
+    <image src="{{qcCode}}" />
+  </van-dialog>
+  <view class="main2" wx:if="{{!isExperience}}">
+    <view class="loginout" bindtap="loginExperience">
+      <text class="item">我要体验</text>
+    </view>
+  </view>
+  <view class="main2" wx:if="{{isExperience}}">
+    <view class="loginout" bindtap="loginout">
+      <text class="item">退出体验账号</text>
+    </view>
+  </view>
+</view>

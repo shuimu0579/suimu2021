@@ -1,0 +1,6 @@
+<!-- <view>
+  <navigator open-type="navigateBack"></navigator>
+</view> -->
+<view class="container" style="height:100%">
+  <web-view src="{{url}}"></web-view>
+</view>
